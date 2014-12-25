@@ -1,4 +1,4 @@
-# name: L
+# Modified 'l' theme taken from oh-my-fish 
 function _git_branch_name
   echo (command git symbolic-ref HEAD ^/dev/null | sed -e 's|^refs/heads/||')
 end
