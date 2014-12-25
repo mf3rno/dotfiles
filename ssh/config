@@ -1,0 +1,19 @@
+ServerAliveInterval 180
+ServerAliveCountMax 100000
+
+Host falcon
+  HostName 178.79.137.17
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_rsa_falcon
+  Port 58124
+  User cris
+
+Host apache
+  Hostname 176.58.121.97
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_rsa_apache
+  Port 11235
+  User cris
+
+ControlMaster auto
+ControlPath /tmp/%r@%h:%p
