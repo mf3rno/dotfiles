@@ -1,0 +1,9 @@
+[core]
+	autocrlf = false
+	filemode = false
+	editor = vim
+[color]
+	ui = true
+[user]
+	email = cris.mihalache@spectrumit.eu
+	name = Cris Mihalache
