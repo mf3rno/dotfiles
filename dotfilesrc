@@ -1,0 +1,4 @@
+[dotfiles]
+repository = ~/.dotfiles
+ignore = ['.git', '.gitignore', 'id_rsa*', '*_history']
+packages = ['config', 'ssh', 'weechat']
