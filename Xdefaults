@@ -35,3 +35,4 @@ URxvt*cursorColor:        #ff8939
 URxvt*cursorColor2:       #151515
 URxvt*scrollBar: false
 URxvt*font: xft:Terminus:size=8:antialias=true:hinting=true
+URxvt*termName: rxvt-256color
