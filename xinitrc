@@ -1,8 +1,6 @@
 #! /bin/bash
 
-if ["$HOSTNAME" = alice]; then
-  xrandr --output HDMI-2 --left-of DVI-0 --output DVI-0 --left-of DVI-1
-fi
+xrandr --output HDMI-1 --left-of DVI-D-0 --output DVI-D-0 --left-of DVI-I-1
 
 xset r rate 200 30
 
