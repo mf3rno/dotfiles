@@ -17,3 +17,4 @@ Host apache
 
 ControlMaster auto
 ControlPath /tmp/%r@%h:%p
+ControlPersist yes
