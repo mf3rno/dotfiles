@@ -1,19 +1,54 @@
 ServerAliveInterval 180
 ServerAliveCountMax 100000
 
-Host falcon
-  HostName 178.79.137.17
-  IdentitiesOnly yes
-  IdentityFile ~/.ssh/id_rsa_falcon
-  Port 58124
-  User cris
-
 Host apache
   Hostname 176.58.121.97
   IdentitiesOnly yes
   IdentityFile ~/.ssh/id_rsa_apache
   Port 11235
   User cris
+
+Host helion
+  Hostname 139.162.158.58
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_rsa_helion
+  Port 31415
+  User f3rno
+
+Host helion-git
+  Hostname 139.162.158.58
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_rsa_helion
+  Port 31415
+  User gitlab
+
+Host mail
+  Hostname 103.3.61.254
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_rsa_mail
+  Port 31415
+  User f3rno
+
+Host clansweb-staging
+  Hostname 136.243.247.29
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_rsa_clansweb_staging
+  Port 2222
+  User deployment
+
+Host clansweb-production
+  Hostname 144.76.20.99
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_rsa_clansweb_production
+  Port 2222
+  User deployment
+
+Host clansweb-production-db
+  Hostname db01.clans.de
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_rsa_clansweb_production
+  Port 2222
+  User root
 
 ControlMaster auto
 ControlPath /tmp/%r@%h:%p
