@@ -29,5 +29,6 @@
 [core]
 	autocrlf = false
 	filemode = false
+	editor = vim
 [branch]
 	autosetuprebase = always
