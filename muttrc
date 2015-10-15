@@ -19,6 +19,10 @@ folder-hook *cris@clansweb.com 'source ~/.mutt/clansweb'
 source "~/.mutt/f3rno"
 folder-hook *me@f3rno.com 'source ~/.mutt/f3rno'
 
+# Abook
+set query_command = "abook --mutt-query '%s'"
+bind editor  <Tab> complete-query
+
 color normal        color241        color234        
 color error         color160        color234        
 color tilde         color235        color234        
