@@ -1,3 +1,3 @@
-set PATH ~/go/bin ~/bin /usr/local/bin $PATH
-set GOPATH ~/go
-set LC_ALL en_US.UTF-8
+set -x PATH ~/go/bin ~/bin /usr/local/bin $PATH
+set -x GOPATH ~/go
+set -x LC_ALL en_US.UTF-8
