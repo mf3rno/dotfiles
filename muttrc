@@ -13,9 +13,6 @@ set editor="vim"
 set sort=threads
 bind index "^" imap-fetch-mail
 
-source "~/.mutt/clansweb"
-folder-hook *cris@clansweb.com 'source ~/.mutt/clansweb'
-
 source "~/.mutt/f3rno"
 folder-hook *me@f3rno.com 'source ~/.mutt/f3rno'
 

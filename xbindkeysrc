@@ -1,5 +1,0 @@
-"amixer set Master 1%+"
-  Mod2 + XF86AudioRaiseVolume
-
-"amixer set Master 1%-"
-  Mod2 + XF86AudioLowerVolume
