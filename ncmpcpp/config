@@ -1,5 +1,5 @@
 # MPD Settings
-mpd_music_dir = ~/music
+mpd_music_dir = ~/music/ogg
 
 # Playlist
 now_playing_prefix = "$b"
