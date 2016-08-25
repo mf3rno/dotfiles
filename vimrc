@@ -9,7 +9,7 @@ set softtabstop=2
 set expandtab
 set shiftwidth=2
 
-colorscheme distinguished
+colorscheme Tomorrow-Night-Eighties
 
 set number
 set showcmd
