@@ -3,6 +3,7 @@ set shell=/bin/bash
 call pathogen#infect()
 
 set colorcolumn=80
+set tw=80
 syntax enable
 set tabstop=2
 set softtabstop=2
