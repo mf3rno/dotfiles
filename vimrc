@@ -1,6 +1,8 @@
 set shell=/bin/bash
-
 call pathogen#infect()
+
+" remap leader key
+let mapleader = ","
 
 set colorcolumn=80
 set tw=80
@@ -35,5 +37,15 @@ set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set backupskip=/tmp/*,/private/tmp/*
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set writebackup
+
+" Better grep (recursive, ignore common dirs)
+:command! -nargs=+ Rjs grep -R -F --exclude-dir={node_modules,bower_components,vendor,tmp,dist,bin,build} --include=*.{js,json,es6,hbs} <args>
+:command! -nargs=+ Rgo grep -R -F --exclude-dir={node_modules,bower_components,vendor,tmp,dist,bin,build} --include=*.go <args>
+:command! -nargs=+ Rruby grep -R -F --exclude-dir={node_modules,bower_components,vendor,tmp,dist,bin,build} --include=*.{rb,yaml} <args>
+
+" close nerdtree if its the last window
+" https://github.com/scrooloose/nerdtree/issues/21
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+nnoremap <silent> <leader>e :NERDTreeToggle<CR>
 
 autocmd vimenter * NERDTree
