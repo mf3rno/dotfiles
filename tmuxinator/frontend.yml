@@ -1,0 +1,61 @@
+# ~/.tmuxinator/frontend-code.yml
+
+name: frontend
+root: ~/code
+socket_name: frontend
+
+windows:
+  - remerge:
+      root: ~/code/ember-remerge
+      panes:
+        - vim
+  - api:
+      root: ~/code/api
+      panes:
+        - bin/rails s -b 0.0.0.0
+        - git status
+  - admin:
+      root: ~/code/admin
+      panes:
+        - vim
+  - admin-cli:
+      root: ~/code/admin
+      panes:
+        - ember s --port 3005
+        - git status
+  - admin-master-cli:
+      root: ~/code/admin-master
+      panes:
+        - ember s --port 4005
+  - my:
+      root: ~/code/my
+      panes:
+        - vim
+  - my-cli:
+      root: ~/code/my
+      panes:
+        - ember s --port 3007
+        - git status
+  - my-master-cli:
+      root: ~/code/my-master
+      panes:
+        - ember s --port 4007
+  - ui:
+      root: ~/code/ui
+      panes:
+        - vim
+  - ui-cli:
+      root: ~/code/ui
+      panes:
+        - ember s
+        - git status
+  - remerge-table:
+      root: ~/code/ember-remerge-table
+      panes:
+        - vim
+  - remerge-table-cli:
+      root: ~/code/ember-remerge-table
+      panes:
+        - ember s --port 3001
+        - git status
+
