@@ -1,6 +1,10 @@
+# If not running interactively, don't do anything
+if [[ $- != *i* ]]; then return; fi
+
 export TERM=screen-256color
-export PATH="~/bin/pig-0.16.0/bin:${PATH}:~/.gem/ruby/2.2.0/bin"
-export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.102-1.b14.fc24.x86_64
+export PATH="~/.gimme/versions/go1.7.1.linux.amd64/bin/:~/bin/weechat/bin:~/.gem/ruby/2.2.0/bin:$PATH:/home/cris/protoc/bin"
+export GOROOT="/home/cris/.gimme/versions/go1.7.1.linux.amd64"
+export GIMME_ENV="/home/cris/.gimme/envs/go1.7.1.env"
 
 # tmuxinator
 source ~/bin/tmuxinator.bash
@@ -38,3 +42,5 @@ gd() {
 
 export NVM_DIR="/home/cris/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+nvm use 6.0.0
