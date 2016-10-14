@@ -2,7 +2,6 @@
 
 name: frontend
 root: ~/code
-socket_name: frontend
 
 windows:
   - remerge:
@@ -49,13 +48,13 @@ windows:
       panes:
         - ember s
         - git status
-  - remerge-table:
-      root: ~/code/ember-remerge-table
-      panes:
+#  - remerge-table:
+#      root: ~/code/ember-remerge-table
+#      panes:
         - vim
-  - remerge-table-cli:
-      root: ~/code/ember-remerge-table
-      panes:
-        - ember s --port 3001
-        - git status
+#  - remerge-table-cli:
+#      root: ~/code/ember-remerge-table
+#      panes:
+#        - ember s --port 3001
+#        - git status
 
