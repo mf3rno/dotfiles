@@ -1,5 +1,6 @@
 export TERM=screen-256color
-export PATH="${PATH}:~/.gem/ruby/2.2.0/bin"
+export PATH="~/bin/pig-0.16.0/bin:${PATH}:~/.gem/ruby/2.2.0/bin"
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.102-1.b14.fc24.x86_64
 
 # tmuxinator
 source ~/bin/tmuxinator.bash
