@@ -1,3 +1,3 @@
 function gp
-  git push origin master
+  git push -u origin HEAD
 end
