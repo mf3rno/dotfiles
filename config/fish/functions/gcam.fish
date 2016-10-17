@@ -1,3 +1,3 @@
 function gcam
-  git commit -am "$@"
+  git commit -am "$argv"
 end
