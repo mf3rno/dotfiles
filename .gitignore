@@ -3,4 +3,4 @@ bash_history
 zsh_history
 weechat/logs
 ncmpcpp/error.log
-config/fish/fishd.wheatley
+config/fish/fishd*
