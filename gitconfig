@@ -1,6 +1,6 @@
 [user]
 	name = Cris Mihalache
-	email = cris.mihalache@spectrumit.eu
+	email = me@f3rno.com
 
 [color]
 	ui = auto
@@ -23,6 +23,7 @@
 	untracked = blue bold
 [alias]
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
+
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
@@ -32,3 +33,6 @@
 	editor = vim
 [branch]
 	autosetuprebase = always
+
+[url "git@github.com:"]
+	insteadOf = https://github.com/
