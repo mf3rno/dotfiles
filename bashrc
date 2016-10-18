@@ -2,9 +2,10 @@
 if [[ $- != *i* ]]; then return; fi
 
 export TERM=screen-256color
-export PATH="~/.gimme/versions/go1.7.1.linux.amd64/bin/:~/bin/weechat/bin:~/.gem/ruby/2.2.0/bin:$PATH:/home/cris/protoc/bin"
 export GOROOT="/home/cris/.gimme/versions/go1.7.1.linux.amd64"
+export GOPATH="/home/cris/.go"
 export GIMME_ENV="/home/cris/.gimme/envs/go1.7.1.env"
+export PATH="$GOPATH/bin:~/bin/weechat/bin:~/.gem/ruby/2.2.0/bin:$PATH"
 
 # tmuxinator
 source ~/bin/tmuxinator.bash
