@@ -58,6 +58,8 @@ set writebackup
 :command! -nargs=+ Rjs grep -R --exclude-dir={node_modules,bower_components,vendor,tmp,dist,bin,build} --include=*.{js,json,es6,hbs} <args>
 :command! -nargs=+ Rgo grep -R --exclude-dir={node_modules,bower_components,vendor,tmp,dist,bin,build} --include=*.go <args>
 :command! -nargs=+ Rruby grep -R --exclude-dir={node_modules,bower_components,vendor,tmp,dist,bin,build} --include=*.{rb,yaml} <args>
+:command! -nargs=+ Rc grep -R --exclude-dir={node_modules,bower_components,vendor,tmp,dist,bin,build} --include=*.{c,h,cpp,cxx} <args>
+:command! -nargs=+ Rany grep -R --exclude-dir={node_modules,bower_components,vendor,tmp,dist,bin,build} <args>
 
 " SyntaxComplete
 if has("autocmd") && exists("+omnifunc")
