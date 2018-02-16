@@ -8,7 +8,7 @@ export GIMME_ENV="/home/cris/.gimme/envs/go1.7.1.env"
 export PATH="$GOPATH/bin:~/bin/weechat/bin:~/.gem/ruby/2.2.0/bin:$PATH"
 
 # tmuxinator
-source ~/bin/tmuxinator.bash
+#source ~/bin/tmuxinator.bash
 export EDITOR=vim
 export SHELL=bash
 
@@ -45,3 +45,6 @@ export NVM_DIR="/home/cris/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 nvm use 6.0.0
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"

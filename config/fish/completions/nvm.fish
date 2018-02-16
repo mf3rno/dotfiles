@@ -1,0 +1,1 @@
+/home/cris/.config/fisherman/nvm/completions/nvm.fish
