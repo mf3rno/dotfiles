@@ -1,1 +1,1 @@
-/home/cris/.config/fisherman/bass/functions/bass.fish
+/home/f3rno/.config/fisherman/bass/functions/bass.fish

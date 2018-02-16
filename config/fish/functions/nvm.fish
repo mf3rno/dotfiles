@@ -1,1 +1,1 @@
-/home/cris/.config/fisherman/nvm/nvm.fish
+/home/f3rno/.config/fisherman/nvm/functions/nvm.fish

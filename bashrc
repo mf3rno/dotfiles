@@ -2,9 +2,6 @@
 if [[ $- != *i* ]]; then return; fi
 
 export TERM=screen-256color
-export GOROOT="/home/cris/.gimme/versions/go1.7.1.linux.amd64"
-export GOPATH="/home/cris/.go"
-export GIMME_ENV="/home/cris/.gimme/envs/go1.7.1.env"
 export PATH="$GOPATH/bin:~/bin/weechat/bin:~/.gem/ruby/2.2.0/bin:$PATH"
 
 # tmuxinator
@@ -41,10 +38,9 @@ gd() {
   git diff
 }
 
-export NVM_DIR="/home/cris/.nvm"
+export NVM_DIR="/home/f3rno/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-
-nvm use 6.0.0
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

@@ -1,1 +1,1 @@
-/home/cris/.config/fisherman/bass/functions/__bass.py
+/home/f3rno/.config/fisherman/bass/functions/__bass.py
