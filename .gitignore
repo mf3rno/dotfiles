@@ -4,3 +4,4 @@ zsh_history
 weechat/logs
 ncmpcpp/error.log
 config/fish/fishd*
+ssh/config
