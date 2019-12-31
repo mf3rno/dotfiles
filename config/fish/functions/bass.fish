@@ -1,1 +1,0 @@
-/home/f3rno/.config/fisherman/bass/functions/bass.fish

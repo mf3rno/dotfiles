@@ -37,3 +37,9 @@
 [submodule "oh-my-fish"]
 	path = oh-my-fish
 	url = https://github.com/oh-my-fish/oh-my-fish.git
+[submodule "vim/bundle/vim-adventurous"]
+	path = vim/bundle/vim-adventurous
+	url = https://github.com/Dru89/vim-adventurous.git
+[submodule "vim/bundle/node"]
+	path = vim/bundle/node
+	url = https://github.com/moll/vim-node.git

@@ -1,5 +1,5 @@
 # MPD Settings
-mpd_music_dir = /home/cris/music
+mpd_music_dir = /home/f3rno/Music
 
 # Playlist
 now_playing_prefix = "$b"
