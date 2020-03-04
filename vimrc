@@ -18,6 +18,7 @@ if (has("termguicolors"))
 endif
 
 set t_Co=256
+" set background=light
 set background=dark
 syntax enable
 " colorscheme night-owl
@@ -26,9 +27,13 @@ syntax enable
 " colorscheme tender
 " colorscheme jellybeans
 " colorscheme snazzy
-colorscheme purify
+" colorscheme purify
 " colorscheme palenight
 " colorscheme dracula
+" colorscheme lucario
+" colorscheme gruvbox
+" colorscheme PaperColor
+colorscheme Tomorrow-Night-Bright
 
 filetype plugin on
 filetype indent on
@@ -69,13 +74,6 @@ set rtp+=/usr/bin/fzf
 set noswapfile
 set nobackup
 set nowritebackup
-
-" Better grep (recursive, ignore common dirs)
-:command! -nargs=+ Rjs grep -R --exclude-dir={node_modules,bower_components,vendor,tmp,dist,bin,build} --include=*.{js,json,es6,hbs} <args>
-:command! -nargs=+ Rgo grep -R --exclude-dir={node_modules,bower_components,vendor,tmp,dist,bin,build} --include=*.go <args>
-:command! -nargs=+ Rruby grep -R --exclude-dir={node_modules,bower_components,vendor,tmp,dist,bin,build} --include=*.{rb,yaml} <args>
-:command! -nargs=+ Rc grep -R --exclude-dir={node_modules,bower_components,vendor,tmp,dist,bin,build} --include=*.{c,h,cpp,cxx} <args>
-:command! -nargs=+ Rany grep -R --exclude-dir={node_modules,bower_components,vendor,tmp,dist,bin,build} <args>
 
 " SyntaxComplete
 if has("autocmd") && exists("+omnifunc")
@@ -120,20 +118,31 @@ set statusline+=%*
 let g:better_whitespace_enabled = 1
 let g:echodoc#enable_at_startup = 1
 let g:rainbow_active = 1
+let g:auto_save = 1
 let g:vim_jsx_pretty_colorful_config = 1
+let g:vim_search_pulse_mode = 'cursor_line'
 
 let g:workspace_create_new_tabs = 0
 let g:workspace_autosave_untrailspaces = 0
 let g:workspace_autosave = 0
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme='purify'
-let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'y', 'z', 'error', 'warning']]
+" let g:airline_theme='purify'
+let g:airline_theme='zenburn'
+let g:airline#extensions#clock#auto = 0
 let g:airline#extensions#coc#enabled = 1
-let g:airline_section_a=airline#section#create(['mode'])
-let g:airline_section_z=airline#section#create_right(['%l/%L'])
+let g:airline#extensions#grepper#enabled = 1
+
+function! AirlineInit()
+  let g:airline_section_a=airline#section#create(['mode'])
+  let g:airline_section_z=airline#section#create_right(['clock', '%l/%L'])
+endfunction
+
+autocmd User AirlineAfterInit call AirlineInit()
 
 let g:ale_fixers = { 'javascript': ['standard', 'eslint'] }
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
 
 let g:jsdoc_allow_input_prompt=1
 let g:jsdoc_return_description=1
@@ -141,8 +150,26 @@ let g:jsdoc_return_type=1
 let g:jsdoc_underscore_private=1
 let g:jsdoc_enable_es6=1
 
+let g:grepper = {}
+let g:grepper.tools = ['ag']
+let g:grepper.highlight = 1
+let g:grepper.quickfix = 0
+let g:grepper.open = 1
+let g:grepper.switch = 1
+let g:grepper.dir = 'repo,file'
+let g:grepper.ag = {
+  \ 'grepprg': 'ag --ignore-dir=node_modules --ignore-dir=bower_components --ignore-dir=dist --ignore-dir=build'
+  \ }
+
 let g:test#vim#term_position = "belowright"
 let g:test#strategy = 'neovim'
+
+" function! MochaDebugTransform(cmd) abort
+"   return 'env DEBUG="*" '.a:cmd
+" endfunction
+
+" let g:test#custom_transformations = {'mocha': function('MochaDebugTransform')}
+" let g:test#transformation = 'mocha'
 
 let g:fzf_command_prefix = 'FZF'
 
@@ -178,14 +205,13 @@ function! s:check_back_space() abort
 endfunction
 
 let g:coc_snippet_next = '<tab>'
+let g:ultisnips_javascript = { 'semi': 'never' }
 
-" auto-calc import cost
-augroup import_cost_auto_run
-  autocmd!
-  autocmd InsertLeave *.js,*.jsx,*.ts,*.tsx :ImportCost
-  autocmd BufEnter *.js,*.jsx,*.ts,*.tsx :ImportCost
-  autocmd CursorHold *.js,*.jsx,*.ts,*.tsx :ImportCost
-augroup END
+" rainbow paranthesis
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
 
 " keep selected text selected after indent change
 vnoremap < <gv
@@ -200,6 +226,10 @@ nnoremap <C-N> :bnext<CR>
 nnoremap <C-P> :bprev<CR>
 nnoremap <C-Q> :bd<CR>
 
+" terminal splits
+command! -nargs=* T split | terminal <args>
+command! -nargs=* VT vsplit | terminal <args>
+
 nnoremap <leader>tf :call <SID>RunVimTest('TestFile')<cr>
 nnoremap <leader>tn :call <SID>RunVimTest('TestNearest')<cr>
 nnoremap <leader>ts :call <SID>RunVimTest('TestSuite')<cr>
@@ -210,6 +240,7 @@ nnoremap <silent> <leader>e :NERDTreeToggle<cr>
 nnoremap <silent> <leader>g :Goyo<cr>
 nnoremap <silent> <leader>zi :tab split<cr>
 nnoremap <silent> <leader>zo :tab close<cr>
-nnoremap <silent> <leader>t :split term:///usr/bin/fish<cr>
+nnoremap <silent> <leader>N :PackageInfo<cr>
+nnoremap <silent> <leader>G :Grepper<cr>
 nnoremap <C-p> :FZF<cr>
 nnoremap <leader>fzf :FZF<cr>
