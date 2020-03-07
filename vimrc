@@ -68,6 +68,8 @@ colorscheme gruvbox-material
 " }}}
 " {{{ basic settings
 
+let mapleader = ','
+
 filetype plugin on
 filetype indent on
 
@@ -87,7 +89,6 @@ set cmdheight=2
 set updatetime=300
 set signcolumn=yes
 set shortmess+=c
-set nocompatible
 set sessionoptions-=blank
 set foldmethod=marker
 " set foldlevelstart=1
@@ -95,7 +96,6 @@ set tags=./tags;,tags;$HOME;
 set winblend=10
 set regexpengine=1
 set backspace=indent,eol,start
-set modelineexpr
 set autoread
 
 let g:netrw_banner = 0
@@ -146,6 +146,9 @@ inoremap <silent><expr> <TAB>
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 
+let g:coc_global_extensions = ['coc-solargraph']
+let g:coc_snippet_next = '<tab>'
+
 call coc#config('snippets', {
 \   'extends': {
 \     'cpp': ['c'],
@@ -156,9 +159,6 @@ call coc#config('snippets', {
 \     'directories': ['UltiSnips', 'gosnippets/UltiSnips']
 \   }
 \ })
-
-let g:coc_global_extensions = ['coc-solargraph']
-let g:coc_snippet_next = '<tab>'
 
 " }}}
 " {{{ PLUGIN: Colorizer
@@ -295,6 +295,8 @@ endfunction
 " }}}
 " {{{ PLUGIN: git-messenger
 
+let g:git_messenger_into_popup_after_show = 0
+let g:git_messenger_preview_mods = '"botleft"'
 
 " }}}
 " {{{ PLUGIN: golden-ratio
@@ -307,7 +309,6 @@ let g:golden_ratio_exclude_nonmodifiable = 1
 let g:goyo_height = '100%'
 
 function! s:goyo_enter()
-  exec "NumbersDisable"
   set noshowmode
   set noshowcmd
   set scrolloff=999
@@ -316,7 +317,6 @@ function! s:goyo_enter()
 endfunction
 
 function! s:goyo_leave()
-  exec "NumbersToggle"
   set showmode
   set showcmd
   set scrolloff=5
@@ -409,14 +409,10 @@ let g:ultisnips_javascript = { 'semi': 'never' }
 
 
 " }}}
-" {{{ PLUGIN: vim-adventurous
-
-
-" }}}
 " {{{ PLUGIN: vim-airline
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme='gruvbox'
+let g:airline_theme='gruvbox_material'
 let g:airline#extensions#clock#auto = 0
 let g:airline#extensions#coc#enabled = 1
 let g:airline#extensions#grepper#enabled = 1
@@ -437,6 +433,7 @@ autocmd User AirlineAfterInit call AirlineInit()
 " {{{ PLUGIN: vim-auto-save
 
 let g:auto_save = 1
+let g:auto_save_silent = 1
 
 " }}}
 " {{{ PLUGIN: vim-better-whitespace
@@ -511,7 +508,7 @@ let g:grepper.ag = {
 " defined in ~/.ctags instead
 let g:gutentags_ctags_exclude = ['coverage/*', 'node_modules/*']
 let g:gutentags_enabled = 1
-let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')
+" let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')
 
 " }}}
 " {{{ PLUGIN: vim-indentguides
@@ -615,7 +612,7 @@ endfunction
 " }}}
 " {{{ PLUGIN: vim-which-key
 
-let g:which_key_use_floating_win = 1
+let g:which_key_use_floating_win = 0
 
 nnoremap <silent> <leader> :<c-u>WhichKey ','<CR>
 
@@ -662,8 +659,6 @@ endfunction
 " }}}
 " {{{ keybindings
 
-let mapleader = ','
-
 " {{{ vim-which-key start
 
 " dictionary
@@ -681,14 +676,22 @@ nnoremap <C-Q> :bd<CR>
 " cleanup
 nnoremap <silent> <leader>bo :BufOnly<cr>
 
+let g:which_key_map.b = { 'name': '+buffer control' }
+let g:which_key_map.b.o = ['Bufonly', 'close other buffers']
+
 " }}}
 " {{{ coc
 
-nnoremap <leader>aw :CocCommand cSpell.addWordToDictionary<cr>
-nnoremap <leader>ef :CocCommand eslint.executeAutoFix<cr>
+let g:which_key_map.c = { 'name': '+coc' }
+
+nnoremap <leader>cdw :CocCommand cSpell.addWordToDictionary<cr>
+nnoremap <leader>cf :CocCommand eslint.executeAutoFix<cr>
+
+let g:which_key_map.c.dw = ['CocCommand cSpell.addWordToDictionary<cr>', 'add word to dict']
+let g:which_key_map.c.f = ['CocCommand eslint.executeAutoFix<cr>', 'exec auto-fix']
 
 " Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <silent> <c-space> :call coc#refresh()
 
 " {{{ show docs
 function! s:coc_show_documentation()
@@ -750,16 +753,26 @@ nnoremap <C-p> :call FzfFilePreview()<cr>
 " {{{ goto tag
 
 nnoremap <leader>T <Plug>(fzf_tags)
+let g:which_key_map.T = ['<Plug>(fzf_tags)', 'goto tag']
 
 " }}}
 " {{{ goyo
 
 nnoremap <silent> <leader>g :Goyo<cr>
+let g:which_key_map.g = ['Goyo', 'toggle goyo']
+
+" }}}
+" {{{ gv
+
+nnoremap <leader>gv :GV<cr>
+nnoremap <leader>gv! :GV!<cr>
+nnoremap <leader>gv? :GV?<cr>
 
 " }}}
 " {{{ grepper
 
 nnoremap <silent> <leader>G :Grepper<cr>
+let g:which_key_map.G = ['Grepper', 'do grep']
 
 " }}}
 " {{{ incsearch
@@ -778,11 +791,13 @@ map zg/ <Plug>(incsearch-fuzzy-stay)
 " {{{ NERDTree
 
 nnoremap <silent> <leader>e :NERDTreeToggle<cr>
+let g:which_key_map.e = ['NERDTreeToggle', 'toggle NERDTree']
 
 " }}}
 " {{{ npm package info
 
 nnoremap <silent> <leader>N :PackageInfo<cr>
+let g:which_key_map.N = ['PackageInfo', 'show info for package']
 
 " }}}
 " {{{ tab zoom
@@ -803,15 +818,31 @@ nnoremap <leader>tf :call <SID>RunVimTest('TestFile')<cr>
 nnoremap <leader>tn :call <SID>RunVimTest('TestNearest')<cr>
 nnoremap <leader>ts :call <SID>RunVimTest('TestSuite')<cr>
 nnoremap <leader>tl :call <SID>RunVimTest('TestLast')<cr>
-nnoremap <leader>tv :call <SID>RunVimTest('TestVisit')<cr>
+" nnoremap <leader>tv :call <SID>RunVimTest('TestVisit')<cr>
+
+let g:which_key_map.t = { 'name': '+testing' }
+let g:which_key_map.t.f = ["<SID>RunVimTest('TestFile')<cr>", 'test file']
+let g:which_key_map.t.n = ["<SID>RunVimTest('TestNearest')<cr>", 'test nearest']
+let g:which_key_map.t.s = ["<SID>RunVimTest('TestSuite')<cr>", 'test suite']
+let g:which_key_map.t.l = ["<SID>RunVimTest('TestLast')<cr>", 'test last']
 
 " }}}
-" {{{ toggle background dark/light
+" {{{ Colors
 
-nnoremap <leader>cl :call <SID>SwitchToLightColors()<cr>
-nnoremap <leader>cd :call <SID>SwitchToDarkColors()<cr>
+nnoremap <leader>Cl :call <SID>SwitchToLightColors()<cr>
+nnoremap <leader>Cd :call <SID>SwitchToDarkColors()<cr>
+
+let g:which_key_map.C = { 'name': '+colors' }
+let g:which_key_map.C.l = ['call <SID>SwitchToLightColors()', 'light bg']
+let g:which_key_map.C.d = ['call <SID>SwitchToDarkColors()', 'dark bg']
 
 " call togglebg#map("<F5>")
+
+" }}}
+" {{{ vimrc
+
+nnoremap <silent> <leader>R :source ~/.vimrc<cr>
+let g:which_key_map.R = ['source ~/.vimrc', 'reload vimrc']
 
 " }}}
 
