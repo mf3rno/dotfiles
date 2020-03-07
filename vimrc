@@ -800,6 +800,14 @@ nnoremap <silent> <leader>N :PackageInfo<cr>
 let g:which_key_map.N = ['PackageInfo', 'show info for package']
 
 " }}}
+" {{{ split resizing
+
+nnoremap <up> :resize -1<cr>
+nnoremap <down> :resize +1<cr>
+nnoremap <left> :vert resize +1<cr>
+nnoremap <right> :vert resize -1<cr>
+
+" }}}
 " {{{ tab zoom
 
 nnoremap <silent> <leader>zi :tab split<cr>
