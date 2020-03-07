@@ -5,3 +5,4 @@ weechat/logs
 ncmpcpp/error.log
 config/fish/fishd*
 ssh/config
+vim/.netrwhist
