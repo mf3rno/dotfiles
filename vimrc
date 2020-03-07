@@ -1,44 +1,77 @@
-set shell=/usr/bin/fish
+" {{{ pathogen init
+
 call pathogen#infect()
 
-" remap leader key
-let mapleader = ","
+" }}}
+" {{{ indent
 
-" indent
 set tabstop=2
 set softtabstop=2
 set expandtab
 set shiftwidth=2
 
-" colors
+" }}}
+" {{{ colors & colorschemes
+" {{{ 256 colors
+
+set t_Co=256
+
 if (has("termguicolors"))
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
 endif
 
-set t_Co=256
-" set background=light
+" }}}
+" {{{ COLORSCHEME xcode
+
+let g:xcodedarkhc_green_comments = 1
+let g:xcodelighthc_green_comments = 1
+
+" }}}
+" {{{ COLORSCHEME gruvbox
+
+let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_improved_strings = 1
+let g:gruvbox_improved_warnings = 1
+
+" }}}
+" {{{ COLORSCHEME gruvbox_material
+
+let g:gruvbox_material_background = 'hard'
+
+" }}}
+" {{{ COLORSCHEME one
+
+let g:one_allow_italics = 1
+
+" }}}
+" {{{ COLORSCHEME solarized
+
+let g:solarized_contrast = 'high'
+
+" }}}
+" {{{ COLORSCHEME two-firewatch
+
+let g:two_firewatch_italics = 1
+
+" }}}
+" {{{ colorscheme
+
 set background=dark
 syntax enable
-" colorscheme night-owl
-" colorscheme onehalfdark
-" colorscheme spacecamp
-" colorscheme tender
-" colorscheme jellybeans
-" colorscheme snazzy
-" colorscheme purify
-" colorscheme palenight
-" colorscheme dracula
-" colorscheme lucario
-" colorscheme gruvbox
-" colorscheme PaperColor
-colorscheme Tomorrow-Night-Bright
+colorscheme gruvbox-material
+" colorscheme Tomorrow-Night-Bright
+" colorscheme NeoSolarized
+
+" }}}
+" }}}
+" {{{ basic settings
 
 filetype plugin on
 filetype indent on
 
-" basic etc
+set shell=/usr/bin/fish
 set hidden
 set number
 set showcmd
@@ -56,82 +89,338 @@ set signcolumn=yes
 set shortmess+=c
 set nocompatible
 set sessionoptions-=blank
-
-" Automatically reload changed (and unedited) files
+set foldmethod=marker
+" set foldlevelstart=1
+set tags=./tags;,tags;$HOME;
+set winblend=10
+set regexpengine=1
+set backspace=indent,eol,start
+set modelineexpr
 set autoread
 
-" CtrlP settings
-" let g:ctrlp_switch_buffer = 0
-" let g:ctrlp_working_path_mode = 'ra'
-" let g:ctrlp_user_command = '/usr/bin/ag %s -l --nocolor --ignore tmp --ignore dist --ignore .git --ignore cache --ignore node_modules --ignore bower_components --ignore vendor -g ""'
+let g:netrw_banner = 0
 
-" CtrlP ctags with CTRL+SHIFT+P
-" nnoremap <silent> <leader>t :CtrlPTag<cr>
+if has('nvim')
+  autocmd TermOpen term://* startinsert
+endif
 
-" fzf
-set rtp+=/usr/bin/fzf
+" }}}
+" {{{ backups
 
 set noswapfile
 set nobackup
 set nowritebackup
 
-" SyntaxComplete
-if has("autocmd") && exists("+omnifunc")
-  autocmd Filetype * if &omnifunc == "" | setlocal omnifunc=syntaxcomplete#Complete | endif
-endif
+" }}}
+" {{{ plugins
+" {{{ PLUGIN: ale
 
-" Auto-close scratch buffer
-" let g:scratch_autohide = 1
+" disabled in leu of coc
+let g:ale_enabled = 0
+
+let g:ale_fixers = { 'javascript': ['standard', 'eslint'] }
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+
+" }}}
+" {{{ PLUGIN: any-jump
+
+
+
+" }}}
+" {{{ PLUGIN: bufexplorer
+
+
+
+" }}}
+" {{{ PLUGIN: coc
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+call coc#config('snippets', {
+\   'extends': {
+\     'cpp': ['c'],
+\     'javascriptreact': ['javascript'],
+\     'typescript': ['javascript']
+\   },
+\   'ultisnips': {
+\     'directories': ['UltiSnips', 'gosnippets/UltiSnips']
+\   }
+\ })
+
+let g:coc_global_extensions = ['coc-solargraph']
+let g:coc_snippet_next = '<tab>'
+
+" }}}
+" {{{ PLUGIN: Colorizer
+
+let g:colorizer_auto_filetype = 'css,scss,html'
+
+" }}}
+" {{{ PLUGIN: committia
+
+
+
+" }}}
+" {{{ PLUGIN: deliminate
+
+
+
+" }}}
+" {{{ PLUGIN: dsf
+
+
+
+" }}}
+" {{{ PLUGIN: echodoc
+
+let g:echodoc#enable_at_startup = 1
+
+" }}}
+" {{{ PLUGIN: es.next.syntax
+
+
+" }}}
+" {{{ PLUGIN: firenvim
+
+
+" }}}
+" {{{ PLUGIN: fzf-tags
+
+
+" }}}
+" {{{ PLUGIN: fzf
+
+set rtp+=/usr/bin/fzf
+
+let g:fzf_command_prefix = 'FZF'
+let g:fzf_buffers_jump = 1
+let g:fzf_tags_command = 'ctags -R'
+
+" {{{ Files + devicons + floating fzf
+function! FzfFilePreview()
+  let l:fzf_files_options = '--preview "bat --theme=\"Monokai Extended\" --style=numbers,changes --color always {3..-1} | head -200" --expect=ctrl-v,ctrl-x'
+  let s:files_status = {}
+
+  function! s:cacheGitStatus()
+    let l:gitcmd = 'git -c color.status=false -C ' . $PWD . ' status -s'
+    let l:statusesStr = system(l:gitcmd)
+    let l:statusesSplit = split(l:statusesStr, '\n')
+    for l:statusLine in l:statusesSplit
+      let l:fileStatus = split(l:statusLine, ' ')[0]
+      let l:fileName = split(l:statusLine, ' ')[1]
+      let s:files_status[l:fileName] = l:fileStatus
+    endfor
+  endfunction
+
+  function! s:files()
+    call s:cacheGitStatus()
+    let l:files = split(system($FZF_DEFAULT_COMMAND), '\n')
+    return s:prepend_indicators(l:files)
+  endfunction
+
+  function! s:prepend_indicators(candidates)
+    return s:prepend_git_status(s:prepend_icon(a:candidates))
+  endfunction
+
+  function! s:prepend_git_status(candidates)
+    let l:result = []
+    for l:candidate in a:candidates
+      let l:status = ''
+      let l:icon = split(l:candidate, ' ')[0]
+      let l:filePathWithIcon = split(l:candidate, ' ')[1]
+
+      let l:pos = strridx(l:filePathWithIcon, ' ')
+      let l:file_path = l:filePathWithIcon[pos+1:-1]
+      if has_key(s:files_status, l:file_path)
+        let l:status = s:files_status[l:file_path]
+        call add(l:result, printf('%s %s %s', l:status, l:icon, l:file_path))
+      else
+        " printf statement contains a load-bearing unicode space
+        " the file path is extracted from the list item using {3..-1},
+        " this breaks if there is a different number of spaces, which
+        " means if we add a space in the following printf it breaks.
+        " using a unicode space preserves the spacing in the fzf list
+        " without breaking the {3..-1} index
+        call add(l:result, printf('%s %s %s', ' ', l:icon, l:file_path))
+      endif
+    endfor
+
+    return l:result
+  endfunction
+
+  function! s:prepend_icon(candidates)
+    let l:result = []
+    for l:candidate in a:candidates
+      let l:filename = fnamemodify(l:candidate, ':p:t')
+      let l:icon = WebDevIconsGetFileTypeSymbol(l:filename, isdirectory(l:filename))
+      call add(l:result, printf('%s %s', l:icon, l:candidate))
+    endfor
+
+    return l:result
+  endfunction
+
+  function! s:edit_file(lines)
+    if len(a:lines) < 2 | return | endif
+
+    let l:cmd = get({'ctrl-x': 'split',
+                 \ 'ctrl-v': 'vertical split',
+                 \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
+
+    for l:item in a:lines[1:]
+      let l:pos = strridx(l:item, ' ')
+      let l:file_path = l:item[pos+1:-1]
+      execute 'silent '. l:cmd . ' ' . l:file_path
+    endfor
+  endfunction
+
+  call fzf#run({
+        \ 'source': <sid>files(),
+        \ 'sink*':   function('s:edit_file'),
+        \ 'options': '-m --preview-window=right:70%:noborder --prompt Files\> ' . l:fzf_files_options,
+        \ 'down':    '40%'})
+
+endfunction
+" }}}
+
+" }}}
+" {{{ PLUGIN: git-messenger
+
+
+" }}}
+" {{{ PLUGIN: golden-ratio
+
+let g:golden_ratio_exclude_nonmodifiable = 1
+
+" }}}
+" {{{ PLUGIN: goyo
+
+let g:goyo_height = '100%'
+
+function! s:goyo_enter()
+  exec "NumbersDisable"
+  set noshowmode
+  set noshowcmd
+  set scrolloff=999
+  set nonumber
+  call <SID>SwitchToLightColors()
+endfunction
+
+function! s:goyo_leave()
+  exec "NumbersToggle"
+  set showmode
+  set showcmd
+  set scrolloff=5
+  set number
+  call <SID>SwitchToDarkColors()
+endfunction
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+" }}}
+" {{{ PLUGIN: gv
+
+
+" }}}
+" {{{ PLUGIN: incsearch-easymotion
+
+
+" }}}
+" {{{ PLUGIN: incsearch-fuzzy
+
+
+" }}}
+" {{{ PLUGIN: incsearch
+
+let g:incsearch#auto_nohlsearch = 1
+
+" }}}
+" {{{ PLUGIN: javascript-libraries-syntax
+
+
+" }}}
+" {{{ PLUGIN: NERDTree
+
+let g:NERDTreeWinSize = 45
 
 " close nerdtree if its the last window
 " https://github.com/scrooloose/nerdtree/issues/21
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " Open NERDTree and jump to other buffer
-autocmd vimenter * NERDTree
-autocmd vimenter * wincmd p
+if !exists('g:started_by_firenvim')
+  autocmd vimenter * NERDTree
+  autocmd vimenter * wincmd p
+else
+  autocmd vimenter * NERDTreeToggle
+endif
 
-let g:NERDTreeWinSize = 45
+" }}}
+" {{{ PLUGIN: node
 
-" Auto-highlight colors
-" autocmd bufenter * ColorHighlight
-let g:colorizer_auto_filetype = 'css,scss,html'
 
-function! StatusDiagnostic() abort
-  let info = get(b:, 'coc_diagnostic_info', {})
-  if empty(info) | return '' | endif
-  let msgs = []
-  if get(info, 'error', 0)
-    call add(msgs, 'E' . info['error'])
-  endif
-  if get(info, 'warning', 0)
-    call add(msgs, 'W' . info['warning'])
-  endif
-  return join(msgs, ' '). ' ' . get(g:, 'coc_status', '')
-endfunction
+" }}}
+" {{{ PLUGIN: npm-package-info
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%{StatusDiagnostic()}
-set statusline+=%*
 
-let g:better_whitespace_enabled = 1
-let g:echodoc#enable_at_startup = 1
+" }}}
+" {{{ PLUGIN: rainbow-parantheses
+
 let g:rainbow_active = 1
-let g:auto_save = 1
-let g:vim_jsx_pretty_colorful_config = 1
-let g:vim_search_pulse_mode = 'cursor_line'
 
-let g:workspace_create_new_tabs = 0
-let g:workspace_autosave_untrailspaces = 0
-let g:workspace_autosave = 0
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
+
+" }}}
+" {{{ PLUGIN: ScrollColors
+
+
+" }}}
+" {{{ PLUGIN: SyntaxComplete
+
+if has("autocmd") && exists("+omnifunc")
+  autocmd Filetype * if &omnifunc == "" | setlocal omnifunc=syntaxcomplete#Complete | endif
+endif
+
+" }}}
+" {{{ PLUGIN: traces
+
+
+" }}}
+" {{{ PLUGIN: ultisnips
+
+let g:UltiSnipsExpandTrigger = "<nop>"
+let g:ultisnips_javascript = { 'semi': 'never' }
+
+" }}}
+" {{{ PLUGIN: vCooler
+
+
+" }}}
+" {{{ PLUGIN: vim-adventurous
+
+
+" }}}
+" {{{ PLUGIN: vim-airline
 
 let g:airline_powerline_fonts = 1
-" let g:airline_theme='purify'
-let g:airline_theme='zenburn'
+let g:airline_theme='gruvbox'
 let g:airline#extensions#clock#auto = 0
 let g:airline#extensions#coc#enabled = 1
 let g:airline#extensions#grepper#enabled = 1
+let g:airline#extensions#coc#stl_format_err = '%E{[%e(#%fe)]}'
 
 function! AirlineInit()
   let g:airline_section_a=airline#section#create(['mode'])
@@ -140,15 +429,70 @@ endfunction
 
 autocmd User AirlineAfterInit call AirlineInit()
 
-let g:ale_fixers = { 'javascript': ['standard', 'eslint'] }
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
+" }}}
+" {{{ PLUGIN: vim-airline-clock
 
-let g:jsdoc_allow_input_prompt=1
-let g:jsdoc_return_description=1
-let g:jsdoc_return_type=1
-let g:jsdoc_underscore_private=1
-let g:jsdoc_enable_es6=1
+
+" }}}
+" {{{ PLUGIN: vim-auto-save
+
+let g:auto_save = 1
+
+" }}}
+" {{{ PLUGIN: vim-better-whitespace
+
+let g:better_whitespace_enabled = 1
+
+" }}}
+" {{{ PLUGIN: vim-bufonly
+
+
+" }}}
+" {{{ PLUGIN: vim-buftabline
+
+
+" }}}
+" {{{ PLUGIN: vim-commentary
+
+
+" }}}
+" {{{ PLUGIN: vim-css3-syntax
+
+
+" }}}
+" {{{ PLUGIN: vim-current-word
+
+
+" }}}
+" {{{ PLUGIN: vim-devicons
+
+
+" }}}
+" {{{ PLUGIN: vim-easygrep
+
+
+" }}}
+" {{{ PLUGIN: vim-easymotion
+
+
+" }}}
+" {{{ PLUGIN: vim-extradite
+
+
+" }}}
+" {{{ PLUGIN: vim-fugitive
+
+
+" }}}
+" {{{ PLUGIN: vim-gitgutter
+
+
+" }}}
+" {{{ PLUGIN: vim-go
+
+
+" }}}
+" {{{ PLUGIN: vim-grepper
 
 let g:grepper = {}
 let g:grepper.tools = ['ag']
@@ -161,6 +505,80 @@ let g:grepper.ag = {
   \ 'grepprg': 'ag --ignore-dir=node_modules --ignore-dir=bower_components --ignore-dir=dist --ignore-dir=build'
   \ }
 
+" }}}
+" {{{ PLUGIN: vim-gutentags
+
+" defined in ~/.ctags instead
+let g:gutentags_ctags_exclude = ['coverage/*', 'node_modules/*']
+let g:gutentags_enabled = 1
+let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')
+
+" }}}
+" {{{ PLUGIN: vim-indentguides
+
+
+" }}}
+" {{{ PLUGIN: vim-jsdoc
+
+let g:jsdoc_allow_input_prompt=1
+let g:jsdoc_return_description=1
+let g:jsdoc_return_type=1
+let g:jsdoc_underscore_private=1
+let g:jsdoc_enable_es6=1
+
+" }}}
+" {{{ PLUGIN: vim-js-file-import
+
+
+" }}}
+" {{{ PLUGIN: vim-jsx-pretty
+
+let g:vim_jsx_pretty_colorful_config = 1
+
+" }}}
+" {{{ PLUGIN: vim-maktaba
+
+
+" }}}
+" {{{ PLUGIN: vim-markdown
+
+
+" }}}
+" {{{ PLUGIN: vim-mustache-handlebars
+
+
+" }}}
+" {{{ PLUGIN: vim-nerdtree-syntax-higlight
+
+
+" }}}
+" {{{ PLUGIN: vim-repeat
+
+
+" }}}
+" {{{ PLUGIN: vim-ripgrep
+
+let g:vim_search_pulse_mode = 'cursor_line'
+
+" }}}
+" {{{ PLUGIN: vim-ruby
+
+
+" }}}
+" {{{ PLUGIN: vim-search-pulse
+
+
+" }}}
+" {{{ PLUGIN: vim-snippets
+
+
+" }}}
+" {{{ PLUGIN: vim-startify
+
+
+" }}}
+" {{{ PLUGIN: vim-test
+
 let g:test#vim#term_position = "belowright"
 let g:test#strategy = 'neovim'
 
@@ -170,8 +588,6 @@ let g:test#strategy = 'neovim'
 
 " let g:test#custom_transformations = {'mocha': function('MochaDebugTransform')}
 " let g:test#transformation = 'mocha'
-
-let g:fzf_command_prefix = 'FZF'
 
 " https://github.com/janko/vim-test/issues/272#issuecomment-515749091
 let g:root_markers = ['package.json', '.git/']
@@ -192,55 +608,237 @@ function! s:RunVimTest(cmd)
     execute a:cmd
 endfunction
 
-" coc
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+" }}}
+" {{{ PLUGIN: vim-togglebg
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+
+" }}}
+" {{{ PLUGIN: vim-which-key
+
+let g:which_key_use_floating_win = 1
+
+nnoremap <silent> <leader> :<c-u>WhichKey ','<CR>
+
+" }}}
+" {{{ PLUGIN: vimwiki
+
+let g:vimwiki_folding = 'list'
+
+" }}}
+" {{{ PLUGIN: vim-workspace
+
+let g:workspace_create_new_tabs = 0
+let g:workspace_autosave_untrailspaces = 0
+let g:workspace_autosave = 0
+
+" }}}
+" {{{ PLUGIN: vim-yardoc
+
+
+" }}}
+" {{{ PLUGIN: yajs
+
+
+" }}}
+" {{{ PLUGIN: ZoomWin
+
+
+" }}}
+" }}}
+" {{{ color switching
+function! s:SwitchToLightColors()
+  set background=light
+  colorscheme gruvbox-material
+  exec "AirlineTheme gruvbox_material"
+  exec "AirlineRefresh"
 endfunction
 
-let g:coc_snippet_next = '<tab>'
-let g:ultisnips_javascript = { 'semi': 'never' }
+function! s:SwitchToDarkColors()
+  set background=dark
+  colorscheme gruvbox-material
+  exec "AirlineTheme gruvbox_material"
+  exec "AirlineRefresh"
+endfunction
+" }}}
+" {{{ keybindings
 
-" rainbow paranthesis
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
+let mapleader = ','
 
-" keep selected text selected after indent change
-vnoremap < <gv
-vnoremap > >gv
+" {{{ vim-which-key start
 
-if has('nvim')
-  autocmd TermOpen term://* startinsert
-endif
+" dictionary
+let g:which_key_map =  {}
 
-" navigating buffers
+" }}}
+
+" {{{ buffer control
+
+" navigation
 nnoremap <C-N> :bnext<CR>
 nnoremap <C-P> :bprev<CR>
 nnoremap <C-Q> :bd<CR>
 
-" terminal splits
+" cleanup
+nnoremap <silent> <leader>bo :BufOnly<cr>
+
+" }}}
+" {{{ coc
+
+nnoremap <leader>aw :CocCommand cSpell.addWordToDictionary<cr>
+nnoremap <leader>ef :CocCommand eslint.executeAutoFix<cr>
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" {{{ show docs
+function! s:coc_show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+nnoremap <silent> K :call <SID>coc_show_documentation()<CR>
+" }}}
+
+" }}}
+" {{{ coc goto
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" }}}
+" {{{ ctrl+backspace delete word
+
+noremap! <C-BS> <C-w>
+noremap! <C-h> <C-w>
+
+" }}}
+" {{{ easymotion
+
+map n <Plug>(easymotion-next)
+map N <Plug>(easymotion-prev)
+
+" }}}
+" {{{ extradite
+
+nnoremap <silent> <leader>L :Extradite<cr>
+
+" }}}
+" {{{ fast quit
+
+nnoremap <silent> <leader>q :qa<cr>
+nnoremap <silent> <leader>Q :q!<cr>
+
+" }}}
+" {{{ folds
+
+nnoremap <expr> <leader>F &foldlevel ? 'zM' :'zR'
+let g:which_key_map.F = ['&foldlevel ? "zM" : "zR"', 'toggle fold level']
+
+nnoremap <silent> <leader><Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+
+" }}}
+" {{{ fzf
+
+nnoremap <C-p> :call FzfFilePreview()<cr>
+
+" }}}
+" {{{ goto tag
+
+nnoremap <leader>T <Plug>(fzf_tags)
+
+" }}}
+" {{{ goyo
+
+nnoremap <silent> <leader>g :Goyo<cr>
+
+" }}}
+" {{{ grepper
+
+nnoremap <silent> <leader>G :Grepper<cr>
+
+" }}}
+" {{{ incsearch
+
+" map /  <Plug>(incsearch-forward)
+" map ?  <Plug>(incsearch-backward)
+" map g/ <Plug>(incsearch-stay)
+map / <Plug>(incsearch-easymotion-/)
+map ? <Plug>(incsearch-easymotion-?)
+map g/ <Plug>(incsearch-easymotion-stay)
+map z/ <Plug>(incsearch-fuzzy-/)
+map z? <Plug>(incsearch-fuzzy-?)
+map zg/ <Plug>(incsearch-fuzzy-stay)
+
+" }}}
+" {{{ NERDTree
+
+nnoremap <silent> <leader>e :NERDTreeToggle<cr>
+
+" }}}
+" {{{ npm package info
+
+nnoremap <silent> <leader>N :PackageInfo<cr>
+
+" }}}
+" {{{ tab zoom
+
+nnoremap <silent> <leader>zi :tab split<cr>
+nnoremap <silent> <leader>zo :tab close<cr>
+
+" }}}
+" {{{ terminal splits
+
 command! -nargs=* T split | terminal <args>
 command! -nargs=* VT vsplit | terminal <args>
+
+" }}}
+" {{{ testing
 
 nnoremap <leader>tf :call <SID>RunVimTest('TestFile')<cr>
 nnoremap <leader>tn :call <SID>RunVimTest('TestNearest')<cr>
 nnoremap <leader>ts :call <SID>RunVimTest('TestSuite')<cr>
 nnoremap <leader>tl :call <SID>RunVimTest('TestLast')<cr>
 nnoremap <leader>tv :call <SID>RunVimTest('TestVisit')<cr>
-nnoremap <leader>aw :CocCommand cSpell.addWordToDictionary<cr>
-nnoremap <silent> <leader>e :NERDTreeToggle<cr>
-nnoremap <silent> <leader>g :Goyo<cr>
-nnoremap <silent> <leader>zi :tab split<cr>
-nnoremap <silent> <leader>zo :tab close<cr>
-nnoremap <silent> <leader>N :PackageInfo<cr>
-nnoremap <silent> <leader>G :Grepper<cr>
-nnoremap <C-p> :FZF<cr>
-nnoremap <leader>fzf :FZF<cr>
+
+" }}}
+" {{{ toggle background dark/light
+
+nnoremap <leader>cl :call <SID>SwitchToLightColors()<cr>
+nnoremap <leader>cd :call <SID>SwitchToDarkColors()<cr>
+
+" call togglebg#map("<F5>")
+
+" }}}
+
+" {{{ vim-which-key end
+
+" register dictionary
+call which_key#register(',', "g:which_key_map")
+
+" }}}
+
+" }}}
+" {{{ statusline
+function! StatusDiagnostic() abort
+  let info = get(b:, 'coc_diagnostic_info', {})
+  if empty(info) | return '' | endif
+  let msgs = []
+  if get(info, 'error', 0)
+    call add(msgs, 'E' . info['error'])
+  endif
+  if get(info, 'warning', 0)
+    call add(msgs, 'W' . info['warning'])
+  endif
+  return join(msgs, ' '). ' ' . get(g:, 'coc_status', '')
+endfunction
+
+set statusline+=%#warningmsg#
+set statusline+=%{StatusDiagnostic()}
+set statusline+=%{gutentags#statusline()}
+set statusline+=%*
+" }}}
