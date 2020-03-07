@@ -1,0 +1,12 @@
+window:
+  startup_mode: Fullscreen
+
+key_bindings:
+- { key: F11, action: ToggleFullscreen }
+
+font:
+  normal:
+    family: Hack
+    style: regular
+  size: 9
+  use_thin_strokes: false
