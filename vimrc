@@ -83,7 +83,6 @@ set shell=/usr/bin/fish
 set hidden
 set number
 set showcmd
-set cursorline
 set splitbelow
 set wildmenu
 set lazyredraw
@@ -104,6 +103,9 @@ set regexpengine=1
 set backspace=indent,eol,start
 set autoread
 set noshowmode " lightline renders mode already
+
+" hacky fix for syntax highlighting in large files
+autocmd WinEnter,Filetype * syntax sync fromstart
 
 let g:netrw_banner = 0
 
@@ -127,11 +129,18 @@ set nowritebackup
 " {{{ PLUGIN: ale
 
 " disabled in leu of coc
-let g:ale_enabled = 0
+let g:ale_enabled = 1
 
 let g:ale_fixers = { 'javascript': ['standard', 'eslint'] }
+let g:ale_lint_on_insert_leave = 1
+let g:ale_lint_on_enter = 1
+let g:ale_lint_on_save = 1
 let g:ale_set_loclist = 0
 let g:ale_set_quickfix = 1
+let g:ale_set_highlights = 1
+let g:ale_set_signs = 1
+let g:ale_sign_highlight_linenrs = 1
+let g:ale_virtualtext_cursor = 1
 
 " }}}
 " {{{ PLUGIN: any-jump
@@ -190,6 +199,58 @@ let g:colorizer_auto_filetype = 'css,scss,html'
 
 
 " }}}
+" {{{ PLUGIN: deoplete (DISABLED)
+
+function! __DISABLED_DEOPLETE_PLUGIN()
+  let g:deoplete#enable_at_startup = 1
+  let g:deoplete#sources = {}
+  let g:deoplete#sources#ternjs#tern_bin = '/usr/local/lib/node_modules/tern/bin/tern'
+  let g:deoplete#sources#ternjs#types = 1
+  let g:deoplete#sources#ternjs#docs = 0
+  let g:deoplete#sources['ruby'] = ['solargraph']
+  let g:deoplete#sources['javascript'] = ['file', 'ultisnips', 'ternjs']
+  let g:deoplete#omni#functions = {}
+  let g:deoplete#omni#functions.javascript = [
+    \ 'tern#Complete',
+    \ 'jspc#omni'
+  \]
+
+  let g:deoplete#auto_completion_start_length = 0
+  let g:deoplete#enable_refresh_always = 1
+  let g:min_pattern_length = 0
+
+  set completeopt=longest,menuone,preview
+  let g:tern#command = ['tern']
+  let g:tern#arguments = ['--persistent']
+
+  call deoplete#custom#option('smart_case', 1)
+  call deoplete#custom#option('num_processes', 6)
+  call deoplete#custom#option('ignore_sources', {'_': ['buffer', 'vim', 'member']})
+
+  let g:tern#filetypes = [
+    \ 'javascript',
+    \ 'js',
+    \ 'jsx',
+    \ 'javascript.jsx'
+    \ ]
+
+  function! DISABLED_DEOPLETE_TAB_MAPPING()
+    inoremap <silent><expr> <TAB>
+        \ pumvisible() ? "\<C-n>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ deoplete#manual_complete()
+
+    function! s:check_back_space() abort "{{{
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~ '\s'
+    endfunction"}}}
+  endfunction
+
+  autocmd FileType javascript let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+  inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+endfunction
+
+" }}}
 " {{{ PLUGIN: dsf
 
 
@@ -206,6 +267,11 @@ let g:echodoc#enable_at_startup = 1
 " }}}
 " {{{ PLUGIN: firenvim
 
+
+" }}}
+" {{{ PLUGIN: float-preview
+
+let g:float_preview#docked = 0
 
 " }}}
 " {{{ PLUGIN: fzf-tags
@@ -370,6 +436,26 @@ let g:incsearch#auto_nohlsearch = 1
 
 
 " }}}
+" {{{ PLUGIN: lightline-ale (config prior to lightline)
+
+let g:lightline = {}
+let g:lightline.component_expand = {
+  \  'linter_checking': 'lightline#ale#checking',
+  \  'linter_infos': 'lightline#ale#infos',
+  \  'linter_warnings': 'lightline#ale#warnings',
+  \  'linter_errors': 'lightline#ale#errors',
+  \  'linter_ok': 'lightline#ale#ok',
+  \ }
+
+let g:lightline.component_type = {
+  \     'linter_checking': 'right',
+  \     'linter_infos': 'right',
+  \     'linter_warnings': 'warning',
+  \     'linter_errors': 'error',
+  \     'linter_ok': 'right',
+  \ }
+
+" }}}
 " {{{ PLUGIN: lightline
 
 function! LightlineReadonly()
@@ -384,35 +470,38 @@ function! LightlineFugitive()
   return ''
 endfunction
 
-let g:lightline = {
-      \ 'colorscheme': 'gruvbox_material',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'currentfunction', 'filename', 'readonly', 'modified' ] ],
-      \   'right': [ ['lineinfo'],
-      \              ['percent'],
-      \              [ 'filetype'] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'LightlineFugitive',
-      \   'readonly': 'LightlineReadonly',
-      \   'currentfunction': 'CocCurrentFunction'
-      \ },
-      \ }
+let g:lightline.colorscheme = 'gruvbox_material'
+let g:lightline.active = {}
+let g:lightline.active.left = [
+  \ [ 'mode', 'paste' ],
+  \ [ 'gitbranch', 'currentfunction', 'filename', 'readonly', 'modified', 'gutentagsstatus' ]
+  \ ]
+
+let g:lightline.active.right = [
+  \ ['lineinfo'], ['percent'], ['filetype'], [
+  \   'linter_checking', 'linter_infos', 'linter_warnings', 'linter_errors',
+  \   'linter_ok' ] ]
+
+let g:lightline.active.component_function = {
+  \ 'gitbranch': 'LightlineFugitive',
+  \ 'readonly': 'LightlineReadonly',
+  \ 'currentfunction': 'CocCurrentFunction',
+  \ 'gutentagsstatus': 'gutentags#statusline()'
+  \ }
 
 let g:lightline.mode_map = {
-    \ 'n' : 'N',
-    \ 'i' : 'I',
-    \ 'R' : 'R',
-    \ 'v' : 'V',
-    \ 'V' : 'V-L',
-    \ "\<C-v>": 'V-B',
-    \ 'c' : 'C',
-    \ 's' : 'S',
-    \ 'S' : 'S-L',
-    \ "\<C-s>": 'S-B',
-    \ 't': 'T',
-    \ }
+  \ 'n' : 'N',
+  \ 'i' : 'I',
+  \ 'R' : 'R',
+  \ 'v' : 'V',
+  \ 'V' : 'V-L',
+  \ "\<C-v>": 'V-B',
+  \ 'c' : 'C',
+  \ 's' : 'S',
+  \ 'S' : 'S-L',
+  \ "\<C-s>": 'S-B',
+  \ 't': 'T',
+  \ }
 
 let s:palette = g:lightline#colorscheme#{g:lightline.colorscheme}#palette
 let s:palette.normal.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
@@ -466,11 +555,18 @@ au Syntax * RainbowParenthesesLoadBraces
 
 
 " }}}
-" {{{ PLUGIN: SyntaxComplete
+" {{{ PLUGIN: supertab
 
-if has("autocmd") && exists("+omnifunc")
-  autocmd Filetype * if &omnifunc == "" | setlocal omnifunc=syntaxcomplete#Complete | endif
-endif
+
+
+" }}}
+" {{{ PLUGIN: SyntaxComplete (DISABLED)
+
+function! _DISABLED_SYNTAX_COMPLETE_OMNIFUNC()
+  if has("autocmd") && exists("+omnifunc")
+    autocmd Filetype * if &omnifunc == "" | setlocal omnifunc=syntaxcomplete#Complete | endif
+  endif
+endfunction
 
 " }}}
 " {{{ PLUGIN: traces
@@ -479,7 +575,7 @@ endif
 " }}}
 " {{{ PLUGIN: ultisnips
 
-let g:UltiSnipsExpandTrigger = "<nop>"
+let g:UltiSnipsExpandTrigger = "<c-j>"
 let g:ultisnips_javascript = { 'semi': 'never' }
 
 " }}}
@@ -791,7 +887,7 @@ let g:which_key_map.b.o = ['Bufonly', 'close other buffers']
 " }}}
 " {{{ coc (DISABLED)
 
-function! DISABLED_COC_CONFIG()
+function! DISABLED_COC_KEYBINDINGS()
   let g:which_key_map.c = { 'name': '+coc' }
 
   nnoremap <leader>cdw :CocCommand cSpell.addWordToDictionary<cr>
@@ -819,7 +915,7 @@ endfunction
 " }}}
 " {{{ coc goto (DISABLED)
 
-function! DISABLED_COC_GOTO_CONFIG()
+function! DISABLED_COC_GOTO_KEYBINDINGS()
   nmap <silent> gd <Plug>(coc-definition)
   nmap <silent> gy <Plug>(coc-type-definition)
   nmap <silent> gi <Plug>(coc-implementation)
@@ -963,8 +1059,8 @@ nnoremap <C-p> :FZFFilesWithNativePreview<cr>
 " }}}
 " {{{ goto tag
 
-nnoremap <leader>T <Plug>(fzf_tags)
-let g:which_key_map.T = ['<Plug>(fzf_tags)', 'goto tag']
+nnoremap <leader>T :FZFTags<cr>
+let g:which_key_map.T = ['FZFTags<cr>', 'goto tag']
 
 " }}}
 " {{{ goyo
