@@ -863,6 +863,7 @@ function! DefxOnOpenV()
     call defx#call_action('open_or_close_tree')
   else
     let g:defx_target = defx#get_candidate()
+    let g:defx_is_open = 0
 
     call defx#call_action('quit')
     exec 'vsp '.g:defx_target.action__path
@@ -874,9 +875,18 @@ function! DefxOnOpenH()
     call defx#call_action('open_or_close_tree')
   else
     let g:defx_target = defx#get_candidate()
+    let g:defx_is_open = 0
 
     call defx#call_action('quit')
     exec 'sp '.g:defx_target.action__path
+  endif
+endfunction
+
+function! DefxOnOpen()
+  if defx#is_directory()
+    call defx#call_action('open_or_close_tree')
+  else
+    call defx#call_action('open', 'vertical bo split')
   endif
 endfunction
 
@@ -885,8 +895,9 @@ nnoremap <silent> <leader>e :call DefxDoToggle()<cr>
 autocmd FileType defx call s:DefxRegisterKeybindings()
 
 function! s:DefxRegisterKeybindings() abort
-  nnoremap <silent><leader>v :call DefxOnOpenV()<cr>
-  nnoremap <silent><leader>h :call DefxOnOpenH()<cr>
+  nnoremap <silent><buffer> <cr> :call DefxOnOpen()<cr>
+  nnoremap <silent><buffer>v :call DefxOnOpenV()<cr>
+  nnoremap <silent><buffer>h :call DefxOnOpenH()<cr>
   nnoremap <silent><buffer><expr> m defx#do_action('move')
   nnoremap <silent><buffer><expr> d defx#do_action('remove')
   nnoremap <silent><buffer><expr> D defx#do_action('new_directory')
@@ -907,7 +918,7 @@ call defx#custom#option('_', {
 	\ 'show_ignored_files': 0,
 	\ 'root_marker': '.git',
 	\ 'ignored_files':
-	\     'node_modules,dist,build,package-lock.json'
+	\     'node_modules,dist,build,package-lock.json,.git,.undodir'
 	\ })
 
 " }}}
