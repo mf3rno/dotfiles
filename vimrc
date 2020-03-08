@@ -144,33 +144,35 @@ let g:ale_set_quickfix = 1
 
 
 " }}}
-" {{{ PLUGIN: coc
+" {{{ PLUGIN: coc (DISABLED)
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+function! DISABLED_COC_PLUGIN_CONFIG()
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
+
+  inoremap <silent><expr> <TAB>
+        \ pumvisible() ? coc#_select_confirm() :
+        \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ coc#refresh()
+
+  let g:coc_global_extensions = ['coc-solargraph']
+  let g:coc_snippet_next = '<tab>'
+  " let g:airline#extensions#coc#stl_format_err = '%E{[%e(#%fe)]}'
+
+  call coc#config('snippets', {
+  \   'extends': {
+  \     'cpp': ['c'],
+  \     'javascriptreact': ['javascript'],
+  \     'typescript': ['javascript']
+  \   },
+  \   'ultisnips': {
+  \     'directories': ['UltiSnips', 'gosnippets/UltiSnips']
+  \   }
+  \ })
 endfunction
-
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-
-let g:coc_global_extensions = ['coc-solargraph']
-let g:coc_snippet_next = '<tab>'
-let g:airline#extensions#coc#stl_format_err = '%E{[%e(#%fe)]}'
-
-call coc#config('snippets', {
-\   'extends': {
-\     'cpp': ['c'],
-\     'javascriptreact': ['javascript'],
-\     'typescript': ['javascript']
-\   },
-\   'ultisnips': {
-\     'directories': ['UltiSnips', 'gosnippets/UltiSnips']
-\   }
-\ })
 
 " }}}
 " {{{ PLUGIN: Colorizer (DISABLED)
@@ -386,7 +388,7 @@ let g:lightline = {
       \ 'colorscheme': 'gruvbox_material',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'cocstatus', 'currentfunction', 'filename', 'readonly', 'modified' ] ],
+      \             [ 'gitbranch', 'currentfunction', 'filename', 'readonly', 'modified' ] ],
       \   'right': [ ['lineinfo'],
       \              ['percent'],
       \              [ 'filetype'] ]
@@ -394,7 +396,6 @@ let g:lightline = {
       \ 'component_function': {
       \   'gitbranch': 'LightlineFugitive',
       \   'readonly': 'LightlineReadonly',
-      \   'cocstatus': 'coc#status',
       \   'currentfunction': 'CocCurrentFunction'
       \ },
       \ }
@@ -488,20 +489,22 @@ let g:ultisnips_javascript = { 'semi': 'never' }
 " }}}
 " {{{ PLUGIN: vim-airline (DISABLED)
 
-let g:airline_powerline_fonts = 1
+" let g:airline_powerline_fonts = 1
 " let g:airline_theme='gruvbox_material'
-let g:airline_theme='gotham'
-let g:airline#extensions#clock#auto = 0
-let g:airline#extensions#coc#enabled = 1
-let g:airline#extensions#grepper#enabled = 1
-let g:airline#extensions#coc#stl_format_err = '%E{[%e(#%fe)]}'
+" let g:airline_theme='gotham'
+" let g:airline#extensions#clock#auto = 0
+" let g:airline#extensions#coc#enabled = 1
+" let g:airline#extensions#grepper#enabled = 1
+" let g:airline#extensions#coc#stl_format_err = '%E{[%e(#%fe)]}'
 
-function! AirlineInit()
-  let g:airline_section_a=airline#section#create(['mode'])
-  let g:airline_section_z=airline#section#create_right(['clock', '%l/%L'])
+function! DISABLED_AIRLINE_INIT()
+  function! AirlineInit()
+    let g:airline_section_a=airline#section#create(['mode'])
+    let g:airline_section_z=airline#section#create_right(['clock', '%l/%L'])
+  endfunction
+
+  autocmd User AirlineAfterInit call AirlineInit()
 endfunction
-
-autocmd User AirlineAfterInit call AirlineInit()
 
 " }}}
 " {{{ PLUGIN: vim-airline-clock (DISABLED)
@@ -786,38 +789,42 @@ let g:which_key_map.b = { 'name': '+buffer control' }
 let g:which_key_map.b.o = ['Bufonly', 'close other buffers']
 
 " }}}
-" {{{ coc
+" {{{ coc (DISABLED)
 
-let g:which_key_map.c = { 'name': '+coc' }
+function! DISABLED_COC_CONFIG()
+  let g:which_key_map.c = { 'name': '+coc' }
 
-nnoremap <leader>cdw :CocCommand cSpell.addWordToDictionary<cr>
-nnoremap <leader>cf :CocCommand eslint.executeAutoFix<cr>
+  nnoremap <leader>cdw :CocCommand cSpell.addWordToDictionary<cr>
+  nnoremap <leader>cf :CocCommand eslint.executeAutoFix<cr>
 
-let g:which_key_map.c.dw = ['CocCommand cSpell.addWordToDictionary<cr>', 'add word to dict']
-let g:which_key_map.c.f = ['CocCommand eslint.executeAutoFix<cr>', 'exec auto-fix']
+  let g:which_key_map.c.dw = ['CocCommand cSpell.addWordToDictionary<cr>', 'add word to dict']
+  let g:which_key_map.c.f = ['CocCommand eslint.executeAutoFix<cr>', 'exec auto-fix']
 
-" Use <c-space> to trigger completion.
-inoremap <silent> <c-space> :call coc#refresh()
+  " Use <c-space> to trigger completion.
+  inoremap <silent> <c-space> :call coc#refresh()
 
 " {{{ show docs
-function! s:coc_show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
+  function! s:coc_show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+    else
+      call CocAction('doHover')
+    endif
+  endfunction
+
+  nnoremap <silent> K :call <SID>coc_show_documentation()<CR>
 endfunction
-
-nnoremap <silent> K :call <SID>coc_show_documentation()<CR>
 " }}}
 
 " }}}
-" {{{ coc goto
+" {{{ coc goto (DISABLED)
 
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+function! DISABLED_COC_GOTO_CONFIG()
+  nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <silent> gi <Plug>(coc-implementation)
+  nmap <silent> gr <Plug>(coc-references)
+endfunction
 
 " }}}
 " {{{ ctrl+backspace delete word
