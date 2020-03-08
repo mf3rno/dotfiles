@@ -832,10 +832,16 @@ let g:defx_is_open = 0
 let g:defx_target = ''
 
 function! DefxDoToggle()
-  let g:defx_buff_info = getbufinfo('default-0')[0]
+  let g:defx_buff_info_arr = getbufinfo('default-0')
 
-  if !empty(g:defx_buff_info.windows)
-    call win_gotoid(g:defx_buff_info.windows[0])
+  if empty(g:defx_buff_info_arr)
+    let g:defx_buff_windows = []
+  else
+    let g:defx_buff_windows = g:defx_buff_info_arr[0].windows
+  endif
+
+  if !empty(g:defx_buff_windows)
+    call win_gotoid(g:defx_buff_windows[0])
   end
 
   if g:defx_is_open
