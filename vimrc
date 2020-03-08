@@ -129,7 +129,7 @@ set nowritebackup
 " {{{ PLUGIN: ale
 
 " disabled in leu of coc
-let g:ale_enabled = 1
+let g:ale_enabled = 0
 
 let g:ale_fixers = { 'javascript': ['standard', 'eslint'] }
 let g:ale_lint_on_insert_leave = 1
@@ -153,40 +153,45 @@ let g:ale_virtualtext_cursor = 1
 
 
 " }}}
-" {{{ PLUGIN: coc (DISABLED)
+" {{{ PLUGIN: coc
 
-function! DISABLED_COC_PLUGIN_CONFIG()
-  function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-  endfunction
+" Taken from docs
+"
+" Map <tab> for trigger completion, completion confirm, snippet expand and jump
+" like VSCode.
 
-  inoremap <silent><expr> <TAB>
-        \ pumvisible() ? coc#_select_confirm() :
-        \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-        \ <SID>check_back_space() ? "\<TAB>" :
-        \ coc#refresh()
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? coc#_select_confirm() :
+  \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ coc#refresh()
 
-  let g:coc_global_extensions = ['coc-solargraph']
-  let g:coc_snippet_next = '<tab>'
-  " let g:airline#extensions#coc#stl_format_err = '%E{[%e(#%fe)]}'
-
-  call coc#config('snippets', {
-  \   'extends': {
-  \     'cpp': ['c'],
-  \     'javascriptreact': ['javascript'],
-  \     'typescript': ['javascript']
-  \   },
-  \   'ultisnips': {
-  \     'directories': ['UltiSnips', 'gosnippets/UltiSnips']
-  \   }
-  \ })
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" }}}
-" {{{ PLUGIN: Colorizer (DISABLED)
+let g:coc_snippet_next = '<tab>'
 
-let g:colorizer_auto_filetype = 'css,scss,html'
+" Taken from docs, statusline diagnostics
+function! COCStatusDiagnostic() abort
+  let info = get(b:, 'coc_diagnostic_info', {})
+  if empty(info) | return '' | endif
+  let msgs = []
+  if get(info, 'error', 0)
+    call add(msgs, 'E' . info['error'])
+  endif
+  if get(info, 'warning', 0)
+    call add(msgs, 'W' . info['warning'])
+  endif
+  return join(msgs, ' ') . ' ' . get(g:, 'coc_status', '')
+endfunction
+
+" Taken from docs, trigger copletion
+inoremap <silent><expr> <c-space> coc#refresh()
+
+let g:coc_node_path = '/usr/bin/node'
+let g:coc_node_args = ['--max-old-space-size=16384']
 
 " }}}
 " {{{ PLUGIN: committia
@@ -197,58 +202,6 @@ let g:colorizer_auto_filetype = 'css,scss,html'
 " {{{ PLUGIN: deliminate
 
 
-
-" }}}
-" {{{ PLUGIN: deoplete (DISABLED)
-
-function! __DISABLED_DEOPLETE_PLUGIN()
-  let g:deoplete#enable_at_startup = 1
-  let g:deoplete#sources = {}
-  let g:deoplete#sources#ternjs#tern_bin = '/usr/local/lib/node_modules/tern/bin/tern'
-  let g:deoplete#sources#ternjs#types = 1
-  let g:deoplete#sources#ternjs#docs = 0
-  let g:deoplete#sources['ruby'] = ['solargraph']
-  let g:deoplete#sources['javascript'] = ['file', 'ultisnips', 'ternjs']
-  let g:deoplete#omni#functions = {}
-  let g:deoplete#omni#functions.javascript = [
-    \ 'tern#Complete',
-    \ 'jspc#omni'
-  \]
-
-  let g:deoplete#auto_completion_start_length = 0
-  let g:deoplete#enable_refresh_always = 1
-  let g:min_pattern_length = 0
-
-  set completeopt=longest,menuone,preview
-  let g:tern#command = ['tern']
-  let g:tern#arguments = ['--persistent']
-
-  call deoplete#custom#option('smart_case', 1)
-  call deoplete#custom#option('num_processes', 6)
-  call deoplete#custom#option('ignore_sources', {'_': ['buffer', 'vim', 'member']})
-
-  let g:tern#filetypes = [
-    \ 'javascript',
-    \ 'js',
-    \ 'jsx',
-    \ 'javascript.jsx'
-    \ ]
-
-  function! DISABLED_DEOPLETE_TAB_MAPPING()
-    inoremap <silent><expr> <TAB>
-        \ pumvisible() ? "\<C-n>" :
-        \ <SID>check_back_space() ? "\<TAB>" :
-        \ deoplete#manual_complete()
-
-    function! s:check_back_space() abort "{{{
-        let col = col('.') - 1
-        return !col || getline('.')[col - 1]  =~ '\s'
-    endfunction"}}}
-  endfunction
-
-  autocmd FileType javascript let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-  inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-endfunction
 
 " }}}
 " {{{ PLUGIN: dsf
@@ -287,7 +240,13 @@ let g:fzf_buffers_jump = 1
 let g:fzf_tags_command = 'ctags -R'
 
 command! -bang -nargs=? -complete=dir FZFFilesWithNativePreview
-    \ call fzf#vim#files(<q-args>, {'options': ['--layout=reverse', '--info=inline', '--preview', '~/.vim/bundle/fzf.vim/bin/preview.sh {}']}, <bang>0)
+    \ call fzf#vim#files(<q-args>, {
+    \  'options': [
+    \    '--layout=reverse',
+    \    '--info=inline',
+    \    '--preview',
+    \    '~/.vim/bundle/fzf.vim/bin/preview.sh {}'
+    \  ]}, <bang>0)
 
 " {{{ Files + devicons + floating fzf (currently unused due to performance)
 function! FzfFilePreview()
@@ -382,14 +341,6 @@ let g:git_messenger_into_popup_after_show = 0
 let g:git_messenger_preview_mods = '"botleft"'
 
 " }}}
-" {{{ PLUGIN: golden-ratio (DISABLED)
-
-let g:golden_ratio_exclude_nonmodifiable = 1
-
-" }}}
-" {{{ PLUGIN: golden-size (DISABLED)
-
-" }}}
 " {{{ PLUGIN: goyo
 
 let g:goyo_height = '100%'
@@ -470,6 +421,14 @@ function! LightlineFugitive()
   return ''
 endfunction
 
+function! LightlineGutentags()
+  call gutentags#statusline()
+endfunction
+
+function! LightlineCOC()
+  call coc#status()
+endfunction
+
 let g:lightline.colorscheme = 'gruvbox_material'
 let g:lightline.active = {}
 let g:lightline.active.left = [
@@ -480,13 +439,15 @@ let g:lightline.active.left = [
 let g:lightline.active.right = [
   \ ['lineinfo'], ['percent'], ['filetype'], [
   \   'linter_checking', 'linter_infos', 'linter_warnings', 'linter_errors',
-  \   'linter_ok' ] ]
+  \   'linter_ok' ], ['cocstatus', 'cocdiag']]
 
 let g:lightline.active.component_function = {
   \ 'gitbranch': 'LightlineFugitive',
   \ 'readonly': 'LightlineReadonly',
   \ 'currentfunction': 'CocCurrentFunction',
-  \ 'gutentagsstatus': 'gutentags#statusline()'
+  \ 'gutentagsstatus': 'LightlineGutentags',
+  \ 'cocstatus': 'LightlineCOC',
+  \ 'cocdiag': 'COCStatusDiagnostic'
   \ }
 
 let g:lightline.mode_map = {
@@ -503,10 +464,15 @@ let g:lightline.mode_map = {
   \ 't': 'T',
   \ }
 
-let s:palette = g:lightline#colorscheme#{g:lightline.colorscheme}#palette
-let s:palette.normal.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-let s:palette.inactive.middle = s:palette.normal.middle
-let s:palette.tabline.middle = s:palette.normal.middle
+function! DISABLED_LIGHTLINE_MIDDLE_BG_COLOR_TRANSPARENT()
+  let s:palette = g:lightline#colorscheme#{g:lightline.colorscheme}#palette
+  let s:palette.normal.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+  let s:palette.inactive.middle = s:palette.normal.middle
+  let s:palette.tabline.middle = s:palette.normal.middle
+endfunction
+
+" COC updates
+autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 
 " }}}
 " {{{ PLUGIN: NERDTree (DISABLED)
@@ -555,20 +521,6 @@ au Syntax * RainbowParenthesesLoadBraces
 
 
 " }}}
-" {{{ PLUGIN: supertab
-
-
-
-" }}}
-" {{{ PLUGIN: SyntaxComplete (DISABLED)
-
-function! _DISABLED_SYNTAX_COMPLETE_OMNIFUNC()
-  if has("autocmd") && exists("+omnifunc")
-    autocmd Filetype * if &omnifunc == "" | setlocal omnifunc=syntaxcomplete#Complete | endif
-  endif
-endfunction
-
-" }}}
 " {{{ PLUGIN: traces
 
 
@@ -580,30 +532,6 @@ let g:ultisnips_javascript = { 'semi': 'never' }
 
 " }}}
 " {{{ PLUGIN: vCooler
-
-
-" }}}
-" {{{ PLUGIN: vim-airline (DISABLED)
-
-" let g:airline_powerline_fonts = 1
-" let g:airline_theme='gruvbox_material'
-" let g:airline_theme='gotham'
-" let g:airline#extensions#clock#auto = 0
-" let g:airline#extensions#coc#enabled = 1
-" let g:airline#extensions#grepper#enabled = 1
-" let g:airline#extensions#coc#stl_format_err = '%E{[%e(#%fe)]}'
-
-function! DISABLED_AIRLINE_INIT()
-  function! AirlineInit()
-    let g:airline_section_a=airline#section#create(['mode'])
-    let g:airline_section_z=airline#section#create_right(['clock', '%l/%L'])
-  endfunction
-
-  autocmd User AirlineAfterInit call AirlineInit()
-endfunction
-
-" }}}
-" {{{ PLUGIN: vim-airline-clock (DISABLED)
 
 
 " }}}
@@ -632,10 +560,6 @@ let g:buftabline_numbers = 2
 
 " }}}
 " {{{ PLUGIN: vim-css3-syntax
-
-
-" }}}
-" {{{ PLUGIN: vim-current-word
 
 
 " }}}
@@ -683,10 +607,8 @@ let g:grepper.ag = {
 " }}}
 " {{{ PLUGIN: vim-gutentags
 
-" defined in ~/.ctags instead
-let g:gutentags_ctags_exclude = ['coverage/*', 'node_modules/*']
+let g:gutentags_ctags_exclude = ['coverage/*', 'node_modules/*', '*%*']
 let g:gutentags_enabled = 1
-" let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')
 
 " }}}
 " {{{ PLUGIN: vim-indentguides
@@ -885,42 +807,10 @@ let g:which_key_map.b = { 'name': '+buffer control' }
 let g:which_key_map.b.o = ['Bufonly', 'close other buffers']
 
 " }}}
-" {{{ coc (DISABLED)
+" {{{ coc
 
-function! DISABLED_COC_KEYBINDINGS()
-  let g:which_key_map.c = { 'name': '+coc' }
-
-  nnoremap <leader>cdw :CocCommand cSpell.addWordToDictionary<cr>
-  nnoremap <leader>cf :CocCommand eslint.executeAutoFix<cr>
-
-  let g:which_key_map.c.dw = ['CocCommand cSpell.addWordToDictionary<cr>', 'add word to dict']
-  let g:which_key_map.c.f = ['CocCommand eslint.executeAutoFix<cr>', 'exec auto-fix']
-
-  " Use <c-space> to trigger completion.
-  inoremap <silent> <c-space> :call coc#refresh()
-
-" {{{ show docs
-  function! s:coc_show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-      execute 'h '.expand('<cword>')
-    else
-      call CocAction('doHover')
-    endif
-  endfunction
-
-  nnoremap <silent> K :call <SID>coc_show_documentation()<CR>
-endfunction
-" }}}
-
-" }}}
-" {{{ coc goto (DISABLED)
-
-function! DISABLED_COC_GOTO_KEYBINDINGS()
-  nmap <silent> gd <Plug>(coc-definition)
-  nmap <silent> gy <Plug>(coc-type-definition)
-  nmap <silent> gi <Plug>(coc-implementation)
-  nmap <silent> gr <Plug>(coc-references)
-endfunction
+nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<cr>
+let g:which_key_map.y = ['<C-u>CocList -A --normal yank<cr>', 'yank history']
 
 " }}}
 " {{{ ctrl+backspace delete word
@@ -1009,6 +899,7 @@ function! s:DefxRegisterKeybindings() abort
   nnoremap <silent><buffer><expr> u defx#do_action('cd', ['..'])
   nnoremap <silent><buffer><expr> / defx#do_action('search')
   nnoremap <silent> q :call DefxClose()<cr>
+  nnoremap <silent> <esc> :call DefxClose()<cr>
 
   call defx#do_action('toggle_columns', 'indent:icon:filename:space:size')
 endfunction
