@@ -58,7 +58,7 @@ let g:two_firewatch_italics = 1
 " }}}
 " {{{ colorscheme
 
-set background=light
+set background=dark
 syntax enable
 colorscheme gruvbox-material
 " colorscheme Tomorrow-Night-Bright
