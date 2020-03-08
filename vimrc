@@ -58,11 +58,12 @@ let g:two_firewatch_italics = 1
 " }}}
 " {{{ colorscheme
 
-set background=dark
+set background=light
 syntax enable
 colorscheme gruvbox-material
 " colorscheme Tomorrow-Night-Bright
 " colorscheme NeoSolarized
+" colorscheme gotham
 
 " }}}
 " }}}
@@ -72,6 +73,11 @@ let mapleader = ','
 
 filetype plugin on
 filetype indent on
+
+set timeout           " for mappings
+set timeoutlen=500    " default value
+set ttimeout          " for key codes
+set ttimeoutlen=10    " unnoticeable small value
 
 set shell=/usr/bin/fish
 set hidden
@@ -97,12 +103,17 @@ set winblend=10
 set regexpengine=1
 set backspace=indent,eol,start
 set autoread
+set noshowmode " lightline renders mode already
 
 let g:netrw_banner = 0
 
 if has('nvim')
   autocmd TermOpen term://* startinsert
 endif
+
+" disable cursorline in insert mode
+autocmd InsertLeave,WinEnter * set cursorline
+autocmd InsertEnter,WinLeave * set nocursorline
 
 " }}}
 " {{{ backups
@@ -148,6 +159,7 @@ inoremap <silent><expr> <TAB>
 
 let g:coc_global_extensions = ['coc-solargraph']
 let g:coc_snippet_next = '<tab>'
+let g:airline#extensions#coc#stl_format_err = '%E{[%e(#%fe)]}'
 
 call coc#config('snippets', {
 \   'extends': {
@@ -161,7 +173,7 @@ call coc#config('snippets', {
 \ })
 
 " }}}
-" {{{ PLUGIN: Colorizer
+" {{{ PLUGIN: Colorizer (DISABLED)
 
 let g:colorizer_auto_filetype = 'css,scss,html'
 
@@ -206,7 +218,10 @@ let g:fzf_command_prefix = 'FZF'
 let g:fzf_buffers_jump = 1
 let g:fzf_tags_command = 'ctags -R'
 
-" {{{ Files + devicons + floating fzf
+command! -bang -nargs=? -complete=dir FZFFilesWithNativePreview
+    \ call fzf#vim#files(<q-args>, {'options': ['--layout=reverse', '--info=inline', '--preview', '~/.vim/bundle/fzf.vim/bin/preview.sh {}']}, <bang>0)
+
+" {{{ Files + devicons + floating fzf (currently unused due to performance)
 function! FzfFilePreview()
   let l:fzf_files_options = '--preview "bat --theme=\"Monokai Extended\" --style=numbers,changes --color always {3..-1} | head -200" --expect=ctrl-v,ctrl-x'
   let s:files_status = {}
@@ -299,14 +314,18 @@ let g:git_messenger_into_popup_after_show = 0
 let g:git_messenger_preview_mods = '"botleft"'
 
 " }}}
-" {{{ PLUGIN: golden-ratio
+" {{{ PLUGIN: golden-ratio (DISABLED)
 
 let g:golden_ratio_exclude_nonmodifiable = 1
+
+" }}}
+" {{{ PLUGIN: golden-size (DISABLED)
 
 " }}}
 " {{{ PLUGIN: goyo
 
 let g:goyo_height = '100%'
+let g:goyo_width = '80%'
 
 function! s:goyo_enter()
   set noshowmode
@@ -349,21 +368,74 @@ let g:incsearch#auto_nohlsearch = 1
 
 
 " }}}
-" {{{ PLUGIN: NERDTree
+" {{{ PLUGIN: lightline
 
-let g:NERDTreeWinSize = 45
+function! LightlineReadonly()
+  return &readonly ? '' : ''
+endfunction
 
-" close nerdtree if its the last window
-" https://github.com/scrooloose/nerdtree/issues/21
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+function! LightlineFugitive()
+  if exists('*FugitiveHead')
+    let branch = FugitiveHead()
+    return branch !=# '' ? ''.branch : ''
+  endif
+  return ''
+endfunction
 
-" Open NERDTree and jump to other buffer
-if !exists('g:started_by_firenvim')
-  autocmd vimenter * NERDTree
-  autocmd vimenter * wincmd p
-else
-  autocmd vimenter * NERDTreeToggle
-endif
+let g:lightline = {
+      \ 'colorscheme': 'gruvbox_material',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'cocstatus', 'currentfunction', 'filename', 'readonly', 'modified' ] ],
+      \   'right': [ ['lineinfo'],
+      \              ['percent'],
+      \              [ 'filetype'] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'LightlineFugitive',
+      \   'readonly': 'LightlineReadonly',
+      \   'cocstatus': 'coc#status',
+      \   'currentfunction': 'CocCurrentFunction'
+      \ },
+      \ }
+
+let g:lightline.mode_map = {
+    \ 'n' : 'N',
+    \ 'i' : 'I',
+    \ 'R' : 'R',
+    \ 'v' : 'V',
+    \ 'V' : 'V-L',
+    \ "\<C-v>": 'V-B',
+    \ 'c' : 'C',
+    \ 's' : 'S',
+    \ 'S' : 'S-L',
+    \ "\<C-s>": 'S-B',
+    \ 't': 'T',
+    \ }
+
+let s:palette = g:lightline#colorscheme#{g:lightline.colorscheme}#palette
+let s:palette.normal.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+let s:palette.inactive.middle = s:palette.normal.middle
+let s:palette.tabline.middle = s:palette.normal.middle
+
+" }}}
+" {{{ PLUGIN: NERDTree (DISABLED)
+
+function! NERDTREE_DISABLED()
+  let g:NERDTreeWinSize = 45
+
+  " close nerdtree if its the last window
+  " https://github.com/scrooloose/nerdtree/issues/21
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+  " Open NERDTree and jump to other buffer
+  if !exists('g:started_by_firenvim')
+    autocmd vimenter * NERDTree
+    autocmd vimenter * wincmd p
+  else
+    autocmd vimenter * NERDTreeToggle
+  endif
+endfunction
 
 " }}}
 " {{{ PLUGIN: node
@@ -372,6 +444,11 @@ endif
 " }}}
 " {{{ PLUGIN: npm-package-info
 
+
+" }}}
+" {{{ PLUGIN: nvim-colorizer
+
+lua require'colorizer'.setup()
 
 " }}}
 " {{{ PLUGIN: rainbow-parantheses
@@ -409,10 +486,11 @@ let g:ultisnips_javascript = { 'semi': 'never' }
 
 
 " }}}
-" {{{ PLUGIN: vim-airline
+" {{{ PLUGIN: vim-airline (DISABLED)
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme='gruvbox_material'
+" let g:airline_theme='gruvbox_material'
+let g:airline_theme='gotham'
 let g:airline#extensions#clock#auto = 0
 let g:airline#extensions#coc#enabled = 1
 let g:airline#extensions#grepper#enabled = 1
@@ -426,7 +504,7 @@ endfunction
 autocmd User AirlineAfterInit call AirlineInit()
 
 " }}}
-" {{{ PLUGIN: vim-airline-clock
+" {{{ PLUGIN: vim-airline-clock (DISABLED)
 
 
 " }}}
@@ -447,6 +525,7 @@ let g:better_whitespace_enabled = 1
 " }}}
 " {{{ PLUGIN: vim-buftabline
 
+let g:buftabline_numbers = 2
 
 " }}}
 " {{{ PLUGIN: vim-commentary
@@ -494,7 +573,7 @@ let g:better_whitespace_enabled = 1
 let g:grepper = {}
 let g:grepper.tools = ['ag']
 let g:grepper.highlight = 1
-let g:grepper.quickfix = 0
+let g:grepper.quickfix = 1
 let g:grepper.open = 1
 let g:grepper.switch = 1
 let g:grepper.dir = 'repo,file'
@@ -541,6 +620,11 @@ let g:vim_jsx_pretty_colorful_config = 1
 
 
 " }}}
+" {{{ PLUGIN: vim-move
+
+let g:move_key_modifier = 'C'
+
+" }}}
 " {{{ PLUGIN: vim-mustache-handlebars
 
 
@@ -559,10 +643,6 @@ let g:vim_search_pulse_mode = 'cursor_line'
 
 " }}}
 " {{{ PLUGIN: vim-ruby
-
-
-" }}}
-" {{{ PLUGIN: vim-search-pulse
 
 
 " }}}
@@ -617,6 +697,12 @@ let g:which_key_use_floating_win = 0
 nnoremap <silent> <leader> :<c-u>WhichKey ','<CR>
 
 " }}}
+" {{{ PLUGIN: vimade
+
+let g:vimade = {}
+let g:vimade.fadelevel = 0.5
+
+" }}}
 " {{{ PLUGIN: vimwiki
 
 let g:vimwiki_folding = 'list'
@@ -645,16 +731,25 @@ let g:workspace_autosave = 0
 " {{{ color switching
 function! s:SwitchToLightColors()
   set background=light
+
+  " colorscheme flattened_light
   colorscheme gruvbox-material
-  exec "AirlineTheme gruvbox_material"
-  exec "AirlineRefresh"
+  " call xolox#colorscheme_switcher#switch_to('gruvbox-material')
+
+  " exec 'AirlineTheme gruvbox_material'
+  " exec 'AirlineRefresh'
 endfunction
 
 function! s:SwitchToDarkColors()
   set background=dark
+
+  " colorscheme flattened_dark
   colorscheme gruvbox-material
-  exec "AirlineTheme gruvbox_material"
-  exec "AirlineRefresh"
+  " colorscheme gotham256
+  " call xolox#colorscheme_switcher#switch_to('gotham256')
+
+  " exec 'AirlineTheme gruvbox_material'
+  " exec 'AirlineRefresh'
 endfunction
 " }}}
 " {{{ keybindings
@@ -669,9 +764,20 @@ let g:which_key_map =  {}
 " {{{ buffer control
 
 " navigation
-nnoremap <C-N> :bnext<CR>
-nnoremap <C-P> :bprev<CR>
-nnoremap <C-Q> :bd<CR>
+nnoremap <leader>n :bnext<CR>
+nnoremap <leader>p :bprev<CR>
+nnoremap <c-q> :bd<CR>
+
+nmap <leader>1 <Plug>BufTabLine.Go(1)
+nmap <leader>2 <Plug>BufTabLine.Go(2)
+nmap <leader>3 <Plug>BufTabLine.Go(3)
+nmap <leader>4 <Plug>BufTabLine.Go(4)
+nmap <leader>5 <Plug>BufTabLine.Go(5)
+nmap <leader>6 <Plug>BufTabLine.Go(6)
+nmap <leader>7 <Plug>BufTabLine.Go(7)
+nmap <leader>8 <Plug>BufTabLine.Go(8)
+nmap <leader>9 <Plug>BufTabLine.Go(9)
+nmap <leader>0 <Plug>BufTabLine.Go(10)
 
 " cleanup
 nnoremap <silent> <leader>bo :BufOnly<cr>
@@ -720,6 +826,85 @@ noremap! <C-BS> <C-w>
 noremap! <C-h> <C-w>
 
 " }}}
+" {{{ defx
+
+let g:defx_is_open = 0
+let g:defx_target = ''
+
+function! DefxDoToggle()
+  let g:defx_buff_info = getbufinfo('default-0')[0]
+
+  if !empty(g:defx_buff_info.windows)
+    call win_gotoid(g:defx_buff_info.windows[0])
+  end
+
+  if g:defx_is_open
+    call defx#call_action('quit')
+  else
+    exec 'Defx'
+  endif
+
+  let g:defx_is_open = !g:defx_is_open
+endfunction
+
+function! DefxClose()
+  let g:defx_is_open = 0
+  call defx#call_action('quit')
+endfunction
+
+function! DefxOnOpenV()
+  if defx#is_directory()
+    call defx#call_action('open_or_close_tree')
+  else
+    let g:defx_target = defx#get_candidate()
+
+    call defx#call_action('quit')
+    exec 'vsp '.g:defx_target.action__path
+  endif
+endfunction
+
+function! DefxOnOpenH()
+  if defx#is_directory()
+    call defx#call_action('open_or_close_tree')
+  else
+    let g:defx_target = defx#get_candidate()
+
+    call defx#call_action('quit')
+    exec 'sp '.g:defx_target.action__path
+  endif
+endfunction
+
+nnoremap <silent> <leader>e :call DefxDoToggle()<cr>
+
+autocmd FileType defx call s:DefxRegisterKeybindings()
+
+function! s:DefxRegisterKeybindings() abort
+  nnoremap <silent><leader>v :call DefxOnOpenV()<cr>
+  nnoremap <silent><leader>h :call DefxOnOpenH()<cr>
+  nnoremap <silent><buffer><expr> m defx#do_action('move')
+  nnoremap <silent><buffer><expr> d defx#do_action('remove')
+  nnoremap <silent><buffer><expr> D defx#do_action('new_directory')
+  nnoremap <silent><buffer><expr> F defx#do_action('new_file')
+	nnoremap <silent><buffer><expr> y defx#do_action('yank_path')
+  nnoremap <silent><buffer><expr> u defx#do_action('cd', ['..'])
+  nnoremap <silent><buffer><expr> / defx#do_action('search')
+  nnoremap <silent> q :call DefxClose()<cr>
+
+  call defx#do_action('toggle_columns', 'indent:icon:filename:space:size')
+endfunction
+
+call defx#custom#option('_', {
+	\ 'columns': 'space:indent:git:icons:filename',
+	\ 'winwidth': 45,
+	\ 'split': 'vertical',
+	\ 'direction': 'topleft',
+	\ 'show_ignored_files': 0,
+	\ 'root_marker': '.git',
+	\ 'ignored_files':
+	\     'node_modules,dist,build,package-lock.json'
+	\ })
+
+" }}}
 " {{{ easymotion
 
 map n <Plug>(easymotion-next)
@@ -747,7 +932,9 @@ nnoremap <silent> <leader><Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 " }}}
 " {{{ fzf
 
-nnoremap <C-p> :call FzfFilePreview()<cr>
+nnoremap <C-p> :FZFFilesWithNativePreview<cr>
+" nnoremap <C-p> :FZF<cr>
+" nnoremap <C-p> :call FzfFilePreview()<cr>
 
 " }}}
 " {{{ goto tag
@@ -772,7 +959,10 @@ nnoremap <leader>gv? :GV?<cr>
 " {{{ grepper
 
 nnoremap <silent> <leader>G :Grepper<cr>
+nnoremap <silent> <leader>W :Grepper-cword<cr>
+
 let g:which_key_map.G = ['Grepper', 'do grep']
+let g:which_key_map.W = ['Grepper-cword', 'grep cursor word']
 
 " }}}
 " {{{ incsearch
@@ -788,10 +978,10 @@ map z? <Plug>(incsearch-fuzzy-?)
 map zg/ <Plug>(incsearch-fuzzy-stay)
 
 " }}}
-" {{{ NERDTree
+" {{{ NERDTree (DISABLED)
 
-nnoremap <silent> <leader>e :NERDTreeToggle<cr>
-let g:which_key_map.e = ['NERDTreeToggle', 'toggle NERDTree']
+" nnoremap <silent> <leader>e :NERDTreeToggle<cr>
+" let g:which_key_map.e = ['NERDTreeToggle', 'toggle NERDTree']
 
 " }}}
 " {{{ npm package info
@@ -861,23 +1051,4 @@ call which_key#register(',', "g:which_key_map")
 
 " }}}
 
-" }}}
-" {{{ statusline
-function! StatusDiagnostic() abort
-  let info = get(b:, 'coc_diagnostic_info', {})
-  if empty(info) | return '' | endif
-  let msgs = []
-  if get(info, 'error', 0)
-    call add(msgs, 'E' . info['error'])
-  endif
-  if get(info, 'warning', 0)
-    call add(msgs, 'W' . info['warning'])
-  endif
-  return join(msgs, ' '). ' ' . get(g:, 'coc_status', '')
-endfunction
-
-set statusline+=%#warningmsg#
-set statusline+=%{StatusDiagnostic()}
-set statusline+=%{gutentags#statusline()}
-set statusline+=%*
 " }}}
