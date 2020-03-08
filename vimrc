@@ -825,7 +825,7 @@ let g:defx_is_open = 0
 let g:defx_target = ''
 
 function! DefxDoToggle()
-  let g:defx_buff_info_arr = getbufinfo('default-0')
+  let g:defx_buff_info_arr = getbufinfo('defx-0')
 
   if empty(g:defx_buff_info_arr)
     let g:defx_buff_windows = []
@@ -892,28 +892,36 @@ function! s:DefxRegisterKeybindings() abort
   nnoremap <silent><buffer>v :call DefxOnOpenV()<cr>
   nnoremap <silent><buffer>h :call DefxOnOpenH()<cr>
   nnoremap <silent><buffer><expr> m defx#do_action('move')
+  nnoremap <silent><buffer><expr> r defx#do_action('rename')
   nnoremap <silent><buffer><expr> d defx#do_action('remove')
   nnoremap <silent><buffer><expr> D defx#do_action('new_directory')
   nnoremap <silent><buffer><expr> F defx#do_action('new_file')
 	nnoremap <silent><buffer><expr> y defx#do_action('yank_path')
   nnoremap <silent><buffer><expr> u defx#do_action('cd', ['..'])
-  nnoremap <silent><buffer><expr> / defx#do_action('search')
+  nnoremap <silent><buffer><expr> s defx#do_action('search')
   nnoremap <silent> q :call DefxClose()<cr>
   nnoremap <silent> <esc> :call DefxClose()<cr>
-
-  call defx#do_action('toggle_columns', 'indent:icon:filename:space:size')
 endfunction
 
 call defx#custom#option('_', {
-	\ 'columns': 'space:indent:git:icons:filename',
-	\ 'winwidth': 45,
+	\ 'columns': 'indent:git:icon:icons:filename',
+	\ 'winwidth': 40,
 	\ 'split': 'vertical',
 	\ 'direction': 'topleft',
 	\ 'show_ignored_files': 0,
 	\ 'root_marker': '.git',
+	\ 'buffer_name': 'defx',
 	\ 'ignored_files':
 	\     'node_modules,dist,build,package-lock.json,.git,.undodir'
 	\ })
+
+call defx#custom#column('filename', {
+      \ 'directory_icon': '▸',
+      \ 'opened_icon': '▾',
+      \ 'root_icon': ' ',
+      \ 'min_width': '5',
+      \ 'max_width': '40'
+      \ })
 
 " }}}
 " {{{ easymotion
