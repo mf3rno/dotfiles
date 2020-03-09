@@ -1,6 +1,128 @@
-" {{{ pathogen init
+" {{{ vim-plug init
 
-call pathogen#infect()
+call plug#begin('~/.vim/plugged')
+
+Plug 'google/vim-maktaba'
+Plug 'xolox/vim-misc'
+Plug 'honza/vim-snippets'
+Plug 'dense-analysis/ale'
+Plug 'pechorin/any-jump.vim'
+Plug 'jlanzarotta/bufexplorer'
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'rhysd/committia.vim'
+Plug 'Raimondi/delimitMate'
+Plug 'AndrewRadev/dsf.vim'
+Plug 'Shougo/echodoc.vim'
+Plug 'othree/es.next.syntax.vim'
+Plug 'ncm2/float-preview.nvim'
+
+Plug 'junegunn/fzf', { 'do': './install --bin' }
+Plug 'junegunn/fzf.vim'
+Plug 'zackhsi/fzf-tags'
+
+Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'kristijanhusak/defx-git'
+Plug 'kristijanhusak/defx-icons'
+
+Plug 'tpope/vim-fugitive'
+Plug 'rhysd/git-messenger.vim'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/gv.vim'
+
+Plug 'haya14busa/incsearch.vim'
+Plug 'haya14busa/incsearch-fuzzy.vim'
+Plug 'haya14busa/incsearch-easymotion.vim'
+
+Plug 'itchyny/lightline.vim'
+Plug 'maximbaz/lightline-ale'
+Plug 'taohexxx/lightline-buffer'
+Plug 'sainnhe/lightline_foobar.vim'
+Plug 'josa42/vim-lightline-coc'
+
+Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'moll/vim-node'
+Plug 'whatever555/npm-package-info'
+Plug 'norcalli/nvim-colorizer.lua'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'vim-scripts/ScrollColors' " colorscheme browser
+Plug 'numirias/semshi' " python syntax highlighting
+Plug 'wincent/terminus' " enhanced terminal integration
+Plug 'ternjs/tern_for_vim'
+Plug 'markonm/traces.vim' " live search/sub preview
+Plug 'sirver/UltiSnips'
+Plug '907th/vim-auto-save'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'schickling/vim-bufonly'
+Plug 'xolox/vim-colorscheme-switcher'
+Plug 'Taverius/vim-colorscheme-manager'
+Plug 'tpope/vim-commentary' " fast commenting
+Plug 'hail2u/vim-css3-syntax'
+Plug 'ryanoasis/vim-devicons'
+Plug 'dkprice/vim-easygrep'
+Plug 'int3/vim-extradite' " git log
+Plug 'airblade/vim-gitgutter'
+Plug 'fatih/vim-go'
+Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)'] }
+Plug 'ludovicchabant/vim-gutentags' " auto tag regen
+Plug 'thaerkh/vim-indentguides'
+Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'gabrielelana/vim-markdown'
+Plug 'matze/vim-move'
+Plug 'mustache/vim-mustache-handlebars'
+Plug 'tpope/vim-repeat' " . repeat for plugins
+Plug 'vim-ruby/vim-ruby'
+Plug 'mhinz/vim-startify'
+Plug 'janko/vim-test'
+Plug 'rakr/vim-togglebg'
+Plug 'tpope/vim-unimpaired'
+Plug 'liuchengxu/vim-which-key'
+Plug 'vimwiki/vimwiki'
+Plug 'thaerkh/vim-workspace'
+Plug 'sheerun/vim-yardoc'
+Plug 'othree/yajs.vim'
+Plug 'vim-scripts/ZoomWin'
+
+" colorschemes
+Plug 'flazz/vim-colorschemes'
+Plug 'ayu-theme/ayu-vim'
+Plug 'chriskempson/base16-vim'
+Plug 'nightsense/carbonized'
+Plug 'challenger-deep-theme/vim'
+Plug 'romainl/flattened'
+Plug 'morhetz/gruvbox'
+Plug 'sainnhe/gruvbox-material'
+Plug 'nanotech/jellybeans.vim'
+Plug 'raphamorim/lucario'
+Plug 'lewis6991/moonlight.vim'
+Plug 'iCyMind/NeoSolarized'
+Plug 'haishanh/night-owl.vim'
+Plug 'mhartington/oceanic-next'
+Plug 'sonph/onehalf'
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'jdsimcoe/panic.vim'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'kyoz/purify'
+Plug 'eemed/sitruuna.vim'
+Plug 'jaredgorski/SpaceCamp'
+Plug 'liuchengxu/space-vim-theme'
+Plug 'jacoborus/tender.vim'
+Plug 'dracula/vim'
+Plug 'kitten/vim-adventurous'
+Plug 'reedes/vim-colors-pencil'
+Plug 'altercation/vim-colors-solarized'
+Plug 'arzg/vim-colors-xcode'
+Plug 'toupeira/vim-desertink'
+Plug 'whatyouhide/vim-gotham'
+Plug 'ntk148v/vim-horizon'
+Plug 'w0ng/vim-hybrid'
+Plug 'Alvarocz/vim-northpole'
+Plug 'rakr/vim-one'
+Plug 'connorholyday/vim-snazzy'
+Plug 'rakr/vim-two-firewatch'
+Plug 'kabbamine/yowish.vim'
+Plug 'jnurmine/Zenburn'
+
+call plug#end()
 
 " }}}
 " {{{ indent
