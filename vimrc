@@ -58,12 +58,21 @@ let g:two_firewatch_italics = 1
 " }}}
 " {{{ colorscheme
 
+" let g:ColorschemeManagerLast = 'panic'
+
 set background=dark
 syntax enable
-" colorscheme gruvbox-material
-colorscheme Tomorrow-Night-Bright
-" colorscheme NeoSolarized
-" colorscheme gotham
+colorscheme desertink
+
+let g:colorset_dark = ['Tomorrow-Night-Bright', 'gotham', 'hybrid', 'yowish', 'panic', 'sitruuna', 'desertink', 'northpole', 'horizon']
+let g:colorset_light = ['dual', 'xcodelighthc', 'gruvbox', 'PaperColor', 'one', 'space_vim_theme']
+
+let g:lightline = {}
+" let g:lightline.colorscheme = 'pencil_alter' " light
+" let g:lightline.colorscheme = 'gruvbox_material'
+" let g:lightline.colorscheme = 'yowish'
+let g:lightline.colorscheme = 'desertink'
+" let g:lightline.colorscheme = 'sitruuna'
 
 " }}}
 " }}}
@@ -103,6 +112,7 @@ set regexpengine=1
 set backspace=indent,eol,start
 set autoread
 set noshowmode " lightline renders mode already
+set showtabline=2
 
 " hacky fix for syntax highlighting in large files
 autocmd WinEnter,Filetype * syntax sync fromstart
@@ -303,7 +313,6 @@ let g:incsearch#auto_nohlsearch = 1
 " }}}
 " {{{ PLUGIN: lightline-ale (config prior to lightline)
 
-let g:lightline = {}
 let g:lightline.component_expand = {
   \  'linter_checking': 'lightline#ale#checking',
   \  'linter_infos': 'lightline#ale#infos',
@@ -323,6 +332,8 @@ let g:lightline.component_type = {
 " }}}
 " {{{ PLUGIN: lightline
 
+" colorscheme defined in colorscheme config section
+
 function! LightlineReadonly()
   return &readonly ? '' : ''
 endfunction
@@ -335,33 +346,45 @@ function! LightlineFugitive()
   return ''
 endfunction
 
-function! LightlineGutentags()
-  call gutentags#statusline()
-endfunction
-
-function! LightlineCOC()
-  call coc#status()
-endfunction
-
-let g:lightline.colorscheme = 'gruvbox_material'
 let g:lightline.active = {}
 let g:lightline.active.left = [
-  \ [ 'mode', 'paste' ],
-  \ [ 'gitbranch', 'currentfunction', 'filename', 'readonly', 'modified', 'gutentagsstatus' ]
+  \ [ 'mode', 'paste', 'coc_warnings', 'coc_errors', 'coc_ok'],
+  \ [ 'gitbranch', 'readonly', 'modified' ],
+  \ [ 'filename', 'gutentagsstatus' ],
   \ ]
 
 let g:lightline.active.right = [
-  \ ['lineinfo'], ['percent'], ['filetype'], [
-  \   'linter_checking', 'linter_infos', 'linter_warnings', 'linter_errors',
-  \   'linter_ok' ], ['cocstatus', 'cocdiag']]
+  \ [ 'percent', 'lineinfo' ],
+  \ [ 'filetype' ],
+  \ [ 'coc_status' ],
+  \ ]
 
-let g:lightline.active.component_function = {
+let g:lightline.component_function = {
   \ 'gitbranch': 'LightlineFugitive',
   \ 'readonly': 'LightlineReadonly',
-  \ 'currentfunction': 'CocCurrentFunction',
-  \ 'gutentagsstatus': 'LightlineGutentags',
-  \ 'cocstatus': 'LightlineCOC',
-  \ 'cocdiag': 'COCStatusDiagnostic'
+  \ 'gutentagsstatus': 'gutentags#statusline',
+  \ 'bufferinfo': 'lightline#buffer#bufferinfo',
+  \ }
+
+let g:lightline.component_expand = {
+  \ 'coc_warnings': 'lightline#coc#warnings',
+  \ 'coc_errors': 'lightline#coc#errors',
+  \ 'coc_ok': 'lightline#coc#ok',
+  \ 'coc_status': 'lightline#coc#status',
+  \
+  \ 'buffercurrent': 'lightline#buffer#buffercurrent',
+  \ 'bufferbefore': 'lightline#buffer#bufferbefore',
+  \ 'bufferafter': 'lightline#buffer#bufferafter',
+  \ }
+
+let g:lightline.component_type = {
+  \ 'coc_warnings': 'warning',
+  \ 'coc_errors': 'error',
+  \ 'coc_ok': 'left',
+  \
+  \ 'buffercurrent': 'tabsel',
+  \ 'bufferbefore': 'raw',
+  \ 'bufferafter': 'raw',
   \ }
 
 let g:lightline.mode_map = {
@@ -378,15 +401,17 @@ let g:lightline.mode_map = {
   \ 't': 'T',
   \ }
 
-function! DISABLED_LIGHTLINE_MIDDLE_BG_COLOR_TRANSPARENT()
-  let s:palette = g:lightline#colorscheme#{g:lightline.colorscheme}#palette
-  let s:palette.normal.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  let s:palette.inactive.middle = s:palette.normal.middle
-  let s:palette.tabline.middle = s:palette.normal.middle
-endfunction
+let g:lightline.tabline = {
+    \ 'left': [ [ 'bufferinfo' ],
+    \           [ 'separator' ],
+    \           [ 'bufferbefore', 'buffercurrent', 'bufferafter' ], ],
+    \ 'right': [ [ 'close' ], ],
+    \ }
 
-" COC updates
-autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
+let g:lightline_buffer_enable_devicons = 1
+let g:lightline_buffer_show_bufnr = 1
+
+autocmd User CocStatusChange,CocDiagnosticChange,GutentagsUpdating,GutentagsUpdated call lightline#update()
 
 " }}}
 " {{{ PLUGIN: NERDTree (DISABLED)
@@ -464,9 +489,18 @@ let g:better_whitespace_enabled = 1
 
 
 " }}}
-" {{{ PLUGIN: vim-buftabline
+" {{{ PLUGIN: vim-colorscheme-switcher
 
-let g:buftabline_numbers = 2
+let g:colorscheme_switcher_define_mappings = 0
+let g:colorscheme_switcher_keep_background = 0
+let g:colorscheme_switcher_exclude_builtins = 1
+
+" }}}
+" {{{ PLUGIN: vim-colorscheme-manager
+
+let g:colorscheme_manager_define_mappings = 0
+let g:colorscheme_manager_blacklist_direction = 1
+let g:colorscheme_manager_global_last = 0
 
 " }}}
 " {{{ PLUGIN: vim-commentary
@@ -962,6 +996,11 @@ let g:which_key_map.t.l = ["<SID>RunVimTest('TestLast')<cr>", 'test last']
 
 nnoremap <leader>Cl :call <SID>SwitchToLightColors()<cr>
 nnoremap <leader>Cd :call <SID>SwitchToDarkColors()<cr>
+nnoremap <leader>Cn :NextColorScheme<cr>
+nnoremap <leader>Cp :PrevColorScheme<cr>
+nnoremap <leader>CC :RandomColorScheme<cr>
+nnoremap <leader>Cb :BlacklistAddColorScheme<cr>
+nnoremap <leader>Cw :BlacklistRemColorScheme<cr>
 
 let g:which_key_map.C = { 'name': '+colors' }
 let g:which_key_map.C.l = ['call <SID>SwitchToLightColors()', 'light bg']
