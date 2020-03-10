@@ -1066,7 +1066,7 @@ call defx#custom#option('_', {
 	\ 'split': 'vertical',
 	\ 'direction': 'topleft',
 	\ 'show_ignored_files': 0,
-	\ 'root_marker': '.git',
+	\ 'root_marker': ':',
 	\ 'buffer_name': 'defx',
 	\ 'ignored_files':
 	\     'node_modules,dist,build,package-lock.json,.git,.undodir,.github,.nyc_output,coverage,tags'
@@ -1077,7 +1077,8 @@ call defx#custom#column('filename', {
       \ 'opened_icon': '▾',
       \ 'root_icon': ' ',
       \ 'min_width': '5',
-      \ 'max_width': '40'
+      \ 'max_width': '40',
+      \ 'root_marker_highlight': 'Ignore',
       \ })
 
 " }}}
