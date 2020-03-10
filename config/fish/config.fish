@@ -5,6 +5,9 @@ set -x FZF_DEFAULT_COMMAND 'ag --hidden --ignore .git --ignore node_modules --ig
 alias vim='nvim'
 alias cat='bat'
 
-# nvm use 12.16.1 --silent
+nvm use 13.1.0 --silent
 # rvm use 2.7.0 --silent > /dev/null
+
+# Metro prompt config
+set -g theme_display_ruby no
 
