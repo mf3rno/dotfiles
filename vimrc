@@ -957,16 +957,22 @@ let g:which_key_map.b = { 'name': '+buffer control' }
 let g:which_key_map.b.o = ['Bufonly', 'close other buffers']
 
 " }}}
+" {{{ ctrl+backspace delete word
+
+noremap! <C-BS> <C-w>
+noremap! <C-h> <C-w>
+
+" }}}
 " {{{ coc
 
 nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<cr>
 let g:which_key_map.y = ['<C-u>CocList -A --normal yank<cr>', 'yank history']
 
-" }}}
-" {{{ ctrl+backspace delete word
-
-noremap! <C-BS> <C-w>
-noremap! <C-h> <C-w>
+nmap <leader>d :CocList diagnostics<cr>
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 " }}}
 " {{{ defx
