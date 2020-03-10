@@ -1035,7 +1035,7 @@ function! DefxOnOpen()
   if defx#is_directory()
     call defx#call_action('open_or_close_tree')
   else
-    call defx#call_action('open', 'vertical bo split')
+    call defx#call_action('drop')
   endif
 endfunction
 
