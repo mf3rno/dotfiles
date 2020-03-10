@@ -1181,6 +1181,11 @@ nnoremap <silent> <leader>zi :tab split<cr>
 nnoremap <silent> <leader>zo :tab close<cr>
 
 " }}}
+" {{{ tern (js)
+
+nnoremap <leader>D :TernDoc<cr>
+
+" }}}
 " {{{ terminal splits
 
 command! -nargs=* T split | terminal <args>
