@@ -313,6 +313,7 @@ set nowritebackup
 " disabled in leu of coc
 let g:ale_enabled = 0
 
+let g:ale_linters = { 'ruby': ['rubocop'] }
 let g:ale_fixers = { 'javascript': ['standard', 'eslint'] }
 let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_enter = 1
