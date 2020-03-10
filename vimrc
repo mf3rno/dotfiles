@@ -296,6 +296,9 @@ endif
 autocmd InsertLeave,WinEnter * set cursorline
 autocmd InsertEnter,WinLeave * set nocursorline
 
+" autosave
+autocmd InsertLeave,TextChanged * update
+
 " }}}
 " {{{ backups
 
@@ -628,6 +631,7 @@ let g:ultisnips_javascript = { 'semi': 'never' }
 
 let g:auto_save = 1
 let g:auto_save_silent = 1
+let g:auto_save_events = ['InsertLeave']
 
 " }}}
 " {{{ PLUGIN: vim-better-whitespace
