@@ -1015,7 +1015,7 @@ function! DefxOnOpenV()
     let g:defx_is_open = 0
 
     call defx#call_action('quit')
-    exec 'vsp '.g:defx_target.action__path
+    exec 'e '.g:defx_target.action__path
   endif
 endfunction
 
