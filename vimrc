@@ -328,7 +328,8 @@ let g:ale_virtualtext_cursor = 1
 " }}}
 " {{{ PLUGIN: any-jump
 
-
+let g:any_jump_search_prefered_engine = 'ag'
+let g:any_jump_references_only_for_current_filetype = 1
 
 " }}}
 " {{{ PLUGIN: bufexplorer
