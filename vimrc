@@ -130,6 +130,31 @@ Plug 'jdsimcoe/hyper.vim'
 call plug#end()
 
 " }}}
+" {{{ function Random()
+
+" from https://github.com/posva/Rndm
+let g:rndm_m1 = 32007779 + (localtime()%100 - 50)
+let g:rndm_m2 = 23717810 + (localtime()/86400)%100
+let g:rndm_m3 = 52636370 + (localtime()/3600)%100
+
+function! Random()
+  let m4= g:rndm_m1 + g:rndm_m2 + g:rndm_m3
+  if( g:rndm_m2 < 50000000 )
+    let m4= m4 + 1357
+  endif
+  if( m4 >= 100000000 )
+    let m4= m4 - 100000000
+    if( m4 >= 100000000 )
+      let m4= m4 - 100000000
+    endif
+  endif
+  let g:rndm_m1 = g:rndm_m2
+  let g:rndm_m2 = g:rndm_m3
+  let g:rndm_m3 = m4
+  return g:rndm_m3
+endfunction
+
+" }}}
 " {{{ indent
 
 set tabstop=2
@@ -185,21 +210,38 @@ let g:two_firewatch_italics = 1
 " }}}
 " {{{ colorscheme
 
-" let g:ColorschemeManagerLast = 'panic'
-
 set background=dark
 syntax enable
-colorscheme desertink
+colorscheme gruvbox-material
 
-let g:colorset_dark = ['Tomorrow-Night-Bright', 'gotham', 'hybrid', 'yowish', 'panic', 'sitruuna', 'desertink', 'northpole', 'horizon']
+let g:colorset_dark = ['Tomorrow-Night-Bright', 'gotham', 'hybrid', 'yowish', 'panic', 'sitruuna', 'desertink', 'northpole', 'horizon', 'snazzy', 'hyper']
 let g:colorset_light = ['dual', 'xcodelighthc', 'gruvbox', 'PaperColor', 'one', 'space_vim_theme']
+
+let g:lightline_colorset_mappings = {
+  \   'Tomorrow-Night-Bright': 'Tomorrow_Night_Bright',
+  \   'gotham': 'gotham',
+  \   'yowish': 'yowish',
+  \   'sitruuna': 'sitruuna',
+  \   'desertink': 'desertink',
+  \   'snazzy': 'snazzy',
+  \   'horizon': 'horizon',
+  \
+  \   'grubox': 'gruvbox',
+  \   'grubox-material': 'gruvbox_material',
+  \   'dual': 'PaperColor_light',
+  \   'xcodelighthc': 'PaperColor_light',
+  \   'PaperColor': 'PaperColor_light',
+  \   'one': 'PaperColor_light',
+  \   'space_vim_theme': 'PaperColor_light',
+  \ }
 
 let g:lightline = {}
 " let g:lightline.colorscheme = 'pencil_alter' " light
 " let g:lightline.colorscheme = 'gruvbox_material'
 " let g:lightline.colorscheme = 'yowish'
-let g:lightline.colorscheme = 'desertink'
+" let g:lightline.colorscheme = 'desertink'
 " let g:lightline.colorscheme = 'sitruuna'
+let g:lightline.colorscheme = 'gruvbox_material'
 
 " }}}
 " }}}
@@ -438,25 +480,6 @@ let g:incsearch#auto_nohlsearch = 1
 
 
 " }}}
-" {{{ PLUGIN: lightline-ale (config prior to lightline)
-
-let g:lightline.component_expand = {
-  \  'linter_checking': 'lightline#ale#checking',
-  \  'linter_infos': 'lightline#ale#infos',
-  \  'linter_warnings': 'lightline#ale#warnings',
-  \  'linter_errors': 'lightline#ale#errors',
-  \  'linter_ok': 'lightline#ale#ok',
-  \ }
-
-let g:lightline.component_type = {
-  \     'linter_checking': 'right',
-  \     'linter_infos': 'right',
-  \     'linter_warnings': 'warning',
-  \     'linter_errors': 'error',
-  \     'linter_ok': 'right',
-  \ }
-
-" }}}
 " {{{ PLUGIN: lightline
 
 " colorscheme defined in colorscheme config section
@@ -621,13 +644,6 @@ let g:better_whitespace_enabled = 1
 let g:colorscheme_switcher_define_mappings = 0
 let g:colorscheme_switcher_keep_background = 0
 let g:colorscheme_switcher_exclude_builtins = 1
-
-" }}}
-" {{{ PLUGIN: vim-colorscheme-manager
-
-let g:colorscheme_manager_define_mappings = 0
-let g:colorscheme_manager_blacklist_direction = 1
-let g:colorscheme_manager_global_last = 0
 
 " }}}
 " {{{ PLUGIN: vim-commentary
@@ -825,28 +841,81 @@ let g:workspace_autosave = 0
 " }}}
 " }}}
 " {{{ color switching
-function! s:SwitchToLightColors()
+
+function! s:SwitchToLightColors(n)
   set background=light
 
-  " colorscheme flattened_light
-  colorscheme gruvbox-material
-  " call xolox#colorscheme_switcher#switch_to('gruvbox-material')
+  if a:n >= 0 && a:n < len(g:colorset_light)
+    let n = a:n
+  else
+    let n = Random()%len(g:colorset_light)
+  endif
 
-  " exec 'AirlineTheme gruvbox_material'
-  " exec 'AirlineRefresh'
+  exec 'colorscheme ' . g:colorset_light[n]
+  echo 'set light color scheme ' . g:colorset_light[n]
+
+  if has_key(g:lightline_colorset_mappings, g:colorset_light[n])
+    let g:lightline.colorscheme = g:lightline_colorset_mappings[g:colorset_light[n]]
+
+    call lightline#init()
+    call lightline#colorscheme()
+    call lightline#update()
+  endif
 endfunction
 
-function! s:SwitchToDarkColors()
+function! s:SwitchToDarkColors(n)
   set background=dark
 
-  " colorscheme flattened_dark
-  colorscheme gruvbox-material
-  " colorscheme gotham256
-  " call xolox#colorscheme_switcher#switch_to('gotham256')
+  if a:n >= 0 && a:n < len(g:colorset_dark)
+    let n = a:n
+  else
+    let n = Random()%len(g:colorset_dark)
+  endif
 
-  " exec 'AirlineTheme gruvbox_material'
-  " exec 'AirlineRefresh'
+  exec 'colorscheme ' . g:colorset_dark[n]
+  echo 'set light color scheme ' . g:colorset_dark[n]
+
+  if has_key(g:lightline_colorset_mappings, g:colorset_dark[n])
+    let g:lightline.colorscheme = g:lightline_colorset_mappings[g:colorset_dark[n]]
+
+    call lightline#init()
+    call lightline#colorscheme()
+    call lightline#update()
+  endif
 endfunction
+
+nnoremap <leader>Cl :call <SID>SwitchToLightColors(-1)<cr>
+nnoremap <leader>C0l :call <SID>SwitchToLightColors(0)<cr>
+nnoremap <leader>C1l :call <SID>SwitchToLightColors(1)<cr>
+nnoremap <leader>C2l :call <SID>SwitchToLightColors(2)<cr>
+nnoremap <leader>C3l :call <SID>SwitchToLightColors(3)<cr>
+nnoremap <leader>C4l :call <SID>SwitchToLightColors(4)<cr>
+nnoremap <leader>C5l :call <SID>SwitchToLightColors(5)<cr>
+nnoremap <leader>C6l :call <SID>SwitchToLightColors(6)<cr>
+nnoremap <leader>C7l :call <SID>SwitchToLightColors(7)<cr>
+nnoremap <leader>C8l :call <SID>SwitchToLightColors(8)<cr>
+nnoremap <leader>C9l :call <SID>SwitchToLightColors(9)<cr>
+
+nnoremap <leader>Cd :call <SID>SwitchToDarkColors(-1)<cr>
+nnoremap <leader>C0d :call <SID>SwitchToDarkColors(0)<cr>
+nnoremap <leader>C1d :call <SID>SwitchToDarkColors(1)<cr>
+nnoremap <leader>C2d :call <SID>SwitchToDarkColors(2)<cr>
+nnoremap <leader>C3d :call <SID>SwitchToDarkColors(3)<cr>
+nnoremap <leader>C4d :call <SID>SwitchToDarkColors(4)<cr>
+nnoremap <leader>C5d :call <SID>SwitchToDarkColors(5)<cr>
+nnoremap <leader>C6d :call <SID>SwitchToDarkColors(6)<cr>
+nnoremap <leader>C7d :call <SID>SwitchToDarkColors(7)<cr>
+nnoremap <leader>C8d :call <SID>SwitchToDarkColors(8)<cr>
+nnoremap <leader>C9d :call <SID>SwitchToDarkColors(9)<cr>
+
+nnoremap <leader>Cn :NextColorScheme<cr>
+nnoremap <leader>Cp :PrevColorScheme<cr>
+nnoremap <leader>CC :RandomColorScheme<cr>
+nnoremap <leader>Cb :BlacklistAddColorScheme<cr>
+nnoremap <leader>Cw :BlacklistRemColorScheme<cr>
+
+" call togglebg#map("<F5>")
+
 " }}}
 " {{{ keybindings
 
@@ -1117,23 +1186,6 @@ let g:which_key_map.t.f = ["<SID>RunVimTest('TestFile')<cr>", 'test file']
 let g:which_key_map.t.n = ["<SID>RunVimTest('TestNearest')<cr>", 'test nearest']
 let g:which_key_map.t.s = ["<SID>RunVimTest('TestSuite')<cr>", 'test suite']
 let g:which_key_map.t.l = ["<SID>RunVimTest('TestLast')<cr>", 'test last']
-
-" }}}
-" {{{ Colors
-
-nnoremap <leader>Cl :call <SID>SwitchToLightColors()<cr>
-nnoremap <leader>Cd :call <SID>SwitchToDarkColors()<cr>
-nnoremap <leader>Cn :NextColorScheme<cr>
-nnoremap <leader>Cp :PrevColorScheme<cr>
-nnoremap <leader>CC :RandomColorScheme<cr>
-nnoremap <leader>Cb :BlacklistAddColorScheme<cr>
-nnoremap <leader>Cw :BlacklistRemColorScheme<cr>
-
-let g:which_key_map.C = { 'name': '+colors' }
-let g:which_key_map.C.l = ['call <SID>SwitchToLightColors()', 'light bg']
-let g:which_key_map.C.d = ['call <SID>SwitchToDarkColors()', 'dark bg']
-
-" call togglebg#map("<F5>")
 
 " }}}
 " {{{ vimrc
