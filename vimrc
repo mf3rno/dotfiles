@@ -1042,6 +1042,7 @@ endfunction
 nnoremap <silent> <leader>e :call DefxDoToggle()<cr>
 
 autocmd FileType defx call s:DefxRegisterKeybindings()
+autocmd BufWritePost * call defx#redraw()
 
 function! s:DefxRegisterKeybindings() abort
   nnoremap <silent><buffer> <cr> :call DefxOnOpen()<cr>
