@@ -29,6 +29,7 @@ Plug 'rhysd/git-messenger.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/gv.vim'
 
+Plug 'easymotion/vim-easymotion'
 Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/incsearch-fuzzy.vim'
 Plug 'haya14busa/incsearch-easymotion.vim'
@@ -45,7 +46,7 @@ Plug 'whatever555/npm-package-info'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'vim-scripts/ScrollColors' " colorscheme browser
-Plug 'numirias/semshi' " python syntax highlighting
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} " python syntax highlighting
 Plug 'wincent/terminus' " enhanced terminal integration
 Plug 'ternjs/tern_for_vim'
 Plug 'markonm/traces.vim' " live search/sub preview
@@ -81,6 +82,9 @@ Plug 'thaerkh/vim-workspace'
 Plug 'sheerun/vim-yardoc'
 Plug 'othree/yajs.vim'
 Plug 'vim-scripts/ZoomWin'
+
+Plug 'mtth/scratch.vim'
+Plug 'rhysd/clever-split.vim'
 
 " colorschemes
 Plug 'flazz/vim-colorschemes'
@@ -121,6 +125,7 @@ Plug 'connorholyday/vim-snazzy'
 Plug 'rakr/vim-two-firewatch'
 Plug 'kabbamine/yowish.vim'
 Plug 'jnurmine/Zenburn'
+Plug 'jdsimcoe/hyper.vim'
 
 call plug#end()
 
