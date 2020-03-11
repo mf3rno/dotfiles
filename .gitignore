@@ -10,3 +10,4 @@ vim/.netrwhist
 tags
 Session.vim
 vim/plugged
+./vim/sessions/default.vim
