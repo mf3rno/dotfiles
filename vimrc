@@ -3,18 +3,16 @@
 call plug#begin('~/.vim/plugged')
 
 Plug 'google/vim-maktaba'
-Plug 'xolox/vim-misc'
 Plug 'honza/vim-snippets'
 Plug 'dense-analysis/ale'
 Plug 'pechorin/any-jump.vim'
 Plug 'jlanzarotta/bufexplorer'
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+
 Plug 'rhysd/committia.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'AndrewRadev/dsf.vim'
 Plug 'Shougo/echodoc.vim'
 Plug 'othree/es.next.syntax.vim'
-Plug 'ncm2/float-preview.nvim'
 
 Plug 'junegunn/fzf', { 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
@@ -41,6 +39,8 @@ Plug 'sainnhe/lightline_foobar.vim'
 Plug 'josa42/vim-lightline-coc'
 
 Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'othree/yajs.vim'
+Plug 'othree/es.next.syntax.vim'
 Plug 'moll/vim-node'
 Plug 'whatever555/npm-package-info'
 Plug 'norcalli/nvim-colorizer.lua'
@@ -54,8 +54,6 @@ Plug 'sirver/UltiSnips'
 Plug '907th/vim-auto-save'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'schickling/vim-bufonly'
-Plug 'xolox/vim-colorscheme-switcher'
-Plug 'Taverius/vim-colorscheme-manager'
 Plug 'tpope/vim-commentary' " fast commenting
 Plug 'hail2u/vim-css3-syntax'
 Plug 'ryanoasis/vim-devicons'
@@ -80,13 +78,41 @@ Plug 'liuchengxu/vim-which-key'
 Plug 'vimwiki/vimwiki'
 Plug 'thaerkh/vim-workspace'
 Plug 'sheerun/vim-yardoc'
-Plug 'othree/yajs.vim'
 Plug 'vim-scripts/ZoomWin'
 
 Plug 'mtth/scratch.vim'
 Plug 'rhysd/clever-split.vim'
 
-" colorschemes
+" {{{ completion/intellisense
+
+" ncm2 base
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+
+" ncm2 plugins
+Plug 'ncm2/ncm2-tern',  {'do': 'npm install'}
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
+Plug 'ncm2/ncm2-syntax' | Plug 'Shougo/neco-syntax'
+Plug 'ncm2/ncm2-neoinclude' | Plug 'Shougo/neoinclude.vim'
+Plug 'fgrsnau/ncm2-otherbuf'
+Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim'
+Plug 'filipekiss/ncm2-look.vim'
+Plug 'ncm2/ncm2-cssomni'
+Plug 'ncm2/ncm2-jedi'
+
+" ncm2 language server client
+Plug 'autozimu/LanguageClient-neovim', {
+  \ 'branch': 'next',
+  \ 'do': 'bash install.sh',
+  \ }
+
+" ncm2 snippets
+Plug 'ncm2/ncm2-ultisnips'
+
+" }}}
+" {{{ colorschemes
+
 Plug 'flazz/vim-colorschemes'
 Plug 'ayu-theme/ayu-vim'
 Plug 'chriskempson/base16-vim'
@@ -126,6 +152,11 @@ Plug 'rakr/vim-two-firewatch'
 Plug 'kabbamine/yowish.vim'
 Plug 'jnurmine/Zenburn'
 Plug 'jdsimcoe/hyper.vim'
+Plug 'tyrannicaltoucan/vim-deep-space'
+Plug 'AlessandroYorba/Alduin'
+Plug 'CallumHoward/vim-neodark'
+
+" }}}
 
 call plug#end()
 
@@ -208,26 +239,33 @@ let g:solarized_contrast = 'high'
 let g:two_firewatch_italics = 1
 
 " }}}
+" {{{ COLORSCHEME deep-space
+
+let g:deepspace_italics=1
+
+" }}}
 " {{{ colorscheme
 
 set background=dark
 syntax enable
 colorscheme gruvbox-material
 
-let g:colorset_dark = ['Tomorrow-Night-Bright', 'gotham', 'hybrid', 'yowish', 'panic', 'sitruuna', 'desertink', 'northpole', 'horizon', 'snazzy', 'hyper']
-let g:colorset_light = ['dual', 'xcodelighthc', 'gruvbox', 'PaperColor', 'one', 'space_vim_theme']
+let g:colorset_dark = ['xcodedarkhc', 'gruvbox-material', 'deep-space', 'gotham', 'desertink', 'hyper', 'panic', 'hybrid', 'northpole', 'horizon', 'snazzy', 'yowish']
+let g:colorset_light = ['gruvbox-material', 'dual', 'xcodelighthc', 'gruvbox', 'PaperColor', 'one', 'space_vim_theme']
 
 let g:lightline_colorset_mappings = {
   \   'Tomorrow-Night-Bright': 'Tomorrow_Night_Bright',
   \   'gotham': 'gotham',
   \   'yowish': 'yowish',
-  \   'sitruuna': 'sitruuna',
   \   'desertink': 'desertink',
   \   'snazzy': 'snazzy',
   \   'horizon': 'horizon',
+  \   'deep-space': 'deepspace',
+  \   'alduin': 'deepspace',
+  \   'xcodedarkhc': 'deepspace',
   \
-  \   'grubox': 'gruvbox',
-  \   'grubox-material': 'gruvbox_material',
+  \   'gruvbox': 'gruvbox',
+  \   'gruvbox-material': 'gruvbox_material',
   \   'dual': 'PaperColor_light',
   \   'xcodelighthc': 'PaperColor_light',
   \   'PaperColor': 'PaperColor_light',
@@ -263,7 +301,7 @@ set number
 set showcmd
 set splitbelow
 set wildmenu
-set lazyredraw
+" set lazyredraw
 set showmatch
 set incsearch
 set hlsearch
@@ -276,7 +314,6 @@ set sessionoptions-=blank
 set foldmethod=marker
 " set foldlevelstart=1
 set tags=./tags;,tags;$HOME;
-set winblend=10
 set regexpengine=1
 set backspace=indent,eol,start
 set autoread
@@ -310,8 +347,7 @@ set nowritebackup
 " {{{ plugins
 " {{{ PLUGIN: ale
 
-" disabled in leu of coc
-let g:ale_enabled = 0
+let g:ale_enabled = 1
 
 let g:ale_linters = { 'ruby': ['rubocop'] }
 let g:ale_fixers = { 'javascript': ['standard', 'eslint'] }
@@ -324,12 +360,14 @@ let g:ale_set_highlights = 1
 let g:ale_set_signs = 1
 let g:ale_sign_highlight_linenrs = 1
 let g:ale_virtualtext_cursor = 1
+let g:ale_open_list = 0
 
 " }}}
 " {{{ PLUGIN: any-jump
 
 let g:any_jump_search_prefered_engine = 'ag'
 let g:any_jump_references_only_for_current_filetype = 1
+let g:any_jump_disable_default_keybindings = 1
 
 " }}}
 " {{{ PLUGIN: bufexplorer
@@ -339,43 +377,45 @@ let g:any_jump_references_only_for_current_filetype = 1
 " }}}
 " {{{ PLUGIN: coc
 
-" Taken from docs
-"
-" Map <tab> for trigger completion, completion confirm, snippet expand and jump
-" like VSCode.
+function! _DISABLED_COC()
+  " Taken from docs
+  "
+  " Map <tab> for trigger completion, completion confirm, snippet expand and jump
+  " like VSCode.
 
-inoremap <silent><expr> <TAB>
-  \ pumvisible() ? coc#_select_confirm() :
-  \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ coc#refresh()
+  inoremap <silent><expr> <TAB>
+    \ pumvisible() ? coc#_select_confirm() :
+    \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+    \ <SID>check_back_space() ? "\<TAB>" :
+    \ coc#refresh()
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
+
+  let g:coc_snippet_next = '<tab>'
+
+  " Taken from docs, statusline diagnostics
+  function! COCStatusDiagnostic() abort
+    let info = get(b:, 'coc_diagnostic_info', {})
+    if empty(info) | return '' | endif
+    let msgs = []
+    if get(info, 'error', 0)
+      call add(msgs, 'E' . info['error'])
+    endif
+    if get(info, 'warning', 0)
+      call add(msgs, 'W' . info['warning'])
+    endif
+    return join(msgs, ' ') . ' ' . get(g:, 'coc_status', '')
+  endfunction
+
+  " Taken from docs, trigger copletion
+  inoremap <silent><expr> <c-space> coc#refresh()
+
+  let g:coc_node_path = '/usr/bin/node'
+  let g:coc_node_args = ['--max-old-space-size=16384']
 endfunction
-
-let g:coc_snippet_next = '<tab>'
-
-" Taken from docs, statusline diagnostics
-function! COCStatusDiagnostic() abort
-  let info = get(b:, 'coc_diagnostic_info', {})
-  if empty(info) | return '' | endif
-  let msgs = []
-  if get(info, 'error', 0)
-    call add(msgs, 'E' . info['error'])
-  endif
-  if get(info, 'warning', 0)
-    call add(msgs, 'W' . info['warning'])
-  endif
-  return join(msgs, ' ') . ' ' . get(g:, 'coc_status', '')
-endfunction
-
-" Taken from docs, trigger copletion
-inoremap <silent><expr> <c-space> coc#refresh()
-
-let g:coc_node_path = '/usr/bin/node'
-let g:coc_node_args = ['--max-old-space-size=16384']
 
 " }}}
 " {{{ PLUGIN: committia
@@ -396,6 +436,7 @@ let g:coc_node_args = ['--max-old-space-size=16384']
 " {{{ PLUGIN: echodoc
 
 let g:echodoc#enable_at_startup = 1
+let g:echodoc#type = 'virtual'
 
 " }}}
 " {{{ PLUGIN: es.next.syntax
@@ -422,14 +463,15 @@ set rtp+=/usr/bin/fzf
 let g:fzf_command_prefix = 'FZF'
 let g:fzf_buffers_jump = 1
 let g:fzf_tags_command = 'ctags -R'
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 
 command! -bang -nargs=? -complete=dir FZFFilesWithNativePreview
     \ call fzf#vim#files(<q-args>, {
     \  'options': [
-    \    '--layout=reverse',
+    \    '--reverse',
     \    '--info=inline',
     \    '--preview',
-    \    '~/.vim/bundle/fzf.vim/bin/preview.sh {}'
+    \    '~/.vim/plugged/fzf.vim/bin/preview.sh {}'
     \  ]}, <bang>0)
 
 " }}}
@@ -447,17 +489,13 @@ let g:goyo_width = '80%'
 function! s:goyo_enter()
   set noshowmode
   set noshowcmd
-  set scrolloff=999
   set nonumber
-  call <SID>SwitchToLightColors()
 endfunction
 
 function! s:goyo_leave()
   set showmode
   set showcmd
-  set scrolloff=5
   set number
-  call <SID>SwitchToDarkColors()
 endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
@@ -485,6 +523,11 @@ let g:incsearch#auto_nohlsearch = 1
 
 
 " }}}
+" {{{ PLUGIN: lightline-ale
+
+
+
+" }}}
 " {{{ PLUGIN: lightline
 
 " colorscheme defined in colorscheme config section
@@ -503,9 +546,9 @@ endfunction
 
 let g:lightline.active = {}
 let g:lightline.active.left = [
-  \ [ 'mode', 'paste', 'coc_warnings', 'coc_errors', 'coc_ok'],
+  \ [ 'mode', 'paste', 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok'],
   \ [ 'gitbranch', 'readonly', 'modified' ],
-  \ [ 'filename', 'gutentagsstatus' ],
+  \ [ 'filename', 'gutentagsstatus'],
   \ ]
 
 let g:lightline.active.right = [
@@ -522,10 +565,11 @@ let g:lightline.component_function = {
   \ }
 
 let g:lightline.component_expand = {
-  \ 'coc_warnings': 'lightline#coc#warnings',
-  \ 'coc_errors': 'lightline#coc#errors',
-  \ 'coc_ok': 'lightline#coc#ok',
-  \ 'coc_status': 'lightline#coc#status',
+  \ 'linter_checking': 'lightline#ale#checking',
+  \ 'linter_infos': 'lightline#ale#infos',
+  \ 'linter_warnings': 'lightline#ale#warnings',
+  \ 'linter_errors': 'lightline#ale#errors',
+  \ 'linter_ok': 'lightline#ale#ok',
   \
   \ 'buffercurrent': 'lightline#buffer#buffercurrent',
   \ 'bufferbefore': 'lightline#buffer#bufferbefore',
@@ -533,9 +577,11 @@ let g:lightline.component_expand = {
   \ }
 
 let g:lightline.component_type = {
-  \ 'coc_warnings': 'warning',
-  \ 'coc_errors': 'error',
-  \ 'coc_ok': 'left',
+  \ 'linter_checking': 'right',
+  \ 'linter_infos': 'right',
+  \ 'linter_warnings': 'warning',
+  \ 'linter_errors': 'error',
+  \ 'linter_ok': 'right',
   \
   \ 'buffercurrent': 'tabsel',
   \ 'bufferbefore': 'raw',
@@ -556,6 +602,12 @@ let g:lightline.mode_map = {
   \ 't': 'T',
   \ }
 
+let g:lightline#ale#indicator_checking = "\uf110 "
+let g:lightline#ale#indicator_infos = "\uf129 "
+let g:lightline#ale#indicator_warnings = "\uf071 "
+let g:lightline#ale#indicator_errors = "\uf05e "
+let g:lightline#ale#indicator_ok = "\uf00c "
+
 let g:lightline.tabline = {
     \ 'left': [ [ 'bufferinfo' ],
     \           [ 'separator' ],
@@ -569,23 +621,23 @@ let g:lightline_buffer_show_bufnr = 1
 autocmd User CocStatusChange,CocDiagnosticChange,GutentagsUpdating,GutentagsUpdated call lightline#update()
 
 " }}}
-" {{{ PLUGIN: NERDTree (DISABLED)
+" {{{ PLUGIN: ncm2
 
-function! NERDTREE_DISABLED()
-  let g:NERDTreeWinSize = 45
+" enable ncm2 for all buffers
+autocmd BufEnter * call ncm2#enable_for_buffer()
 
-  " close nerdtree if its the last window
-  " https://github.com/scrooloose/nerdtree/issues/21
-  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" IMPORTANT: :help Ncm2PopupOpen for more information
+au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
+au User Ncm2PopupClose set completeopt=menuone
 
-  " Open NERDTree and jump to other buffer
-  if !exists('g:started_by_firenvim')
-    autocmd vimenter * NERDTree
-    autocmd vimenter * wincmd p
-  else
-    autocmd vimenter * NERDTreeToggle
-  endif
-endfunction
+let g:ncm2#matcher = 'substrfuzzy'
+let g:languageClient_selectionUI =  'fzf'
+let g:LanguageClient_serverCommands = {
+    \ 'javascript': ['/home/f3rno/.config/nvm/13.1.0/bin/javascript-typescript-stdio'],
+    \ 'ruby': ['/home/f3rno/.rvm/gems/ruby-2.7.0/bin/solargraph', 'stdio'],
+    \ 'vim': ['/home/f3rno/.config/nvm/13.1.0/bin/vim-language-server', '--stdio'],
+    \ 'python': ['/home/f3rno/.local/bin/pyls'],
+    \ }
 
 " }}}
 " {{{ PLUGIN: node
@@ -704,7 +756,7 @@ let g:grepper.ag = {
 " }}}
 " {{{ PLUGIN: vim-gutentags
 
-let g:gutentags_ctags_exclude = ['coverage/*', 'node_modules/*', '*%*']
+let g:gutentags_ctags_exclude = ['coverage/*', 'node_modules/*', '*%*', 'docs/*']
 let g:gutentags_enabled = 1
 
 " }}}
@@ -855,7 +907,7 @@ function! s:SwitchToLightColors(n)
     let n = a:n
   else
     let n = Random()%len(g:colorset_light)
-  endif
+ endif
 
   exec 'colorscheme ' . g:colorset_light[n]
   echo 'set light color scheme ' . g:colorset_light[n]
@@ -932,6 +984,18 @@ let g:which_key_map =  {}
 
 " }}}
 
+" {{{ ale
+
+nmap <silent> <leader>aj :ALENext<cr>
+nmap <silent> <leader>ak :ALEPrevious<cr>
+
+" }}}
+" {{{ any-jump
+
+nnoremap <leader>J :AnyJump<CR>
+xnoremap <leader>J :AnyJumpVisual<CR>
+
+" }}}
 " {{{ buffer control
 
 " navigation
@@ -973,6 +1037,9 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
+nnoremap <leader>j :call CocAction('diagnosticNext')<cr>
+nnoremap <leader>k :call CocAction('diagnosticPrevious')<cr>
 
 " }}}
 " {{{ defx
@@ -1110,8 +1177,51 @@ nnoremap <silent> <leader><Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 " {{{ fzf
 
 nnoremap <C-p> :FZFFilesWithNativePreview<cr>
-" nnoremap <C-p> :FZF<cr>
-" nnoremap <C-p> :call FzfFilePreview()<cr>
+nnoremap <leader>ZC :FZFCommands<cr>
+nnoremap <leader>ZB :FZFBTags<cr>
+
+" {{{ search open buffers
+function! s:buflist()
+  redir => ls
+  silent ls
+  redir END
+  return split(ls, '\n')
+endfunction
+
+function! s:bufopen(e)
+  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+endfunction
+
+nnoremap <silent> <Leader><Enter> :call fzf#run({
+\   'source':  reverse(<sid>buflist()),
+\   'sink':    function('<sid>bufopen'),
+\   'options': '+m',
+\   'down':    len(<sid>buflist()) + 2
+\ })<CR>
+" }}}
+" {{{ search tags
+
+function! s:tags_sink(line)
+  let parts = split(a:line, '\t\zs')
+  let excmd = matchstr(parts[2:], '^.*\ze;"\t')
+  execute 'silent e' parts[1][:-2]
+  let [magic, &magic] = [&magic, 0]
+  execute excmd
+  let &magic = magic
+endfunction
+
+function! s:tags()
+  call fzf#run({
+  \ 'source':  'cat '.join(map(tagfiles(), 'fnamemodify(v:val, ":S")')).
+  \            '| grep -v -a ^!',
+  \ 'options': '+m -d "\t" --with-nth 1,4.. -n 1 --tiebreak=index',
+  \ 'down':    '40%',
+  \ 'sink':    function('s:tags_sink')})
+endfunction
+
+command! Tags call s:tags()
+
+" }}}
 
 " }}}
 " {{{ goto tag
@@ -1155,10 +1265,25 @@ map z? <Plug>(incsearch-fuzzy-?)
 map zg/ <Plug>(incsearch-fuzzy-stay)
 
 " }}}
-" {{{ NERDTree (DISABLED)
+" {{{ ncm2
 
-" nnoremap <silent> <leader>e :NERDTreeToggle<cr>
-" let g:which_key_map.e = ['NERDTreeToggle', 'toggle NERDTree']
+" Use <TAB> to select the popup menu:
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" Press enter key to trigger snippet expansion
+" The parameters are the same as `:help feedkeys()`
+inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+
+" c-j c-k for moving in snippet
+let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
+let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
+let g:UltiSnipsRemoveSelectModeMappings = 0
+
+nnoremap gd :call LanguageClient#textDocument_definition({'gotoCmd': 'split'})<cr>
+nnoremap gr :call LanguageClient#textDocument_references()<cr>
+" nnoremap gs :call LanguageClient#workspace_symbol()<cr>
+nnoremap <c-space> :call LanguageClient#textDocument_hover()<cr>
 
 " }}}
 " {{{ npm package info
