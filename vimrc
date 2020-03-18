@@ -38,9 +38,15 @@ Plug 'taohexxx/lightline-buffer'
 Plug 'sainnhe/lightline_foobar.vim'
 Plug 'josa42/vim-lightline-coc'
 
+" {{{ JS Syntax
+
+Plug 'pangloss/vim-javascript'
 Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'othree/yajs.vim'
 Plug 'othree/es.next.syntax.vim'
+
+" }}}
+
+Plug 'dag/vim-fish'
 Plug 'moll/vim-node'
 Plug 'whatever555/npm-package-info'
 Plug 'norcalli/nvim-colorizer.lua'
@@ -79,36 +85,56 @@ Plug 'vimwiki/vimwiki'
 Plug 'thaerkh/vim-workspace'
 Plug 'sheerun/vim-yardoc'
 Plug 'vim-scripts/ZoomWin'
+" Plug 'andy-kwei/vim-last-color'
+Plug 'osyo-manga/vim-brightest'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'gcmt/wildfire.vim'
+Plug 'msrose/vim-perpetuloc'
 
 Plug 'mtth/scratch.vim'
 Plug 'rhysd/clever-split.vim'
+Plug 'machakann/vim-highlightedyank'
+Plug 't9md/vim-quickhl'
+Plug 'yuttie/comfortable-motion.vim'
+Plug 'unblevable/quick-scope'
+Plug 'jordwalke/vimjsdocsnippets'
+Plug 'skywind3000/vim-terminal-help'
+Plug 'djdt/pyparens.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'mboughaba/i3config.vim'
+Plug 'smancill/conky-syntax.vim'
 
 " {{{ completion/intellisense
 
-" ncm2 base
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-" ncm2 plugins
-Plug 'ncm2/ncm2-tern',  {'do': 'npm install'}
-Plug 'ncm2/ncm2-bufword'
-Plug 'ncm2/ncm2-path'
-Plug 'ncm2/ncm2-syntax' | Plug 'Shougo/neco-syntax'
-Plug 'ncm2/ncm2-neoinclude' | Plug 'Shougo/neoinclude.vim'
-Plug 'fgrsnau/ncm2-otherbuf'
-Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim'
-Plug 'filipekiss/ncm2-look.vim'
-Plug 'ncm2/ncm2-cssomni'
-Plug 'ncm2/ncm2-jedi'
+" {{{ DISABLED ncm2
+function! _DISABLED_NCM2_PLUGINS()
+  " ncm2 base
+  Plug 'ncm2/ncm2'
+  Plug 'roxma/nvim-yarp'
 
-" ncm2 language server client
-Plug 'autozimu/LanguageClient-neovim', {
-  \ 'branch': 'next',
-  \ 'do': 'bash install.sh',
-  \ }
+  " ncm2 plugins
+  Plug 'ncm2/ncm2-tern',  {'do': 'npm install'}
+  Plug 'ncm2/ncm2-bufword'
+  Plug 'ncm2/ncm2-path'
+  Plug 'ncm2/ncm2-syntax' | Plug 'Shougo/neco-syntax'
+  Plug 'ncm2/ncm2-neoinclude' | Plug 'Shougo/neoinclude.vim'
+  Plug 'fgrsnau/ncm2-otherbuf'
+  Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim'
+  Plug 'filipekiss/ncm2-look.vim'
+  Plug 'ncm2/ncm2-cssomni'
+  Plug 'ncm2/ncm2-jedi'
 
-" ncm2 snippets
-Plug 'ncm2/ncm2-ultisnips'
+  " ncm2 language server client
+  Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+
+  " ncm2 snippets
+  Plug 'ncm2/ncm2-ultisnips'
+endfunction
+" }}}
 
 " }}}
 " {{{ colorschemes
@@ -117,12 +143,10 @@ Plug 'flazz/vim-colorschemes'
 Plug 'ayu-theme/ayu-vim'
 Plug 'chriskempson/base16-vim'
 Plug 'nightsense/carbonized'
-Plug 'challenger-deep-theme/vim'
 Plug 'romainl/flattened'
 Plug 'morhetz/gruvbox'
 Plug 'sainnhe/gruvbox-material'
 Plug 'nanotech/jellybeans.vim'
-Plug 'raphamorim/lucario'
 Plug 'lewis6991/moonlight.vim'
 Plug 'iCyMind/NeoSolarized'
 Plug 'haishanh/night-owl.vim'
@@ -133,12 +157,7 @@ Plug 'jdsimcoe/panic.vim'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'kyoz/purify'
 Plug 'eemed/sitruuna.vim'
-Plug 'jaredgorski/SpaceCamp'
-Plug 'liuchengxu/space-vim-theme'
-Plug 'jacoborus/tender.vim'
 Plug 'dracula/vim'
-Plug 'kitten/vim-adventurous'
-Plug 'reedes/vim-colors-pencil'
 Plug 'altercation/vim-colors-solarized'
 Plug 'arzg/vim-colors-xcode'
 Plug 'toupeira/vim-desertink'
@@ -154,7 +173,28 @@ Plug 'jnurmine/Zenburn'
 Plug 'jdsimcoe/hyper.vim'
 Plug 'tyrannicaltoucan/vim-deep-space'
 Plug 'AlessandroYorba/Alduin'
-Plug 'CallumHoward/vim-neodark'
+Plug 'cocopon/iceberg.vim'
+Plug 'nice/sweater'
+Plug 'reedes/vim-colors-pencil'
+Plug 'mikker/lightline-theme-pencil'
+Plug 'alessandroyorba/sierra'
+Plug 'wimstefan/vim-artesanal'
+Plug 'dylanaraps/crayon'
+Plug 'bluz71/vim-nightfly-guicolors'
+Plug 'rakr/vim-colors-rakr'
+Plug 'zefei/cake16'
+Plug 'vim-scripts/habiLight'
+Plug 'nightsense/stellarized'
+Plug 'ajmwagar/vim-deus'
+Plug 'aonemd/kuroi.vim'
+Plug 'lucasprag/simpleblack'
+Plug 'fcpg/vim-farout'
+Plug 'fcpg/vim-orbital'
+Plug 'fcpg/vim-fahrenheit'
+Plug 'swalladge/paper.vim'
+Plug 'vim-scripts/donbass.vim'
+Plug 'sainnhe/edge'
+Plug 'sainnhe/forest-night'
 
 " }}}
 
@@ -206,6 +246,18 @@ if (has("termguicolors"))
 endif
 
 " }}}
+" {{{ COLORSCHEME ayu
+
+" let ayucolor='light
+" let ayucolor='mirage'
+let ayucolor='dark'
+
+" }}}
+" {{{ COLORSCHEME edge
+
+let g:edge_style = 'neon'
+
+" }}}
 " {{{ COLORSCHEME xcode
 
 let g:xcodedarkhc_green_comments = 1
@@ -244,17 +296,69 @@ let g:two_firewatch_italics = 1
 let g:deepspace_italics=1
 
 " }}}
+" {{{ COLORSCHEME sierra
+
+let g:sierra_Twilight = 1
+
+" }}}
 " {{{ colorscheme
 
 set background=dark
 syntax enable
-colorscheme gruvbox-material
+colorscheme ayu
 
-let g:colorset_dark = ['xcodedarkhc', 'gruvbox-material', 'deep-space', 'gotham', 'desertink', 'hyper', 'panic', 'hybrid', 'northpole', 'horizon', 'snazzy', 'yowish']
-let g:colorset_light = ['gruvbox-material', 'dual', 'xcodelighthc', 'gruvbox', 'PaperColor', 'one', 'space_vim_theme']
+let g:lightline = {}
+let g:lightline.colorscheme = 'ayu'
 
+" To trim the list to the core schemes, while tracking the 'other' good ones
+let g:colorset_dark_disabled = ['snazzy',
+                              \ 'base16-irblack',
+                              \ 'gotham',
+                              \ 'dracula',
+                              \ 'deus',
+                              \ 'palenight',
+                              \ 'hybrid']
+
+let g:colorset_dark = ['farout',
+                     \ 'forest-night',
+                     \ 'edge',
+                     \ 'ayu',
+                     \ 'orbital',
+                     \ 'sierra',
+                     \ 'simpleblack',
+                     \ 'jellybeans',
+                     \ 'xcodedarkhc',
+                     \ 'gruvbox-material',
+                     \ 'deep-space',
+                     \ 'desertink',
+                     \ 'hyper',
+                     \ 'northpole',
+                     \ 'horizon',
+                     \ 'yowish',
+                     \ 'iceberg',
+                     \ 'crayon',
+                     \ 'forest-night']
+
+let g:colorset_light = ['paper',
+                      \ 'kuroi',
+                      \ 'two-firewatch',
+                      \ 'stellarized',
+                      \ 'gruvbox-material',
+                      \ 'cake16',
+                      \ 'dual',
+                      \ 'xcodelighthc',
+                      \ 'PaperColor',
+                      \ 'one',
+                      \ 'sweater',
+                      \ 'pencil',
+                      \ 'artesanal',
+                      \ 'rakr',
+                      \ 'habiLight',
+                      \ 'edge']
+
+" {{{ lightine colorset mappings
 let g:lightline_colorset_mappings = {
-  \   'Tomorrow-Night-Bright': 'Tomorrow_Night_Bright',
+  \   'Tomorrow-Night-Bright': 'ayu',
   \   'gotham': 'gotham',
   \   'yowish': 'yowish',
   \   'desertink': 'desertink',
@@ -263,23 +367,38 @@ let g:lightline_colorset_mappings = {
   \   'deep-space': 'deepspace',
   \   'alduin': 'deepspace',
   \   'xcodedarkhc': 'deepspace',
+  \   'nord': 'nord',
+  \   'ayu': 'ayu',
+  \   'jellybeans': 'jellybeans',
+  \   'palenight': 'palenight',
+  \   'dracula': 'dracula',
+  \   'iceberg': 'iceberg',
+  \   'base16-irblack': 'ayu',
+  \   'sierra': 'sierra',
+  \   'crayon': 'crayon',
+  \   'deus': 'deus',
+  \   'simpleblack': 'deus',
+  \   'farout': 'farout',
+  \   'orbital': 'orbital',
+  \   'fahrenheit': 'fahrenheit',
+  \   'edge': 'edge',
+  \   'forest-night': 'forest_night',
   \
-  \   'gruvbox': 'gruvbox',
+  \   'paper': 'pencil',
+  \   'stellarized': 'stellarized_light',
+  \   'habiLight': 'pencil',
+  \   'cake16': 'pencil',
+  \   'two-firewatch': 'pencil',
+  \   'rakr': 'pencil',
+  \   'artesanal': 'pencil',
+  \   'pencil': 'pencil',
   \   'gruvbox-material': 'gruvbox_material',
   \   'dual': 'PaperColor_light',
+  \   'sweater': 'PaperColor_light',
   \   'xcodelighthc': 'PaperColor_light',
   \   'PaperColor': 'PaperColor_light',
-  \   'one': 'PaperColor_light',
-  \   'space_vim_theme': 'PaperColor_light',
   \ }
-
-let g:lightline = {}
-" let g:lightline.colorscheme = 'pencil_alter' " light
-" let g:lightline.colorscheme = 'gruvbox_material'
-" let g:lightline.colorscheme = 'yowish'
-" let g:lightline.colorscheme = 'desertink'
-" let g:lightline.colorscheme = 'sitruuna'
-let g:lightline.colorscheme = 'gruvbox_material'
+" }}}
 
 " }}}
 " }}}
@@ -309,7 +428,6 @@ set colorcolumn=80
 set cmdheight=2
 set updatetime=300
 set signcolumn=yes
-set shortmess+=c
 set sessionoptions-=blank
 set foldmethod=marker
 " set foldlevelstart=1
@@ -319,11 +437,22 @@ set backspace=indent,eol,start
 set autoread
 set noshowmode " lightline renders mode already
 set showtabline=2
+set shortmess-=S
+set foldcolumn=2
+
+if exists('g:GtkGuiLoaded')
+ call rpcnotify(1, 'Gui', 'Font', 'Hack, 10')
+endif
 
 " hacky fix for syntax highlighting in large files
 autocmd WinEnter,Filetype * syntax sync fromstart
 
 let g:netrw_banner = 0
+
+aug i3config_ft_detection
+  au!
+  au BufNewFile,BufRead ~/.config/i3/config set filetype=i3config
+aug end
 
 if has('nvim')
   autocmd TermOpen term://* startinsert
@@ -354,8 +483,8 @@ let g:ale_fixers = { 'javascript': ['standard', 'eslint'] }
 let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
+let g:ale_set_loclist = 1
+let g:ale_set_quickfix = 0
 let g:ale_set_highlights = 1
 let g:ale_set_signs = 1
 let g:ale_sign_highlight_linenrs = 1
@@ -377,45 +506,43 @@ let g:any_jump_disable_default_keybindings = 1
 " }}}
 " {{{ PLUGIN: coc
 
-function! _DISABLED_COC()
-  " Taken from docs
-  "
-  " Map <tab> for trigger completion, completion confirm, snippet expand and jump
-  " like VSCode.
+" Taken from docs
+"
+" Map <tab> for trigger completion, completion confirm, snippet expand and jump
+" like VSCode.
 
-  inoremap <silent><expr> <TAB>
-    \ pumvisible() ? coc#_select_confirm() :
-    \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-    \ <SID>check_back_space() ? "\<TAB>" :
-    \ coc#refresh()
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? coc#_select_confirm() :
+  \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ coc#refresh()
 
-  function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-  endfunction
-
-  let g:coc_snippet_next = '<tab>'
-
-  " Taken from docs, statusline diagnostics
-  function! COCStatusDiagnostic() abort
-    let info = get(b:, 'coc_diagnostic_info', {})
-    if empty(info) | return '' | endif
-    let msgs = []
-    if get(info, 'error', 0)
-      call add(msgs, 'E' . info['error'])
-    endif
-    if get(info, 'warning', 0)
-      call add(msgs, 'W' . info['warning'])
-    endif
-    return join(msgs, ' ') . ' ' . get(g:, 'coc_status', '')
-  endfunction
-
-  " Taken from docs, trigger copletion
-  inoremap <silent><expr> <c-space> coc#refresh()
-
-  let g:coc_node_path = '/usr/bin/node'
-  let g:coc_node_args = ['--max-old-space-size=16384']
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+let g:coc_snippet_next = '<tab>'
+
+" Taken from docs, statusline diagnostics
+function! COCStatusDiagnostic() abort
+  let info = get(b:, 'coc_diagnostic_info', {})
+  if empty(info) | return '' | endif
+  let msgs = []
+  if get(info, 'error', 0)
+    call add(msgs, 'E' . info['error'])
+  endif
+  if get(info, 'warning', 0)
+    call add(msgs, 'W' . info['warning'])
+  endif
+  return join(msgs, ' ') . ' ' . get(g:, 'coc_status', '')
+endfunction
+
+" Taken from docs, trigger copletion
+inoremap <silent><expr> <c-space> coc#refresh()
+
+let g:coc_node_path = '/usr/bin/node'
+let g:coc_node_args = ['--max-old-space-size=16384']
 
 " }}}
 " {{{ PLUGIN: committia
@@ -483,8 +610,8 @@ let g:git_messenger_preview_mods = '"botleft"'
 " }}}
 " {{{ PLUGIN: goyo
 
-let g:goyo_height = '100%'
-let g:goyo_width = '80%'
+let g:goyo_height = '80%'
+let g:goyo_width = '60%'
 
 function! s:goyo_enter()
   set noshowmode
@@ -544,6 +671,15 @@ function! LightlineFugitive()
   return ''
 endfunction
 
+function! LightlineFilename()
+  let root = fnamemodify(get(b:, 'git_dir'), ':h')
+  let path = expand('%:p')
+  if path[:len(root)-1] ==# root
+    return path[len(root)+1:]
+  endif
+  return expand('%')
+endfunction
+
 let g:lightline.active = {}
 let g:lightline.active.left = [
   \ [ 'mode', 'paste', 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok'],
@@ -562,6 +698,7 @@ let g:lightline.component_function = {
   \ 'readonly': 'LightlineReadonly',
   \ 'gutentagsstatus': 'gutentags#statusline',
   \ 'bufferinfo': 'lightline#buffer#bufferinfo',
+  \ 'filename': 'LightlineFilename',
   \ }
 
 let g:lightline.component_expand = {
@@ -621,23 +758,25 @@ let g:lightline_buffer_show_bufnr = 1
 autocmd User CocStatusChange,CocDiagnosticChange,GutentagsUpdating,GutentagsUpdated call lightline#update()
 
 " }}}
-" {{{ PLUGIN: ncm2
+" {{{ PLUGIN: ncm2 (DISABLED)
 
-" enable ncm2 for all buffers
-autocmd BufEnter * call ncm2#enable_for_buffer()
+function! _DISABLED_NCM2()
+  " enable ncm2 for all buffers
+  autocmd BufEnter * call ncm2#enable_for_buffer()
 
-" IMPORTANT: :help Ncm2PopupOpen for more information
-au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
-au User Ncm2PopupClose set completeopt=menuone
+  " IMPORTANT: :help Ncm2PopupOpen for more information
+  au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
+  au User Ncm2PopupClose set completeopt=menuone
 
-let g:ncm2#matcher = 'substrfuzzy'
-let g:languageClient_selectionUI =  'fzf'
-let g:LanguageClient_serverCommands = {
-    \ 'javascript': ['/home/f3rno/.config/nvm/13.1.0/bin/javascript-typescript-stdio'],
-    \ 'ruby': ['/home/f3rno/.rvm/gems/ruby-2.7.0/bin/solargraph', 'stdio'],
-    \ 'vim': ['/home/f3rno/.config/nvm/13.1.0/bin/vim-language-server', '--stdio'],
-    \ 'python': ['/home/f3rno/.local/bin/pyls'],
-    \ }
+  let g:ncm2#matcher = 'substrfuzzy'
+  let g:languageClient_selectionUI =  'fzf'
+  let g:LanguageClient_serverCommands = {
+      \ 'javascript': ['/home/f3rno/.config/nvm/13.1.0/bin/javascript-typescript-stdio'],
+      \ 'ruby': ['/home/f3rno/.rvm/gems/ruby-2.7.0/bin/solargraph', 'stdio'],
+      \ 'vim': ['/home/f3rno/.config/nvm/13.1.0/bin/vim-language-server', '--stdio'],
+      \ 'python': ['/home/f3rno/.local/bin/pyls'],
+      \ }
+endfunction
 
 " }}}
 " {{{ PLUGIN: node
@@ -760,17 +899,24 @@ let g:gutentags_ctags_exclude = ['coverage/*', 'node_modules/*', '*%*', 'docs/*'
 let g:gutentags_enabled = 1
 
 " }}}
+" {{{ PLUGIN: vim-highlightedyank
+
+let g:highlightedyank_highlight_duration = 300
+
+" }}}
 " {{{ PLUGIN: vim-indentguides
 
 
 " }}}
-" {{{ PLUGIN: vim-jsdoc
+" {{{ PLUGIN: vim-javascript
 
-let g:jsdoc_allow_input_prompt=1
-let g:jsdoc_return_description=1
-let g:jsdoc_return_type=1
-let g:jsdoc_underscore_private=1
-let g:jsdoc_enable_es6=1
+let g:javascript_plugin_jsdoc = 1
+let g:javascript_plugin_flow = 1
+
+" }}}
+" {{{ PLUGIN: javascript-libraries-syntax
+
+let g:used_javascript_libs = 'underscore,react,chai'
 
 " }}}
 " {{{ PLUGIN: vim-js-file-import
@@ -803,6 +949,12 @@ let g:move_key_modifier = 'C'
 
 
 " }}}
+" {{{ PLUGIN: vim-perpetuloc
+
+nnoremap <leader>[ :Lnext<cr>
+nnoremap <leader>] :Lprevious<cr>
+
+" }}}
 " {{{ PLUGIN: vim-repeat
 
 
@@ -822,6 +974,11 @@ let g:vim_search_pulse_mode = 'cursor_line'
 " }}}
 " {{{ PLUGIN: vim-startify
 
+
+" }}}
+" {{{ PLUGIN: vim-terminal-help
+
+let g:terminal_edit = 'tab drop'
 
 " }}}
 " {{{ PLUGIN: vim-test
@@ -875,7 +1032,7 @@ let g:vimade.fadelevel = 0.5
 " }}}
 " {{{ PLUGIN: vimwiki
 
-let g:vimwiki_folding = 'list'
+let g:vimwiki_folding = 'expr'
 
 " }}}
 " {{{ PLUGIN: vim-workspace
@@ -1151,8 +1308,8 @@ call defx#custom#column('filename', {
 " }}}
 " {{{ easymotion
 
-map n <Plug>(easymotion-next)
-map N <Plug>(easymotion-prev)
+map in <Plug>(easymotion-next)
+map iN <Plug>(easymotion-prev)
 
 " }}}
 " {{{ extradite
@@ -1257,9 +1414,9 @@ let g:which_key_map.W = ['Grepper-cword', 'grep cursor word']
 " map /  <Plug>(incsearch-forward)
 " map ?  <Plug>(incsearch-backward)
 " map g/ <Plug>(incsearch-stay)
-map / <Plug>(incsearch-easymotion-/)
-map ? <Plug>(incsearch-easymotion-?)
-map g/ <Plug>(incsearch-easymotion-stay)
+map i/ <Plug>(incsearch-easymotion-/)
+map i? <Plug>(incsearch-easymotion-?)
+map ig/ <Plug>(incsearch-easymotion-stay)
 map z/ <Plug>(incsearch-fuzzy-/)
 map z? <Plug>(incsearch-fuzzy-?)
 map zg/ <Plug>(incsearch-fuzzy-stay)
@@ -1267,23 +1424,25 @@ map zg/ <Plug>(incsearch-fuzzy-stay)
 " }}}
 " {{{ ncm2
 
-" Use <TAB> to select the popup menu:
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+function! _DISABLED_NCM2_KEYBINDINGS()
+  " Use <TAB> to select the popup menu:
+  inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-" Press enter key to trigger snippet expansion
-" The parameters are the same as `:help feedkeys()`
-inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+  " Press enter key to trigger snippet expansion
+  " The parameters are the same as `:help feedkeys()`
+  inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
 
-" c-j c-k for moving in snippet
-let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
-let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
-let g:UltiSnipsRemoveSelectModeMappings = 0
+  " c-j c-k for moving in snippet
+  let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
+  let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
+  let g:UltiSnipsRemoveSelectModeMappings = 0
 
-nnoremap gd :call LanguageClient#textDocument_definition({'gotoCmd': 'split'})<cr>
-nnoremap gr :call LanguageClient#textDocument_references()<cr>
-" nnoremap gs :call LanguageClient#workspace_symbol()<cr>
-nnoremap <c-space> :call LanguageClient#textDocument_hover()<cr>
+  nnoremap gd :call LanguageClient#textDocument_definition({'gotoCmd': 'split'})<cr>
+  nnoremap gr :call LanguageClient#textDocument_references()<cr>
+  " nnoremap gs :call LanguageClient#workspace_symbol()<cr>
+  nnoremap <c-space> :call LanguageClient#textDocument_hover()<cr>
+endfunction
 
 " }}}
 " {{{ npm package info
@@ -1292,23 +1451,30 @@ nnoremap <silent> <leader>N :PackageInfo<cr>
 let g:which_key_map.N = ['PackageInfo', 'show info for package']
 
 " }}}
-" {{{ split resizing
+" {{{ quickhl
+
+nmap <Space>m <Plug>(quickhl-manual-this)
+xmap <Space>m <Plug>(quickhl-manual-this)
+nmap <Space>M <Plug>(quickhl-manual-reset)
+xmap <Space>M <Plug>(quickhl-manual-reset)
+
+" }}}
+" {{{ splits
 
 nnoremap <up> :resize -1<cr>
 nnoremap <down> :resize +1<cr>
 nnoremap <left> :vert resize +1<cr>
 nnoremap <right> :vert resize -1<cr>
 
+nnoremap <leader>s :CleverSplit<cr>
+
 " }}}
-" {{{ tab zoom
+" {{{ tab zoom+nav
 
 nnoremap <silent> <leader>zi :tab split<cr>
 nnoremap <silent> <leader>zo :tab close<cr>
-
-" }}}
-" {{{ tern (js)
-
-nnoremap <leader>D :TernDoc<cr>
+nnoremap <silent> <leader>N :tabnext<cr>
+nnoremap <silent> <leader>P :tabprev<cr>
 
 " }}}
 " {{{ terminal splits
@@ -1330,6 +1496,11 @@ let g:which_key_map.t.f = ["<SID>RunVimTest('TestFile')<cr>", 'test file']
 let g:which_key_map.t.n = ["<SID>RunVimTest('TestNearest')<cr>", 'test nearest']
 let g:which_key_map.t.s = ["<SID>RunVimTest('TestSuite')<cr>", 'test suite']
 let g:which_key_map.t.l = ["<SID>RunVimTest('TestLast')<cr>", 'test last']
+
+" }}}
+" {{{ vimjsdocsnippets
+
+let g:JSDocSnippetsMapping='<leader>D'
 
 " }}}
 " {{{ vimrc
