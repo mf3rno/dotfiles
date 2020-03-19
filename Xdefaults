@@ -1,37 +1,74 @@
-URxvt*termName:                 rxvt-256color
-URxvt*font: xft:Fira Code:size=12:antialias=true:hinting=true
-URxvt.depth:                    0
-URxvt*lineSpace:                1
-URxvt.letterSpace:              -1
-URxvt.iso14755:                 false
-URxvt.iso14755_52:              false
-!URxvt*geometry:                 65x17
-URxvt.scrollBar:                false
-URxvt*loginShell:               true
-!URxvt.internalBorder:           35
-URxvt.perl-ext-common:          default,clipboard
-URxvt.keysym.Shift-Control-C:   perl:clipboard:copy
-URxvt.keysym.Shift-Control-V:   perl:clipboard:paste
-URxvt.clipboard.autocopy:       true
+!
+! Ayu Dark
+!   Dark version with Mirage as colors 8-15
+!
 
-! Colors
-*background:   [97]#282a36
-*foreground:   #eff0eb
-*cursorColor:  #9aedfe
+! Options
 
-*color0:      #33303b
-*color8:      #4f4b58
-*color1:      #ff5c57
-*color9:      #ff5c57
-*color2:      #5af78e
-*color10:     #5af78e
-*color3:      #f3f99d
-*color11:     #f3f99d
-*color4:      #57c7ff
-*color12:     #57c7ff
-*color5:      #ff6ac1
-*color13:     #ff6ac1
-*color6:      #9aedfe
-*color14:     #9aedfe
-*color7:      #eff0eb
-*color15:     #eff0eb
+urxvt.url-launcher:       /usr/bin/firefox
+
+! Appearance
+
+urxvt*font:                     xft:CaskaydiaCove Nerd Font:style=Regular:pixelsize=12:antialias=true:hinting=true
+urxvt*termName:                 rxvt-256color
+urxvt*scrollBar:                false
+urxvt*depth:                    32
+urxvt*lineSpace:	              1
+urxvt*loginShell:               true
+urxvt.perl-ext-common:          default,clipboard
+urxvt.keysym.Shift-Control-C:   perl:clipboard:copy
+urxvt.keysym.Shift-Control-V:   perl:clipboard:paste
+urxvt.clipboard.autocopy:       true
+
+! Special
+
+*.foreground:   #b3b1ad
+*.background:   [95]#0a0e14
+*.cursorColor:  #e6b450
+
+! Black
+
+*.color0:       #0a0e14
+*.color8:       #1f2430
+
+! Red
+
+*.color1:       #ff3333
+*.color9:       #ff3333
+
+! Green
+
+*.color2:       #c2d94c
+*.color10:      #bae67e
+
+! Yellow
+
+*.color3:       #ffb454
+*.color11:      #ffd580
+
+! Blue
+
+*.color4:       #59c2ff
+*.color12:      #73d0ff
+
+! Magenta
+
+*.color5:       #f07178
+*.color13:      #f28779
+
+! Cyan
+
+*.color6:       #95e6cb
+*.color14:      #95e6cb
+
+! White
+
+*.color7:       #ffffff
+*.color15:      #ffffff
+
+
+! Bold, Italic, Underline
+
+*.colorBD:      #b3b1ad
+!*.colorIT:
+!*.colorUL:

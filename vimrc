@@ -248,7 +248,7 @@ endif
 " }}}
 " {{{ COLORSCHEME ayu
 
-" let ayucolor='light
+" let ayucolor='light'
 " let ayucolor='mirage'
 let ayucolor='dark'
 
@@ -441,7 +441,7 @@ set shortmess-=S
 set foldcolumn=2
 
 if exists('g:GtkGuiLoaded')
- call rpcnotify(1, 'Gui', 'Font', 'Hack, 10')
+ call rpcnotify(1, 'Gui', 'Font', 'CaskaydiaCove', '10')
 endif
 
 " hacky fix for syntax highlighting in large files

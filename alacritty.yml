@@ -4,10 +4,19 @@ key_bindings:
 
 font:
   normal:
-    family: Hack Nerd Font
-    style: regular
-  size: 9
-  use_thin_strokes: false
+    #    family: Hack Nerd Font
+    #    family: BlexMono Nerd Font
+    family: CaskaydiaCove Nerd Font
+  size: 10
+
+window:
+  decorations: none
+
+cursor:
+  style: Underline
+
+mouse:
+  hide_when_typing: true
 
 # Colors (Ayu Dark)
 colors:
@@ -37,3 +46,4 @@ colors:
     magenta: '0xb77ee0'
     cyan:    '0x5ccfe6'
     white:   '0xffffff'
+
