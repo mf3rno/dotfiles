@@ -94,7 +94,8 @@ Plug 'msrose/vim-perpetuloc'
 Plug 'mtth/scratch.vim'
 Plug 'rhysd/clever-split.vim'
 Plug 'machakann/vim-highlightedyank'
-Plug 't9md/vim-quickhl'
+" Disabled as it changes cursor color, gets confusing when between parantheses
+" Plug 't9md/vim-quickhl'
 Plug 'yuttie/comfortable-motion.vim'
 Plug 'unblevable/quick-scope'
 Plug 'jordwalke/vimjsdocsnippets'
@@ -105,36 +106,8 @@ Plug 'smancill/conky-syntax.vim'
 
 " {{{ completion/intellisense
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" {{{ DISABLED ncm2
-function! _DISABLED_NCM2_PLUGINS()
-  " ncm2 base
-  Plug 'ncm2/ncm2'
-  Plug 'roxma/nvim-yarp'
-
-  " ncm2 plugins
-  Plug 'ncm2/ncm2-tern',  {'do': 'npm install'}
-  Plug 'ncm2/ncm2-bufword'
-  Plug 'ncm2/ncm2-path'
-  Plug 'ncm2/ncm2-syntax' | Plug 'Shougo/neco-syntax'
-  Plug 'ncm2/ncm2-neoinclude' | Plug 'Shougo/neoinclude.vim'
-  Plug 'fgrsnau/ncm2-otherbuf'
-  Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim'
-  Plug 'filipekiss/ncm2-look.vim'
-  Plug 'ncm2/ncm2-cssomni'
-  Plug 'ncm2/ncm2-jedi'
-
-  " ncm2 language server client
-  Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
-
-  " ncm2 snippets
-  Plug 'ncm2/ncm2-ultisnips'
-endfunction
-" }}}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 
 " }}}
 " {{{ colorschemes
@@ -195,6 +168,7 @@ Plug 'swalladge/paper.vim'
 Plug 'vim-scripts/donbass.vim'
 Plug 'sainnhe/edge'
 Plug 'sainnhe/forest-night'
+Plug 'romainl/Apprentice'
 
 " }}}
 
@@ -323,6 +297,7 @@ let g:colorset_dark = ['farout',
                      \ 'forest-night',
                      \ 'edge',
                      \ 'ayu',
+                     \ 'apprentice',
                      \ 'orbital',
                      \ 'sierra',
                      \ 'simpleblack',
@@ -358,6 +333,7 @@ let g:colorset_light = ['paper',
 
 " {{{ lightine colorset mappings
 let g:lightline_colorset_mappings = {
+  \   'apprentice': 'ayu',
   \   'Tomorrow-Night-Bright': 'ayu',
   \   'gotham': 'gotham',
   \   'yowish': 'yowish',
@@ -404,13 +380,11 @@ let g:lightline_colorset_mappings = {
 " }}}
 " {{{ basic settings
 
-let mapleader = ','
-
 filetype plugin on
 filetype indent on
 
 set timeout           " for mappings
-set timeoutlen=500    " default value
+set timeoutlen=300    " default value
 set ttimeout          " for key codes
 set ttimeoutlen=10    " unnoticeable small value
 
@@ -419,16 +393,12 @@ set hidden
 set number
 set showcmd
 set splitbelow
-set wildmenu
-" set lazyredraw
 set showmatch
 set incsearch
 set hlsearch
 set colorcolumn=80
 set cmdheight=2
-set updatetime=300
 set signcolumn=yes
-set sessionoptions-=blank
 set foldmethod=marker
 " set foldlevelstart=1
 set tags=./tags;,tags;$HOME;
@@ -440,14 +410,19 @@ set showtabline=2
 set shortmess-=S
 set foldcolumn=2
 
+augroup editing
+  au!
+  au InsertLeave * set nopaste
+  au BufEnter * set number
+  au BufLeave * set nonumber
+augroup END
+
 if exists('g:GtkGuiLoaded')
  call rpcnotify(1, 'Gui', 'Font', 'CaskaydiaCove', '10')
 endif
 
 " hacky fix for syntax highlighting in large files
 autocmd WinEnter,Filetype * syntax sync fromstart
-
-let g:netrw_banner = 0
 
 aug i3config_ft_detection
   au!
@@ -1133,6 +1108,8 @@ nnoremap <leader>Cw :BlacklistRemColorScheme<cr>
 
 " }}}
 " {{{ keybindings
+
+let mapleader = ','
 
 " {{{ vim-which-key start
 
