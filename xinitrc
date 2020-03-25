@@ -36,8 +36,6 @@ xrandr --setprovideroutputsource modesetting NVIDIA-0
 xrandr --auto
 xset r rate 200 30
 
-/usr/bin/prime-offload
-
 # Increase watch limit...
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 
