@@ -1,6 +1,6 @@
 " {{{ vim-plug init
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.vim/plugins-neovim')
 
 Plug 'google/vim-maktaba'
 Plug 'honza/vim-snippets'
