@@ -1,0 +1,9 @@
+[submodule "config/i3blocks-crypto-bitfinex"]
+	path = config/i3blocks-crypto-bitfinex
+	url = http://github.com/f3rno/i3blocks-crypto-bitfinex
+[submodule "config/i3blocks-crypto-bitfinex-chart"]
+	path = config/i3blocks-crypto-bitfinex-chart
+	url = http://github.com/f3rno/i3blocks-crypto-bitfinex-chart
+[submodule "config/i3blocks"]
+	path = config/i3blocks
+	url = https://github.com/vivien/i3blocks-contrib
