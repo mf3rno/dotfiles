@@ -1063,38 +1063,6 @@ function! s:SwitchToDarkColors(n)
   endif
 endfunction
 
-nnoremap <leader>Cl :call <SID>SwitchToLightColors(-1)<cr>
-nnoremap <leader>C0l :call <SID>SwitchToLightColors(0)<cr>
-nnoremap <leader>C1l :call <SID>SwitchToLightColors(1)<cr>
-nnoremap <leader>C2l :call <SID>SwitchToLightColors(2)<cr>
-nnoremap <leader>C3l :call <SID>SwitchToLightColors(3)<cr>
-nnoremap <leader>C4l :call <SID>SwitchToLightColors(4)<cr>
-nnoremap <leader>C5l :call <SID>SwitchToLightColors(5)<cr>
-nnoremap <leader>C6l :call <SID>SwitchToLightColors(6)<cr>
-nnoremap <leader>C7l :call <SID>SwitchToLightColors(7)<cr>
-nnoremap <leader>C8l :call <SID>SwitchToLightColors(8)<cr>
-nnoremap <leader>C9l :call <SID>SwitchToLightColors(9)<cr>
-
-nnoremap <leader>Cd :call <SID>SwitchToDarkColors(-1)<cr>
-nnoremap <leader>C0d :call <SID>SwitchToDarkColors(0)<cr>
-nnoremap <leader>C1d :call <SID>SwitchToDarkColors(1)<cr>
-nnoremap <leader>C2d :call <SID>SwitchToDarkColors(2)<cr>
-nnoremap <leader>C3d :call <SID>SwitchToDarkColors(3)<cr>
-nnoremap <leader>C4d :call <SID>SwitchToDarkColors(4)<cr>
-nnoremap <leader>C5d :call <SID>SwitchToDarkColors(5)<cr>
-nnoremap <leader>C6d :call <SID>SwitchToDarkColors(6)<cr>
-nnoremap <leader>C7d :call <SID>SwitchToDarkColors(7)<cr>
-nnoremap <leader>C8d :call <SID>SwitchToDarkColors(8)<cr>
-nnoremap <leader>C9d :call <SID>SwitchToDarkColors(9)<cr>
-
-nnoremap <leader>Cn :NextColorScheme<cr>
-nnoremap <leader>Cp :PrevColorScheme<cr>
-nnoremap <leader>CC :RandomColorScheme<cr>
-nnoremap <leader>Cb :BlacklistAddColorScheme<cr>
-nnoremap <leader>Cw :BlacklistRemColorScheme<cr>
-
-" call togglebg#map("<F5>")
-
 " }}}
 " {{{ keybindings
 
@@ -1163,6 +1131,39 @@ nmap <silent> gr <Plug>(coc-references)
 
 nnoremap <leader>j :call CocAction('diagnosticNext')<cr>
 nnoremap <leader>k :call CocAction('diagnosticPrevious')<cr>
+
+" }}}
+" {{{ colorscheme switching
+
+nnoremap <leader>Cl :call <SID>SwitchToLightColors(-1)<cr>
+nnoremap <leader>C0l :call <SID>SwitchToLightColors(0)<cr>
+nnoremap <leader>C1l :call <SID>SwitchToLightColors(1)<cr>
+nnoremap <leader>C2l :call <SID>SwitchToLightColors(2)<cr>
+nnoremap <leader>C3l :call <SID>SwitchToLightColors(3)<cr>
+nnoremap <leader>C4l :call <SID>SwitchToLightColors(4)<cr>
+nnoremap <leader>C5l :call <SID>SwitchToLightColors(5)<cr>
+nnoremap <leader>C6l :call <SID>SwitchToLightColors(6)<cr>
+nnoremap <leader>C7l :call <SID>SwitchToLightColors(7)<cr>
+nnoremap <leader>C8l :call <SID>SwitchToLightColors(8)<cr>
+nnoremap <leader>C9l :call <SID>SwitchToLightColors(9)<cr>
+
+nnoremap <leader>Cd :call <SID>SwitchToDarkColors(-1)<cr>
+nnoremap <leader>C0d :call <SID>SwitchToDarkColors(0)<cr>
+nnoremap <leader>C1d :call <SID>SwitchToDarkColors(1)<cr>
+nnoremap <leader>C2d :call <SID>SwitchToDarkColors(2)<cr>
+nnoremap <leader>C3d :call <SID>SwitchToDarkColors(3)<cr>
+nnoremap <leader>C4d :call <SID>SwitchToDarkColors(4)<cr>
+nnoremap <leader>C5d :call <SID>SwitchToDarkColors(5)<cr>
+nnoremap <leader>C6d :call <SID>SwitchToDarkColors(6)<cr>
+nnoremap <leader>C7d :call <SID>SwitchToDarkColors(7)<cr>
+nnoremap <leader>C8d :call <SID>SwitchToDarkColors(8)<cr>
+nnoremap <leader>C9d :call <SID>SwitchToDarkColors(9)<cr>
+
+nnoremap <leader>Cn :NextColorScheme<cr>
+nnoremap <leader>Cp :PrevColorScheme<cr>
+nnoremap <leader>CC :RandomColorScheme<cr>
+nnoremap <leader>Cb :BlacklistAddColorScheme<cr>
+nnoremap <leader>Cw :BlacklistRemColorScheme<cr>
 
 " }}}
 " {{{ defx
