@@ -13,3 +13,4 @@ vim/plugged
 ./vim/sessions/default.vim
 vim/sessions
 vim/plugins-neovim
+vim/plugins-vim
