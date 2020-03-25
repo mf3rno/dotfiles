@@ -51,13 +51,11 @@ Plug 'moll/vim-node'
 Plug 'whatever555/npm-package-info'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'kien/rainbow_parentheses.vim'
-Plug 'vim-scripts/ScrollColors' " colorscheme browser
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} " python syntax highlighting
 Plug 'wincent/terminus' " enhanced terminal integration
 Plug 'ternjs/tern_for_vim'
 Plug 'markonm/traces.vim' " live search/sub preview
 Plug 'sirver/UltiSnips'
-Plug '907th/vim-auto-save'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'schickling/vim-bufonly'
 Plug 'tpope/vim-commentary' " fast commenting
@@ -78,15 +76,12 @@ Plug 'tpope/vim-repeat' " . repeat for plugins
 Plug 'vim-ruby/vim-ruby'
 Plug 'mhinz/vim-startify'
 Plug 'janko/vim-test'
-Plug 'rakr/vim-togglebg'
 Plug 'tpope/vim-unimpaired'
 Plug 'liuchengxu/vim-which-key'
 Plug 'vimwiki/vimwiki'
 Plug 'thaerkh/vim-workspace'
 Plug 'sheerun/vim-yardoc'
 Plug 'vim-scripts/ZoomWin'
-" Plug 'andy-kwei/vim-last-color'
-Plug 'osyo-manga/vim-brightest'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'gcmt/wildfire.vim'
 Plug 'msrose/vim-perpetuloc'
@@ -94,8 +89,6 @@ Plug 'msrose/vim-perpetuloc'
 Plug 'mtth/scratch.vim'
 Plug 'rhysd/clever-split.vim'
 Plug 'machakann/vim-highlightedyank'
-" Disabled as it changes cursor color, gets confusing when between parantheses
-" Plug 't9md/vim-quickhl'
 Plug 'yuttie/comfortable-motion.vim'
 Plug 'unblevable/quick-scope'
 Plug 'jordwalke/vimjsdocsnippets'
@@ -986,10 +979,6 @@ function! s:RunVimTest(cmd)
 
     execute a:cmd
 endfunction
-
-" }}}
-" {{{ PLUGIN: vim-togglebg
-
 
 " }}}
 " {{{ PLUGIN: vim-which-key
