@@ -206,7 +206,25 @@ bar {
 
 bar {
   position bottom
+  output DP-1
+  tray_output none
+  mode hide
+
+  colors {
+    background $bg
+    statusline $white
+#                            border  backgr. text
+    focused_workspace    $bg $bg $white
+    inactive_workspace   $bg $bg $gray
+    active_workspace     $bg $bg $white
+    urgent_workspace     $red $red $bg
+  }
+}
+
+bar {
+  position bottom
   output DP-2
+  tray_output none
   mode hide
 
   colors {

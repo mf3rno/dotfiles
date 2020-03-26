@@ -34,6 +34,10 @@ fi
 
 xrandr --setprovideroutputsource modesetting NVIDIA-0
 xrandr --auto
+xrandr --output DP-1 --set "Broadcast RGB" "Full"
+xrandr --output DP-2 --set "Broadcast RGB" "Full"
+./.screenlayout/pp.sh
+
 xset r rate 200 30
 
 # Increase watch limit...
