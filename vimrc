@@ -303,6 +303,8 @@ set noshowmode " lightline renders mode already
 set showtabline=2
 set shortmess-=S
 set foldcolumn=2
+set laststatus=2
+set showcmd
 
 augroup editing
   au!
