@@ -18,6 +18,9 @@ cursor:
 mouse:
   hide_when_typing: true
 
+env:
+  WINIT_HIDPI_FACTOR: '1'
+
 # Colors (Ayu Dark)
 colors:
   # Default colors
