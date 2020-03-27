@@ -272,10 +272,10 @@ let g:sierra_Twilight = 1
 
 set background=dark
 syntax enable
-colorscheme ayu
+colorscheme desertink
 
 let g:lightline = {}
-let g:lightline.colorscheme = 'ayu'
+let g:lightline.colorscheme = 'desertink'
 
 " To trim the list to the core schemes, while tracking the 'other' good ones
 let g:colorset_dark_disabled = ['snazzy',

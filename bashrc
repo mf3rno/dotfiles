@@ -1,13 +1,18 @@
 # If not running interactively, don't do anything
 if [[ $- != *i* ]]; then return; fi
 
-export TERM=screen-256color
-export PATH="$GOPATH/bin:~/bin/weechat/bin:~/.gem/ruby/2.2.0/bin:$PATH"
 
-# tmuxinator
-#source ~/bin/tmuxinator.bash
 export EDITOR=vim
 export SHELL=bash
+export GEM_HOME=~/.rvm/gem/ruby-2.7.0
+export GEM_PATH=~/.rvm/gems/ruby-2.7.0@global/bin
+export NVM_DIR=~/.nvm
+export GOPATH=~/go
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore node_modules --ignore bower_components --ignore dist --ignore build --ignore db -g ""'
+
+export PATH="$GOPATH/bin:/snap/bin:~/bin:~/bin/bfx-hf-ui:~/.local/bin:~/.rvm/rubies/default/bin:~/.rvm/gems/default/bin:~/.rvm/bin:~/bin/nvim/bin:/lusr/local/bin:$PATH"
+
+export TERM=xterm-256color
 
 # git shortcuts
 gs() {
@@ -38,11 +43,9 @@ gd() {
   git diff
 }
 
-export NVM_DIR="/home/f3rno/.nvm"
+# convenience aliases
+alias ls="lsd"
+alias cat="bat"
+
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-export ELM_SCALE=1.5
