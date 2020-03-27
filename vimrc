@@ -80,6 +80,7 @@ Plug 'sirver/UltiSnips'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/committia.vim' " better git commit layout
+Plug 'int3/vim-extradite' " git log
 
 " }}}
 
@@ -104,13 +105,11 @@ Plug 'AndrewRadev/dsf.vim' " delete surrounding function call
 Plug 'Shougo/echodoc.vim'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'wincent/terminus' " enhanced terminal integration
-Plug 'ternjs/tern_for_vim'
+Plug 'ternjs/tern_for_vim', { 'do': 'npm i' }
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'ryanoasis/vim-devicons'
-Plug 'int3/vim-extradite' " git log
 Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)'] }
 Plug 'ludovicchabant/vim-gutentags' " auto tag regen
-Plug 'thaerkh/vim-indentguides'
 Plug 'michaeljsmith/vim-indent-object' " indent-level text object
 Plug 'gcmt/wildfire.vim' " select text objects
 Plug 'mtth/scratch.vim'
@@ -118,35 +117,37 @@ Plug 'rhysd/clever-split.vim'
 Plug 'machakann/vim-highlightedyank'
 Plug 'yuttie/comfortable-motion.vim' " smooth scrolling
 Plug 'unblevable/quick-scope' " f jump highlights
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 
 " {{{ colorschemes
 
-Plug 'ayu-theme/ayu-vim'
-Plug 'chriskempson/base16-vim'
-Plug 'morhetz/gruvbox'
-Plug 'sainnhe/gruvbox-material'
-Plug 'iCyMind/NeoSolarized'
-Plug 'haishanh/night-owl.vim'
-Plug 'sonph/onehalf'
-Plug 'drewtempelmeyer/palenight.vim'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'altercation/vim-colors-solarized'
-Plug 'toupeira/vim-desertink'
-Plug 'whatyouhide/vim-gotham'
-Plug 'rakr/vim-one'
-Plug 'rakr/vim-two-firewatch'
-Plug 'kabbamine/yowish.vim'
+" {{{ light
+
 Plug 'reedes/vim-colors-pencil'
 Plug 'mikker/lightline-theme-pencil'
-Plug 'zefei/cake16'
-Plug 'nightsense/stellarized'
 Plug 'aonemd/kuroi.vim'
+Plug 'swalladge/paper.vim'
+Plug 'vim-scripts/summerfruit256.vim'
+
+" }}}
+" {{{ dark
+
+Plug 'ayu-theme/ayu-vim'
+Plug 'haishanh/night-owl.vim'
+Plug 'toupeira/vim-desertink'
 Plug 'fcpg/vim-farout'
 Plug 'fcpg/vim-fahrenheit'
-Plug 'swalladge/paper.vim'
-Plug 'sainnhe/edge'
-Plug 'sainnhe/forest-night'
-Plug 'romainl/Apprentice'
+
+" }}}
+" {{{ dual/multiple
+
+Plug 'chriskempson/base16-vim'
+Plug 'sainnhe/gruvbox-material'
+Plug 'sonph/onehalf', { 'rtp': 'vim/' }
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'rakr/vim-one'
+
+" }}}
 
 " }}}
 
@@ -222,11 +223,6 @@ let g:gruvbox_material_background = 'hard'
 let g:solarized_contrast = 'high'
 
 " }}}
-" {{{ COLORSCHEME two-firewatch
-
-let g:two_firewatch_italics = 1
-
-" }}}
 " {{{ COLORSCHEME sierra
 
 let g:sierra_Twilight = 1
@@ -236,40 +232,44 @@ let g:sierra_Twilight = 1
 
 set background=dark
 syntax enable
-colorscheme ayu
+colorscheme fahrenheit
 
 let g:lightline = {}
-let g:lightline.colorscheme = 'ayu'
+let g:lightline.colorscheme = 'one'
 
+" {{{ dark colorschemes
 let g:colorset_dark = ['farout',
-                     \ 'forest-night',
-                     \ 'edge',
                      \ 'ayu',
                      \ 'gruvbox-material',
                      \ 'desertink',
-		     \ ]
+                     \ 'fahrenheit'
+                     \ 'night-owl',
+		                 \ ]
 
-let g:colorset_light = ['paper',
-                      \ 'kuroi',
-                      \ 'two-firewatch',
-                      \ 'stellarized',
-                      \ 'gruvbox-material',
-                      \ 'cake16',
-		      \ ]
-
-" {{{ lightine colorset mappings
-let g:lightline_colorset_mappings = {
+let g:lightline_colorset_dark_mappings = {
   \   'apprentice': 'ayu',
   \   'Tomorrow-Night-Bright': 'ayu',
   \   'desertink': 'desertink',
   \   'ayu': 'ayu',
-  \
+  \ }
+" }}}
+" {{{ light colorschemes
+let g:colorset_light = ['paper',
+                      \ 'PaperColor',
+                      \ 'onehalflight',
+                      \ 'summerfruit256',
+                      \ 'one',
+                      \ 'kuroi',
+                      \ ]
+
+let g:lightline_colorset_light_mappings = {
   \   'paper': 'pencil',
+  \   'PaperColor': 'PaperColor_light',
   \   'kuroi': 'pencil',
-  \   'two-firewatch': 'pencil',
-  \   'stellarized': 'pencil',
-  \   'cake16': 'pencil',
   \   'gruvbox-material': 'gruvbox_material',
+  \   'summerfruit256': 'pencil',
+  \   'onehalflight': 'onehalflight',
+  \   'one': 'one',
   \ }
 " }}}
 
@@ -695,8 +695,8 @@ function! s:SwitchToLightColors(n)
   exec 'colorscheme ' . g:colorset_light[n]
   echo 'set light color scheme ' . g:colorset_light[n]
 
-  if has_key(g:lightline_colorset_mappings, g:colorset_light[n])
-    let g:lightline.colorscheme = g:lightline_colorset_mappings[g:colorset_light[n]]
+  if has_key(g:lightline_colorset_light_mappings, g:colorset_light[n])
+    let g:lightline.colorscheme = g:lightline_colorset_light_mappings[g:colorset_light[n]]
 
     call lightline#init()
     call lightline#colorscheme()
@@ -716,8 +716,8 @@ function! s:SwitchToDarkColors(n)
   exec 'colorscheme ' . g:colorset_dark[n]
   echo 'set light color scheme ' . g:colorset_dark[n]
 
-  if has_key(g:lightline_colorset_mappings, g:colorset_dark[n])
-    let g:lightline.colorscheme = g:lightline_colorset_mappings[g:colorset_dark[n]]
+  if has_key(g:lightline_colorset_dark_mappings, g:colorset_dark[n])
+    let g:lightline.colorscheme = g:lightline_colorset_dark_mappings[g:colorset_dark[n]]
 
     call lightline#init()
     call lightline#colorscheme()
