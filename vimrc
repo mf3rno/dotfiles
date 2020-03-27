@@ -232,17 +232,17 @@ let g:sierra_Twilight = 1
 
 set background=dark
 syntax enable
-colorscheme fahrenheit
+colorscheme gruvbox-material
 
 let g:lightline = {}
-let g:lightline.colorscheme = 'one'
+let g:lightline.colorscheme = 'gruvbox_material'
 
 " {{{ dark colorschemes
 let g:colorset_dark = ['farout',
                      \ 'ayu',
                      \ 'gruvbox-material',
                      \ 'desertink',
-                     \ 'fahrenheit'
+                     \ 'fahrenheit',
                      \ 'night-owl',
 		                 \ ]
 
@@ -260,6 +260,7 @@ let g:colorset_light = ['paper',
                       \ 'summerfruit256',
                       \ 'one',
                       \ 'kuroi',
+                      \ 'illigant',
                       \ ]
 
 let g:lightline_colorset_light_mappings = {
@@ -270,6 +271,7 @@ let g:lightline_colorset_light_mappings = {
   \   'summerfruit256': 'pencil',
   \   'onehalflight': 'onehalflight',
   \   'one': 'one',
+  \   'illigant': 'pencil',
   \ }
 " }}}
 
@@ -285,7 +287,7 @@ set timeoutlen=300    " default value
 set ttimeout          " for key codes
 set ttimeoutlen=10    " unnoticeable small value
 
-set shell=/usr/bin/fish
+set shell=/bin/bash
 set number
 set splitbelow
 set showmatch
