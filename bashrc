@@ -43,9 +43,17 @@ gd() {
   git diff
 }
 
-# convenience aliases
+# convenience
 alias ls="lsd"
 alias cat="bat"
 
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# load nvm
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+set -o noclobber # prevent redirect overwriting existing files
+shopt -s autocd # cd by entering path with no prefix
+
+source /usr/share/doc/pkgfile/command-not-found.bash # suggests package providing command
+source /etc/profile.d/autojump.bash # cd w/ history
+source ~/.bash-powerline.sh # prompt
