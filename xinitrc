@@ -45,4 +45,5 @@ echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo s
 
 twm &
 
+# exec sway --my-next-gpu-wont-be-nvidia
 exec i3
