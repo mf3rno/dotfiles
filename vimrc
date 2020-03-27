@@ -542,10 +542,8 @@ let g:lightline#ale#indicator_errors = "\uf05e "
 let g:lightline#ale#indicator_ok = "\uf00c "
 
 let g:lightline.tabline = {
-    \ 'left': [ [ 'bufferinfo' ],
-    \           [ 'separator' ],
-    \           [ 'bufferbefore', 'buffercurrent', 'bufferafter' ], ],
-    \ 'right': [ [ 'close' ], ],
+    \ 'left': [ [ 'bufferbefore', 'buffercurrent', 'bufferafter' ] ],
+    \ 'right': [ [ 'bufferinfo' ], ],
     \ }
 
 let g:lightline_buffer_enable_devicons = 1
