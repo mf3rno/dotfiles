@@ -54,6 +54,21 @@ alias cat="bat"
 set -o noclobber # prevent redirect overwriting existing files
 shopt -s autocd # cd by entering path with no prefix
 
+# plugins
 source /usr/share/doc/pkgfile/command-not-found.bash # suggests package providing command
 source /etc/profile.d/autojump.bash # cd w/ history
 source ~/.bash-powerline.sh # prompt
+
+# ssh-agent setup
+if [ -f ~/.ssh/agent.env ] ; then
+    . ~/.ssh/agent.env > /dev/null
+    if ! kill -0 $SSH_AGENT_PID > /dev/null 2>&1; then
+        echo "Stale agent file found. Spawning a new agent. "
+        eval `ssh-agent | tee ~/.ssh/agent.env`
+        ssh-add
+    fi
+else
+    echo "Starting ssh-agent"
+    eval `ssh-agent | tee ~/.ssh/agent.env`
+    ssh-add
+fi
