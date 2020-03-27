@@ -401,7 +401,7 @@ endfunction
 " Taken from docs, trigger copletion
 inoremap <silent><expr> <c-space> coc#refresh()
 
-let g:coc_node_path = '/home/f3rno/.config/nvm/13.11.0/bin/node'
+let g:coc_node_path = '/home/f3rno/.nvm/versions/node/v13.12.0/bin/node'
 let g:coc_node_args = ['--max-old-space-size=16384']
 
 " }}}
