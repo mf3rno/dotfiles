@@ -21,9 +21,8 @@ exec --no-startup-id offlineimap
 
 bindsym $mod+Ctrl+Shift+l exec i3lock -f -o
 bindsym $mod+p exec rofi -show combi
-bindsym $mod+Shift+p exec rofi -show combi
-bindsym $mod+z exec i3zen
-bindsym $mod+Shit+z exec i3zen
+bindsym $mod+m exec rofi-mpd -a
+bindsym $mod+Shift+s exec flameshot gui -p ~/Pictures/Screenshots
 # bindsym Ctrl+grave exec /home/f3rno/code/i3-quickterm/i3-quickterm shell
 
 bindsym $mod+g gaps inner all set 16, border pixel
