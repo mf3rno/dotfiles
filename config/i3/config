@@ -1,13 +1,14 @@
 set $mod Mod4
 
-for_window [class=".*"] border pixel 0
-# hide_edge_borders smart
+for_window [class=".*"] border pixel 1
+hide_edge_borders smart
 
 assign [class="Firefox"] 1
 assign [class="Telegram"] 6
 assign [class="Slack"] 9
 
-gaps inner 16
+# gaps inner 16
+gaps inner 0
 
 font pango:FiraCode Nerd Font 9
 
@@ -240,7 +241,7 @@ bar {
 }
 
 # class                 border|backgr|text|indicator|child_border
-client.focused          $green $green $darkgray $purple $green
+client.focused          $green $green $darkgray $purple $darkgreen
 client.focused_inactive $darkgray $darkgray $yellow $purple $verydarkgreen
 client.unfocused        $darkgray $darkgray $yellow $purple $verydarkgreen
 client.urgent           $red $red $white $red $red
