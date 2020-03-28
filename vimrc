@@ -7,20 +7,6 @@ call plug#begin('~/.vim/plugins-vim')
 Plug 'google/vim-maktaba'
 
 " }}}
-" {{{ defx
-
-if has('nvim')
-  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/defx.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-
-Plug 'kristijanhusak/defx-git'
-Plug 'kristijanhusak/defx-icons'
-
-" }}}
 " {{{ lightline
 
 Plug 'itchyny/lightline.vim'
@@ -70,9 +56,11 @@ Plug 'othree/es.next.syntax.vim'
 " }}}
 " {{{ snippets
 
-Plug 'honza/vim-snippets'
 Plug 'jordwalke/vimjsdocsnippets'
-Plug 'sirver/UltiSnips'
+
+" ultisnips/snipps provided by coc plugins
+" Plug 'honza/vim-snippets'
+" Plug 'sirver/UltiSnips'
 
 " }}}
 " {{{ git integration
@@ -128,6 +116,7 @@ Plug 'mikker/lightline-theme-pencil'
 Plug 'aonemd/kuroi.vim'
 Plug 'swalladge/paper.vim'
 Plug 'vim-scripts/summerfruit256.vim'
+Plug 'habamax/vim-colors-defminus'
 
 " }}}
 " {{{ dark
@@ -137,6 +126,7 @@ Plug 'haishanh/night-owl.vim'
 Plug 'toupeira/vim-desertink'
 Plug 'fcpg/vim-farout'
 Plug 'fcpg/vim-fahrenheit'
+Plug 'bluz71/vim-moonfly-colors'
 
 " }}}
 " {{{ dual/multiple
@@ -146,6 +136,8 @@ Plug 'sainnhe/gruvbox-material'
 Plug 'sonph/onehalf', { 'rtp': 'vim/' }
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'rakr/vim-one'
+Plug 'severij/vadelma'
+Plug 'iKarith/tigrana'
 
 " }}}
 
@@ -232,38 +224,47 @@ let g:sierra_Twilight = 1
 
 set background=dark
 syntax enable
-colorscheme gruvbox-material
+colorscheme moonfly
 
 let g:lightline = {}
-let g:lightline.colorscheme = 'gruvbox_material'
+let g:lightline.colorscheme = 'ayu'
 
 " {{{ dark colorschemes
-let g:colorset_dark = ['farout',
-                     \ 'ayu',
-                     \ 'gruvbox-material',
+let g:colorset_dark = [
+                     \ 'moonfly',
                      \ 'desertink',
+                     \ 'ayu',
+                     \ 'tigrana-256-dark',
+                     \ 'farout',
+                     \ 'gruvbox-material',
                      \ 'fahrenheit',
                      \ 'night-owl',
 		                 \ ]
 
 let g:lightline_colorset_dark_mappings = {
+  \   'moonfly': 'ayu',
   \   'apprentice': 'ayu',
   \   'Tomorrow-Night-Bright': 'ayu',
   \   'desertink': 'desertink',
+  \   'tigrana-256-dark': 'ayu',
   \   'ayu': 'ayu',
   \ }
 " }}}
 " {{{ light colorschemes
-let g:colorset_light = ['paper',
+let g:colorset_light = [
+                      \ 'defminus',
+                      \ 'paper',
                       \ 'PaperColor',
                       \ 'onehalflight',
                       \ 'summerfruit256',
                       \ 'one',
                       \ 'kuroi',
+                      \ 'vadelma',
                       \ 'illigant',
                       \ ]
 
 let g:lightline_colorset_light_mappings = {
+  \   'defminus': 'pencil',
   \   'paper': 'pencil',
   \   'PaperColor': 'PaperColor_light',
   \   'kuroi': 'pencil',
@@ -272,6 +273,7 @@ let g:lightline_colorset_light_mappings = {
   \   'onehalflight': 'onehalflight',
   \   'one': 'one',
   \   'illigant': 'pencil',
+  \   'vadelma': 'vadelma',
   \ }
 " }}}
 
@@ -329,6 +331,15 @@ autocmd InsertEnter,WinLeave * set nocursorline
 
 " autosave
 autocmd InsertLeave,TextChanged * update
+
+" }}}
+" {{{ netrw
+
+let g:netrw_banner = 0
+let g:netrw_altv = 1 " split to right
+let g:netrw_browse_split = 2 " open file in right split
+let g:netrw_sizestyle = "H" " human readable base 1024
+let g:netrw_liststyle = 3
 
 " }}}
 " {{{ backups
@@ -830,113 +841,6 @@ nnoremap <leader>Cb :BlacklistAddColorScheme<cr>
 nnoremap <leader>Cw :BlacklistRemColorScheme<cr>
 
 " }}}
-" {{{ defx
-
-let g:defx_is_open = 0
-let g:defx_target = ''
-
-function! DefxDoToggle()
-  let g:defx_buff_info_arr = getbufinfo('defx-0')
-
-  if empty(g:defx_buff_info_arr)
-    let g:defx_buff_windows = []
-  else
-    let g:defx_buff_windows = g:defx_buff_info_arr[0].windows
-  endif
-
-  if !empty(g:defx_buff_windows)
-    call win_gotoid(g:defx_buff_windows[0])
-  end
-
-  if g:defx_is_open
-    call defx#call_action('quit')
-  else
-    exec 'Defx'
-  endif
-
-  let g:defx_is_open = !g:defx_is_open
-endfunction
-
-function! DefxClose()
-  let g:defx_is_open = 0
-  call defx#call_action('quit')
-endfunction
-
-function! DefxOnOpenV()
-  if defx#is_directory()
-    call defx#call_action('open_or_close_tree')
-  else
-    let g:defx_target = defx#get_candidate()
-    let g:defx_is_open = 0
-
-    call defx#call_action('quit')
-    exec 'e '.g:defx_target.action__path
-  endif
-endfunction
-
-function! DefxOnOpenH()
-  if defx#is_directory()
-    call defx#call_action('open_or_close_tree')
-  else
-    let g:defx_target = defx#get_candidate()
-    let g:defx_is_open = 0
-
-    call defx#call_action('quit')
-    exec 'sp '.g:defx_target.action__path
-  endif
-endfunction
-
-function! DefxOnOpen()
-  if defx#is_directory()
-    call defx#call_action('open_or_close_tree')
-  else
-    call defx#call_action('drop')
-  endif
-endfunction
-
-nnoremap <silent> <leader>e :call DefxDoToggle()<cr>
-
-autocmd FileType defx call s:DefxRegisterKeybindings()
-autocmd BufWritePost * call defx#redraw()
-
-function! s:DefxRegisterKeybindings() abort
-  nnoremap <silent><buffer> <cr> :call DefxOnOpen()<cr>
-  nnoremap <silent><buffer>v :call DefxOnOpenV()<cr>
-  nnoremap <silent><buffer>h :call DefxOnOpenH()<cr>
-  nnoremap <silent><buffer><expr> m defx#do_action('move')
-  nnoremap <silent><buffer><expr> r defx#do_action('rename')
-  nnoremap <silent><buffer><expr> d defx#do_action('remove')
-  nnoremap <silent><buffer><expr> D defx#do_action('new_directory')
-  nnoremap <silent><buffer><expr> F defx#do_action('new_file')
-	nnoremap <silent><buffer><expr> y defx#do_action('yank_path')
-  nnoremap <silent><buffer><expr> u defx#do_action('cd', ['..'])
-  nnoremap <silent><buffer><expr> s defx#do_action('search')
-  nnoremap <silent> q :call DefxClose()<cr>
-  nnoremap <silent> <esc> :call DefxClose()<cr>
-endfunction
-
-call defx#custom#option('_', {
-	\ 'columns': 'indent:git:icon:icons:filename',
-	\ 'winwidth': 40,
-	\ 'split': 'vertical',
-	\ 'direction': 'topleft',
-	\ 'show_ignored_files': 0,
-	\ 'root_marker': ':',
-	\ 'buffer_name': 'defx',
-	\ 'ignored_files':
-	\     'node_modules,dist,build,package-lock.json,.git,.undodir,.github,.nyc_output,coverage,tags'
-	\ })
-
-call defx#custom#column('filename', {
-      \ 'directory_icon': '▸',
-      \ 'opened_icon': '▾',
-      \ 'root_icon': ' ',
-      \ 'min_width': '5',
-      \ 'max_width': '40',
-      \ 'root_marker_highlight': 'Ignore',
-      \ })
-
-" }}}
 " {{{ easymotion
 
 map in <Plug>(easymotion-next)
@@ -1041,6 +945,11 @@ map z? <Plug>(incsearch-fuzzy-?)
 map zg/ <Plug>(incsearch-fuzzy-stay)
 
 " }}}
+" {{{ netrw
+
+nnoremap <leader>e :Lexplore<cr>
+
+" }}}
 " {{{ quickhl
 
 nmap <Space>m <Plug>(quickhl-manual-this)
@@ -1069,8 +978,8 @@ nnoremap <silent> <leader>P :tabprev<cr>
 " }}}
 " {{{ terminal splits
 
-command! -nargs=* T split | terminal <args>
-command! -nargs=* VT vsplit | terminal <args>
+command! -nargs=* T terminal <args>
+command! -nargs=* VT vert terminal <args>
 
 " }}}
 " {{{ testing
