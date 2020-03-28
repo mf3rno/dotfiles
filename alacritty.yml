@@ -7,7 +7,7 @@ font:
     #    family: Hack Nerd Font
     #    family: BlexMono Nerd Font
     family: CaskaydiaCove Nerd Font
-  size: 9
+  size: 10
 
 window:
   decorations: none
