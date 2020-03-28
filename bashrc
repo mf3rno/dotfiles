@@ -45,6 +45,8 @@ gd() {
 
 # convenience
 alias ls="lsd"
+alias ll="lsd -lh"
+alias lah="lsd -lah"
 alias cat="bat"
 
 # load nvm
