@@ -7,3 +7,6 @@
 [submodule "config/i3blocks"]
 	path = config/i3blocks
 	url = https://github.com/vivien/i3blocks-contrib
+[submodule "config/kitty/kitty-themes"]
+	path = config/kitty/kitty-themes
+	url = git@github.com:dexpota/kitty-themes.git

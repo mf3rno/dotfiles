@@ -46,7 +46,8 @@ bindsym XF86MonBrightnessDown exec "sudo brillo -U 10"
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec alacritty
+# bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec kitty
 
 # kill focused window
 bindsym $mod+Shift+q kill

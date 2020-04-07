@@ -8,11 +8,11 @@ export GEM_HOME=~/.rvm/gem/ruby-2.7.0
 export GEM_PATH=~/.rvm/gems/ruby-2.7.0@global/bin
 export NVM_DIR=~/.nvm
 export GOPATH=~/go
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore node_modules --ignore bower_components --ignore dist --ignore build --ignore db -g ""'
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore docs --ignore node_modules --ignore bower_components --ignore dist --ignore build --ignore db -g ""'
 
 export PATH="$GOPATH/bin:/snap/bin:~/bin:~/bin/bfx-hf-ui:~/.local/bin:~/.rvm/rubies/default/bin:~/.rvm/gems/default/bin:~/.rvm/bin:~/bin/nvim/bin:/lusr/local/bin:$PATH"
 
-export TERM=xterm-256color
+# export TERM=xterm-256color
 
 # git shortcuts
 gs() {

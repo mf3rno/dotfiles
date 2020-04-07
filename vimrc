@@ -1,3 +1,20 @@
+" {{{ custom cursor settings (alacritty, kitty)
+
+" t_SI: INSERT mode
+" t_SR: REPLACE mode
+" t_EI: NORMAL mode (ELSE)
+"
+" 1 -> blinking block
+" 2 -> solid block
+" 3 -> blinking underscore
+" 4 -> solid underscore
+" 5 -> blinking vertical bar
+" 6 -> solid vertical bar
+let &t_SI = "\<Esc>[3 q"
+let &t_SR = "\<Esc>[5 q"
+let &t_EI = "\<Esc>[1 q"
+
+" }}}
 " {{{ vim-plug init
 
 call plug#begin('~/.vim/plugins-vim')
@@ -108,6 +125,9 @@ Plug 'unblevable/quick-scope' " f jump highlights
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 Plug 'tpope/vim-vinegar'
 
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-colorscheme-switcher'
+
 " {{{ colorschemes
 
 " {{{ light
@@ -118,17 +138,19 @@ Plug 'aonemd/kuroi.vim'
 Plug 'swalladge/paper.vim'
 Plug 'vim-scripts/summerfruit256.vim'
 Plug 'habamax/vim-colors-defminus'
+Plug 'notpratheek/vim-sol'
 
 " }}}
 " {{{ dark
 
 Plug 'ayu-theme/ayu-vim'
-Plug 'haishanh/night-owl.vim'
 Plug 'toupeira/vim-desertink'
 Plug 'fcpg/vim-farout'
 Plug 'fcpg/vim-fahrenheit'
 Plug 'bluz71/vim-moonfly-colors'
-Plug 'franbach/miramare'
+Plug 'romainl/Apprentice'
+Plug 'AlessandroYorba/Alduin'
+Plug 'djjcast/mirodark'
 
 " }}}
 " {{{ dual/multiple
@@ -141,6 +163,8 @@ Plug 'rakr/vim-one'
 Plug 'severij/vadelma'
 Plug 'iKarith/tigrana'
 Plug 'sainnhe/sonokai'
+Plug 'chriskempson/base16-vim'
+Plug 'https://gitlab.com/protesilaos/tempus-themes-vim.git' " amazing
 
 " }}}
 
@@ -237,6 +261,21 @@ let g:sonokai_enable_italic = 1
 let g:miramare_enable_italic = 1
 
 " }}}
+" {{{ COLORSCHEME alduin
+
+" Almost black bg
+let g:alduin_Shout_Dragon_Aspect = 1
+
+" Black bg
+" let g:alduin_Shout_Become_Ethereal = 1
+
+" Deep red for special highlighting groups
+" let g:alduin_Shout_Fire_Breath = 1
+
+" Remove block matchparens & add underline
+" let g:alduin_Shout_Aura_Whisper = 1
+
+" }}}
 " {{{ colorscheme
 
 set background=dark
@@ -248,31 +287,64 @@ let g:lightline.colorscheme = 'gruvbox_material'
 
 " {{{ dark colorschemes
 let g:colorset_dark = [
-                     \ 'moonfly',
+                     \ 'tempus_tempest',
+                     \ 'base16-seti',
+                     \ 'base16-twilight',
+                     \ 'alduin',
                      \ 'desertink',
-                     \ 'miramare',
-                     \ 'sonokai',
+                     \ 'tempus_classic',
+                     \ 'tempus_future',
                      \ 'ayu',
+                     \ 'base16-synth-midnight-dark',
+                     \ 'mirodark',
+                     \ 'sonokai',
+                     \ 'moonfly',
                      \ 'tigrana-256-dark',
                      \ 'farout',
                      \ 'gruvbox-material',
                      \ 'fahrenheit',
-                     \ 'night-owl',
+                     \ 'apprentice',
+                     \ 'base16-xcode-woodland',
+                     \ 'base16-tomorrow-night',
+                     \ 'base16-tomorrow-night-eighties',
+                     \ 'base16-solarflare',
+                     \ 'base16-snazzy',
+                     \ 'base16-material-darker',
+                     \ 'base16-material',
+                     \ 'base16-irblack',
 		                 \ ]
 
 let g:lightline_colorset_dark_mappings = {
+  \   'tempus_future': 'ayu',
+  \   'tempus_classic': 'apprentice',
+  \   'tempus_tempest': 'sonokai',
+  \   'base16-seti': 'ayu',
+  \   'base16-snazzy': 'ayu',
+  \   'base16-solarflare': 'ayu',
+  \   'base16-sync-midnight-dark': 'ayu',
+  \   'base16-tomorrow-night': 'ayu',
+  \   'base16-tomorrow-night-eighties': 'desertink',
+  \   'base16-irblack': 'desertink',
+  \   'base16-twilight': 'alduin',
+  \   'base16-atelier-forest': 'sonokai',
+  \   'base16-xcode-woodland': 'desertink',
+  \   'base16-material-darker': 'desertink',
+  \   'base16-material': 'ayu',
+  \   'mirodark': 'ayu',
+  \   'alduin': 'desertink',
+  \   'apprentice': 'apprentice',
   \   'moonfly': 'ayu',
-  \   'miramare': 'desertink',
   \   'sonokai': 'sonokai',
-  \   'apprentice': 'ayu',
   \   'Tomorrow-Night-Bright': 'ayu',
   \   'desertink': 'desertink',
   \   'tigrana-256-dark': 'ayu',
   \   'ayu': 'ayu',
+  \   'sol': 'pencil'
   \ }
 " }}}
 " {{{ light colorschemes
 let g:colorset_light = [
+                      \ 'tempus_day',
                       \ 'defminus',
                       \ 'paper',
                       \ 'PaperColor',
@@ -282,13 +354,29 @@ let g:colorset_light = [
                       \ 'kuroi',
                       \ 'vadelma',
                       \ 'illigant',
+                      \ 'sol',
+                      \ 'base16-atelier-dune-light',
+                      \ 'base16-solarized-light',
+                      \ 'base16-one-light',
+                      \ 'base16-gruvbox-light-medium',
+                      \ 'base16-gruvbox-light-hard',
+                      \ 'base16-github',
+                      \ 'base16-cupertino',
                       \ ]
 
 let g:lightline_colorset_light_mappings = {
+  \   'tempus_day': 'pencil',
+  \   'base16-one-light': 'pencil',
+  \   'base16-solarized-light': 'pencil',
+  \   'base16-atelier-dune-light': 'pencil',
+  \   'base16-github': 'pencil',
+  \   'base16-cupertino': 'pencil',
   \   'defminus': 'pencil',
   \   'paper': 'pencil',
   \   'PaperColor': 'PaperColor_light',
   \   'kuroi': 'pencil',
+  \   'base16-gruvbox-light-hard': 'gruvbox_material',
+  \   'base16-gruvbox-light-medium': 'gruvbox_material',
   \   'gruvbox-material': 'gruvbox_material',
   \   'summerfruit256': 'pencil',
   \   'onehalflight': 'onehalflight',
@@ -330,7 +418,6 @@ set shortmess-=S
 set foldcolumn=2
 set laststatus=2
 set showcmd
-set lazyredraw
 set smartcase
 set hidden
 set tw=79 " word wrap
@@ -356,6 +443,25 @@ autocmd InsertEnter,WinLeave * set nocursorline
 
 " autosave
 autocmd InsertLeave,TextChanged * update
+
+" }}}
+" {{{ GVim settings
+
+if has('gui_running')
+  set guioptions-=T " remove toolbar
+  set guioptions-=m " remove menu bar
+  set guioptions-=r " remove right scrollbar
+  set guioptions-=L " remove left scrollbar
+
+  set guifont=BlexMono\ Nerd\ Font
+
+  " Toggle menubar w/ CTRL+F1
+  nnoremap <C-F1> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
+
+  " Paste via shift + insert
+  map <S-Insert> <MiddleMouse>
+  map! <S-Insert> <MiddleMouse>
+endif
 
 " }}}
 " {{{ netrw
@@ -610,6 +716,135 @@ let g:ultisnips_javascript = { 'semi': 'never' }
 let g:better_whitespace_enabled = 1
 
 " }}}
+" {{{ PLUGIN: vim-colorscheme-switcher
+
+let g:colorscheme_switcher_keep_background = 1
+let g:colorscheme_switcher_exclude_builtins = 1
+let g:colorscheme_switcher_define_mappings = 0
+let g:colorscheme_switcher_exclude = ['tempus_autumn',
+                                    \ 'tempus_dusk',
+                                    \ 'tempus_night',
+                                    \ 'tempus_rift',
+                                    \ 'tempus_spring',
+                                    \ 'tempus_summer',
+                                    \ 'tempus_warp',
+                                    \ 'tempus_winter',
+                                    \ 'sol-term',
+                                    \ 'base16-3024',
+                                    \ 'base16-3024',
+                                    \ 'base16-apathy',
+                                    \ 'base16-ashes',
+                                    \ 'base16-atelier-cave',
+                                    \ 'base16-atelier-cave-light',
+                                    \ 'base16-atelier-dune',
+                                    \ 'base16-atelier-estuary',
+                                    \ 'base16-atelier-estuary-light',
+                                    \ 'base16-atelier-forest',
+                                    \ 'base16-atelier-forest-light',
+                                    \ 'base16-atelier-heath',
+                                    \ 'base16-atelier-heath-light',
+                                    \ 'base16-atelier-lakeside',
+                                    \ 'base16-atelier-lakeside-light',
+                                    \ 'base16-atelier-plateau',
+                                    \ 'base16-atelier-plateau-light',
+                                    \ 'base16-atelier-savanna',
+                                    \ 'base16-atelier-savanna-light',
+                                    \ 'base16-atelier-seaside',
+                                    \ 'base16-atelier-seaside-light',
+                                    \ 'base16-atelier-sulphurpool',
+                                    \ 'base16-atelier-sulphur-light',
+                                    \ 'base16-atlas',
+                                    \ 'base16-bespin',
+                                    \ 'base16-black-metal',
+                                    \ 'base16-black-metal-bathory',
+                                    \ 'base16-black-metal-burzum',
+                                    \ 'base16-black-metal-dark-funeral',
+                                    \ 'base16-black-metal-gorgoroth',
+                                    \ 'base16-black-metal-immortal',
+                                    \ 'base16-black-metal-khold',
+                                    \ 'base16-black-metal-marduk',
+                                    \ 'base16-black-metal-mayhem',
+                                    \ 'base16-black-metal-nile',
+                                    \ 'base16-black-metal-venom',
+                                    \ 'base16-brewer',
+                                    \ 'base16-bright',
+                                    \ 'base16-brogrammer',
+                                    \ 'base16-brushtrees',
+                                    \ 'base16-brushtrees-dark',
+                                    \ 'base16-chalk',
+                                    \ 'base16-circus',
+                                    \ 'base16-classic-dark',
+                                    \ 'base16-classic-light',
+                                    \ 'base16-codeschool',
+                                    \ 'base16-cupcake',
+                                    \ 'base16-darktooth',
+                                    \ 'base16-default-dark',
+                                    \ 'base16-default-light',
+                                    \ 'base16-dracula',
+                                    \ 'base16-eighties',
+                                    \ 'base16-embers',
+                                    \ 'base16-flat',
+                                    \ 'base16-fruit-soda',
+                                    \ 'base16-google-dark',
+                                    \ 'base16-google-light',
+                                    \ 'base16-grayscale-dark',
+                                    \ 'base16-grayscale-light',
+                                    \ 'base16-greenscreen',
+                                    \ 'base16-gruvbox-dark-hard',
+                                    \ 'base16-gruvbox-dark-medium',
+                                    \ 'base16-gruvbox-dark-pale',
+                                    \ 'base16-gruvbox-dark-soft',
+                                    \ 'base16-gruvbox-light-soft',
+                                    \ 'base16-harmonic-dark',
+                                    \ 'base16-harmonic-light',
+                                    \ 'base16-heetch',
+                                    \ 'base16-heetch-light',
+                                    \ 'base16-helios',
+                                    \ 'base16-hopscotch',
+                                    \ 'base16-horizon-dark',
+                                    \ 'base16-ia-dark',
+                                    \ 'base16-ia-light',
+                                    \ 'base16-icy',
+                                    \ 'base16-isotope',
+                                    \ 'base16-macintosh',
+                                    \ 'base16-marrakesh',
+                                    \ 'base16-materia',
+                                    \ 'base16-material-lighter',
+                                    \ 'base16-material-palenight',
+                                    \ 'base16-material-vivid',
+                                    \ 'base16-mellow-purple',
+                                    \ 'base16-mexico-light',
+                                    \ 'base16-mocha',
+                                    \ 'base16-monokai',
+                                    \ 'base16-nord',
+                                    \ 'base16-ocean',
+                                    \ 'base16-oceanicnext',
+                                    \ 'base16-onedark',
+                                    \ 'base16-outrun-dark',
+                                    \ 'base16-papercolor-dark',
+                                    \ 'base16-papercolor-light',
+                                    \ 'base16-paraiso',
+                                    \ 'base16-phd',
+                                    \ 'base16-pico',
+                                    \ 'base16-pop',
+                                    \ 'base16-porple',
+                                    \ 'base16-railscasts',
+                                    \ 'base16-rebecca',
+                                    \ 'base16-shapeshifter',
+                                    \ 'base16-solarized-dark',
+                                    \ 'base16-spacemacs',
+                                    \ 'base16-summerfruit-dark',
+                                    \ 'base16-summerfruit-light',
+                                    \ 'base16-tomorrow',
+                                    \ 'base16-tube',
+                                    \ 'base16-unikitty-dark',
+                                    \ 'base16-unikitty-light',
+                                    \ 'base16-xcode-dusk',
+                                    \ 'base16-woodland',
+                                    \ 'base16-zenburn',
+                                  \ ]
+
+" }}}
 " {{{ PLUGIN: vim-grepper
 
 let g:grepper = {}
@@ -620,7 +855,7 @@ let g:grepper.open = 1
 let g:grepper.switch = 1
 let g:grepper.dir = 'repo,file'
 let g:grepper.ag = {
-  \ 'grepprg': 'ag --ignore-dir=node_modules --ignore-dir=bower_components --ignore-dir=dist --ignore-dir=build'
+  \ 'grepprg': 'ag --ignore-dir=node_modules --ignore-dir=docs --ignore-dir=bower_components --ignore-dir=dist --ignore-dir=build'
   \ }
 
 " }}}
@@ -790,6 +1025,12 @@ nmap <silent> <leader>ak :ALEPrevious<cr>
 
 nnoremap <leader>J :AnyJump<CR>
 xnoremap <leader>J :AnyJumpVisual<CR>
+
+" }}}
+" {{{ tab control
+
+nnoremap <leader>N :tabnext<CR>
+nnoremap <leader>P :tabprev<CR>
 
 " }}}
 " {{{ buffer control
