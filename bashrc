@@ -10,9 +10,9 @@ export NVM_DIR=~/.nvm
 export GOPATH=~/go
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore docs --ignore node_modules --ignore bower_components --ignore dist --ignore build --ignore db -g ""'
 
-export PATH="$GOPATH/bin:/snap/bin:~/bin:~/bin/bfx-hf-ui:~/.local/bin:~/.rvm/rubies/default/bin:~/.rvm/gems/default/bin:~/.rvm/bin:~/bin/nvim/bin:/lusr/local/bin:$PATH"
+export PATH="$GOPATH/bin:/snap/bin:~/bin:~/bin/bfx-hf-ui:~/.local/bin:~/.rvm/rubies/default/bin:~/.rvm/gems/default/bin:~/.rvm/bin:~/bin/nvim/bin:/usr/local/bin:~/bin/dev-sessions:$PATH"
 
-# export TERM=xterm-256color
+export TERM=xterm-256color
 
 # git shortcuts
 gs() {
@@ -44,9 +44,13 @@ gd() {
 }
 
 # convenience
-alias ls="lsd"
-alias ll="lsd -lh"
-alias lah="lsd -lah"
+# lsd disabled due to poor visiblity on white bg, no color scheme support
+# alias ls="lsd"
+# alias ll="lsd -lh"
+# alias lah="lsd -lah"
+alias ls="ls --color=auto"
+alias ll='ls -lah --color=auto'
+alias grep='grep --color'
 alias cat="bat"
 
 # load nvm
@@ -60,6 +64,7 @@ shopt -s autocd # cd by entering path with no prefix
 source /usr/share/doc/pkgfile/command-not-found.bash # suggests package providing command
 source /etc/profile.d/autojump.bash # cd w/ history
 source ~/.bash-powerline.sh # prompt
+source <(kitty + complete setup bash)
 
 # ssh-agent setup
 if [ -f ~/.ssh/agent.env ] ; then

@@ -164,6 +164,7 @@ Plug 'severij/vadelma'
 Plug 'iKarith/tigrana'
 Plug 'sainnhe/sonokai'
 Plug 'chriskempson/base16-vim'
+Plug 'mike-hearn/base16-vim-lightline'
 Plug 'https://gitlab.com/protesilaos/tempus-themes-vim.git' " amazing
 
 " }}}
@@ -280,10 +281,10 @@ let g:alduin_Shout_Dragon_Aspect = 1
 
 set background=dark
 syntax enable
-colorscheme gruvbox-material
+colorscheme base16-irblack
 
 let g:lightline = {}
-let g:lightline.colorscheme = 'gruvbox_material'
+let g:lightline.colorscheme = 'base16_irblack'
 
 " {{{ dark colorschemes
 let g:colorset_dark = [
@@ -318,18 +319,18 @@ let g:lightline_colorset_dark_mappings = {
   \   'tempus_future': 'ayu',
   \   'tempus_classic': 'apprentice',
   \   'tempus_tempest': 'sonokai',
-  \   'base16-seti': 'ayu',
-  \   'base16-snazzy': 'ayu',
-  \   'base16-solarflare': 'ayu',
-  \   'base16-sync-midnight-dark': 'ayu',
-  \   'base16-tomorrow-night': 'ayu',
-  \   'base16-tomorrow-night-eighties': 'desertink',
-  \   'base16-irblack': 'desertink',
-  \   'base16-twilight': 'alduin',
-  \   'base16-atelier-forest': 'sonokai',
-  \   'base16-xcode-woodland': 'desertink',
-  \   'base16-material-darker': 'desertink',
-  \   'base16-material': 'ayu',
+  \   'base16-seti': 'base16_seti',
+  \   'base16-snazzy': 'base16_snazzy',
+  \   'base16-solarflare': 'base16_solarflare',
+  \   'base16-sync-midnight-dark': 'base16_sync_midnight_dark',
+  \   'base16-tomorrow-night': 'base16_tomorrow_night',
+  \   'base16-tomorrow-night-eighties': 'base16_tomorrow_night_eighties',
+  \   'base16-irblack': 'base16_irblack',
+  \   'base16-twilight': 'base16_twilight',
+  \   'base16-atelier-forest': 'base16_atelier_forest',
+  \   'base16-xcode-woodland': 'base16_xcode_woodland',
+  \   'base16-material-darker': 'base16_material_darker',
+  \   'base16-material': 'base16_material',
   \   'mirodark': 'ayu',
   \   'alduin': 'desertink',
   \   'apprentice': 'apprentice',
@@ -366,17 +367,17 @@ let g:colorset_light = [
 
 let g:lightline_colorset_light_mappings = {
   \   'tempus_day': 'pencil',
-  \   'base16-one-light': 'pencil',
-  \   'base16-solarized-light': 'pencil',
-  \   'base16-atelier-dune-light': 'pencil',
-  \   'base16-github': 'pencil',
-  \   'base16-cupertino': 'pencil',
+  \   'base16-one-light': 'base16_one_light',
+  \   'base16-solarized-light': 'base16_solarized_light',
+  \   'base16-atelier-dune-light': 'base16_atelier_dune_light',
+  \   'base16-github': 'base16_github',
+  \   'base16-cupertino': 'base16_cupertino',
   \   'defminus': 'pencil',
   \   'paper': 'pencil',
   \   'PaperColor': 'PaperColor_light',
   \   'kuroi': 'pencil',
-  \   'base16-gruvbox-light-hard': 'gruvbox_material',
-  \   'base16-gruvbox-light-medium': 'gruvbox_material',
+  \   'base16-gruvbox-light-hard': 'base16_gruvbox_light_hard',
+  \   'base16-gruvbox-light-medium': 'base16_gruvbox_light_medium',
   \   'gruvbox-material': 'gruvbox_material',
   \   'summerfruit256': 'pencil',
   \   'onehalflight': 'onehalflight',
@@ -419,6 +420,7 @@ set foldcolumn=2
 set laststatus=2
 set showcmd
 set smartcase
+set lazyredraw
 set hidden
 set tw=79 " word wrap
 
