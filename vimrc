@@ -106,6 +106,7 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'yuttie/comfortable-motion.vim' " smooth scrolling
 Plug 'unblevable/quick-scope' " f jump highlights
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+Plug 'tpope/vim-vinegar'
 
 " {{{ colorschemes
 
@@ -127,6 +128,7 @@ Plug 'toupeira/vim-desertink'
 Plug 'fcpg/vim-farout'
 Plug 'fcpg/vim-fahrenheit'
 Plug 'bluz71/vim-moonfly-colors'
+Plug 'franbach/miramare'
 
 " }}}
 " {{{ dual/multiple
@@ -138,6 +140,7 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'rakr/vim-one'
 Plug 'severij/vadelma'
 Plug 'iKarith/tigrana'
+Plug 'sainnhe/sonokai'
 
 " }}}
 
@@ -220,19 +223,35 @@ let g:solarized_contrast = 'high'
 let g:sierra_Twilight = 1
 
 " }}}
+" {{{ COLORSCHEME sonokai
+
+" let g:sonokai_style = 'andromeda'
+let g:sonokai_style = 'shusia'
+" let g:sonokai_style = 'atlantis'
+" let g:sonokai_style = 'maia'
+let g:sonokai_enable_italic = 1
+
+" }}}
+" {{{ COLORSCHEME miramare
+
+let g:miramare_enable_italic = 1
+
+" }}}
 " {{{ colorscheme
 
 set background=dark
 syntax enable
-colorscheme moonfly
+colorscheme gruvbox-material
 
 let g:lightline = {}
-let g:lightline.colorscheme = 'ayu'
+let g:lightline.colorscheme = 'gruvbox_material'
 
 " {{{ dark colorschemes
 let g:colorset_dark = [
                      \ 'moonfly',
                      \ 'desertink',
+                     \ 'miramare',
+                     \ 'sonokai',
                      \ 'ayu',
                      \ 'tigrana-256-dark',
                      \ 'farout',
@@ -243,6 +262,8 @@ let g:colorset_dark = [
 
 let g:lightline_colorset_dark_mappings = {
   \   'moonfly': 'ayu',
+  \   'miramare': 'desertink',
+  \   'sonokai': 'sonokai',
   \   'apprentice': 'ayu',
   \   'Tomorrow-Night-Bright': 'ayu',
   \   'desertink': 'desertink',
@@ -309,6 +330,10 @@ set shortmess-=S
 set foldcolumn=2
 set laststatus=2
 set showcmd
+set lazyredraw
+set smartcase
+set hidden
+set tw=79 " word wrap
 
 augroup editing
   au!
@@ -337,9 +362,10 @@ autocmd InsertLeave,TextChanged * update
 
 let g:netrw_banner = 0
 let g:netrw_altv = 1 " split to right
-let g:netrw_browse_split = 2 " open file in right split
+" let g:netrw_browse_split = 2 " open file in right split
 let g:netrw_sizestyle = "H" " human readable base 1024
 let g:netrw_liststyle = 3
+let g:netrw_winsize = 20
 
 " }}}
 " {{{ backups
@@ -749,6 +775,10 @@ let mapleader = ','
 let g:which_key_map =  {}
 
 " }}}
+
+" fast line movements
+nnoremap J 2j
+nnoremap K 2k
 
 " {{{ ale
 
