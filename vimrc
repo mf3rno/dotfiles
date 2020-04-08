@@ -1,18 +1,20 @@
 " {{{ custom cursor settings (alacritty, kitty)
 
-" t_SI: INSERT mode
-" t_SR: REPLACE mode
-" t_EI: NORMAL mode (ELSE)
-"
-" 1 -> blinking block
-" 2 -> solid block
-" 3 -> blinking underscore
-" 4 -> solid underscore
-" 5 -> blinking vertical bar
-" 6 -> solid vertical bar
-let &t_SI = "\<Esc>[3 q"
-let &t_SR = "\<Esc>[5 q"
-let &t_EI = "\<Esc>[1 q"
+if !exists('g:GtkGuiLoaded') && !has('gui_running')
+  " t_SI: INSERT mode
+  " t_SR: REPLACE mode
+  " t_EI: NORMAL mode (ELSE)
+  "
+  " 1 -> blinking block
+  " 2 -> solid block
+  " 3 -> blinking underscore
+  " 4 -> solid underscore
+  " 5 -> blinking vertical bar
+  " 6 -> solid vertical bar
+  let &t_SI = "\<Esc>[3 q"
+  let &t_SR = "\<Esc>[5 q"
+  let &t_EI = "\<Esc>[1 q"
+endif
 
 " }}}
 " {{{ vim-plug init
@@ -63,7 +65,8 @@ Plug 'moll/vim-node'
 
 " {{{ javascript
 
-Plug 'pangloss/vim-javascript'
+" Plug 'pangloss/vim-javascript'
+Plug 'yuezk/vim-js'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'othree/es.next.syntax.vim'
@@ -128,6 +131,10 @@ Plug 'tpope/vim-vinegar'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-colorscheme-switcher'
 
+if !exists('g:GtkGuiLoaded')
+  Plug 'drmikehenry/vim-fontsize'
+endif
+
 " {{{ colorschemes
 
 " {{{ light
@@ -139,6 +146,7 @@ Plug 'swalladge/paper.vim'
 Plug 'vim-scripts/summerfruit256.vim'
 Plug 'habamax/vim-colors-defminus'
 Plug 'notpratheek/vim-sol'
+Plug 'kamwitsta/flatwhite-vim'
 
 " }}}
 " {{{ dark
@@ -151,6 +159,8 @@ Plug 'bluz71/vim-moonfly-colors'
 Plug 'romainl/Apprentice'
 Plug 'AlessandroYorba/Alduin'
 Plug 'djjcast/mirodark'
+Plug 'ajmwagar/vim-deus'
+Plug 'nanotech/jellybeans.vim'
 
 " }}}
 " {{{ dual/multiple
@@ -279,15 +289,18 @@ let g:alduin_Shout_Dragon_Aspect = 1
 " }}}
 " {{{ colorscheme
 
-set background=dark
+set background=light
 syntax enable
-colorscheme base16-irblack
+" colorscheme jellybeans
+" colorscheme base16-seti
+colorscheme flatwhite
 
 let g:lightline = {}
-let g:lightline.colorscheme = 'base16_irblack'
+let g:lightline.colorscheme = 'pencil'
 
 " {{{ dark colorschemes
 let g:colorset_dark = [
+                     \ 'jellybeans',
                      \ 'tempus_tempest',
                      \ 'base16-seti',
                      \ 'base16-twilight',
@@ -316,6 +329,7 @@ let g:colorset_dark = [
 		                 \ ]
 
 let g:lightline_colorset_dark_mappings = {
+  \   'jellybeans': 'jellybeans',
   \   'tempus_future': 'ayu',
   \   'tempus_classic': 'apprentice',
   \   'tempus_tempest': 'sonokai',
@@ -345,6 +359,7 @@ let g:lightline_colorset_dark_mappings = {
 " }}}
 " {{{ light colorschemes
 let g:colorset_light = [
+                      \ 'flatwhite',
                       \ 'tempus_day',
                       \ 'defminus',
                       \ 'paper',
@@ -366,6 +381,7 @@ let g:colorset_light = [
                       \ ]
 
 let g:lightline_colorset_light_mappings = {
+  \   'flatwhite': 'pencil',
   \   'tempus_day': 'pencil',
   \   'base16-one-light': 'base16_one_light',
   \   'base16-solarized-light': 'base16_solarized_light',
@@ -390,6 +406,9 @@ let g:lightline_colorset_light_mappings = {
 " }}}
 " }}}
 " {{{ basic settings
+
+" Disable background erase for kitty
+let &t_ut=''
 
 filetype plugin on
 filetype indent on
@@ -420,7 +439,6 @@ set foldcolumn=2
 set laststatus=2
 set showcmd
 set smartcase
-set lazyredraw
 set hidden
 set tw=79 " word wrap
 
@@ -447,6 +465,38 @@ autocmd InsertEnter,WinLeave * set nocursorline
 autocmd InsertLeave,TextChanged * update
 
 " }}}
+" {{{ Neovim GTK + GVim dynamic font size
+
+let g:default_fontsize = 11
+let g:font = "BlexMono Nerd Font Medium"
+let g:fontsize = g:default_fontsize
+
+function! SetFont()
+  if exists('g:GtkGuiLoaded')
+    call rpcnotify(1, 'Gui', 'Font', g:font . ' ' . g:fontsize)
+  elseif has('gui_running')
+    exec "GuiFont " . g:font . ":h" . g:fontsize
+  endif
+endfunction
+
+call SetFont()
+
+function! AdjustFontSize(delta)
+  let g:fontsize += a:delta
+  call SetFont()
+endfunction
+
+function! ResetFontSize()
+  let g:fontsize = g:default_fontsize
+  call SetFont()
+endfunction
+
+nnoremap <C-=> :call AdjustFontSize(1)<CR>
+nnoremap <C-+> :call AdjustFontSize(1)<CR>
+nnoremap <C--> :call AdjustFontSize(-1)<CR>
+nnoremap <C-0> :call ResetFontSize()<CR>
+
+" }}}
 " {{{ GVim settings
 
 if has('gui_running')
@@ -455,14 +505,33 @@ if has('gui_running')
   set guioptions-=r " remove right scrollbar
   set guioptions-=L " remove left scrollbar
 
-  set guifont=BlexMono\ Nerd\ Font
+  set guifont=BlexMono\ Nerd\ Font\ Medium:h10
 
   " Toggle menubar w/ CTRL+F1
   nnoremap <C-F1> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
 
+  " Toggle fullscreen w/ F11
+  map <silent> <F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
+
   " Paste via shift + insert
   map <S-Insert> <MiddleMouse>
   map! <S-Insert> <MiddleMouse>
+endif
+
+" }}}
+" {{{ Neovim GTK settings
+
+if exists('g:GtkGuiLoaded')
+  " Paste via shift + insert
+  map <S-Insert> <MiddleMouse>
+  map! <S-Insert> <MiddleMouse>
+
+  call rpcnotify(1, 'Gui', 'FontFeatures', 'liga, zero, frac')
+  call rpcnotify(1, 'Gui', 'Option', 'Popupmenu', 0)
+  call rpcnotify(1, 'Gui', 'Option', 'Tabline', 0)
+  call rpcnotify(1, 'Gui', 'Option', 'Cmdline', 0)
+
+  let g:GuiInternalClipoard = 1
 endif
 
 " }}}
@@ -488,7 +557,7 @@ set nowritebackup
 
 let g:ale_enabled = 1
 
-let g:ale_linters = { 'ruby': ['rubocop'] }
+let g:ale_linters = { 'javascript': ['eslint'], 'ruby': ['rubocop'] }
 let g:ale_fixers = { 'javascript': ['standard', 'eslint'] }
 let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_enter = 1
@@ -575,6 +644,11 @@ command! -bang -nargs=? -complete=dir FZFFilesWithNativePreview
     \  ]}, <bang>0)
 
 " }}}
+" {{{ PLUGIN: gitgutter
+
+let g:gitgutter_max_signs = 1000
+
+" }}}
 " {{{ PLUGIN: goyo
 
 let g:goyo_height = '80%'
@@ -614,7 +688,7 @@ endfunction
 
 function! LightlineFilename()
   let root = fnamemodify(get(b:, 'git_dir'), ':h')
-  let path = expand('%:p')
+  let path = expand('%:P')
   if path[:len(root)-1] ==# root
     return path[len(root)+1:]
   endif
@@ -857,7 +931,7 @@ let g:grepper.open = 1
 let g:grepper.switch = 1
 let g:grepper.dir = 'repo,file'
 let g:grepper.ag = {
-  \ 'grepprg': 'ag --ignore-dir=node_modules --ignore-dir=docs --ignore-dir=bower_components --ignore-dir=dist --ignore-dir=build'
+  \ 'grepprg': 'ag --ignore-dir=node_modules --ignore-dir=.undodir --ignore-dir=docs --ignore-dir=bower_components --ignore-dir=dist --ignore-dir=build'
   \ }
 
 " }}}
@@ -872,10 +946,10 @@ let g:gutentags_enabled = 1
 let g:highlightedyank_highlight_duration = 300
 
 " }}}
-" {{{ PLUGIN: vim-javascript
+" {{{ PLUGIN: vim-javascript (replaced by vim-js)
 
-let g:javascript_plugin_jsdoc = 1
-let g:javascript_plugin_flow = 1
+" let g:javascript_plugin_jsdoc = 1
+" let g:javascript_plugin_flow = 1
 
 " }}}
 " {{{ PLUGIN: javascript-libraries-syntax
@@ -953,6 +1027,7 @@ let g:vimwiki_folding = 'expr'
 let g:workspace_create_new_tabs = 0
 let g:workspace_autosave_untrailspaces = 0
 let g:workspace_autosave = 0
+let g:workspace_session_directory = $HOME . '/.config/nvim/sessions/'
 
 " }}}
 
@@ -1251,8 +1326,8 @@ nnoremap <silent> <leader>P :tabprev<cr>
 " }}}
 " {{{ terminal splits
 
-command! -nargs=* T terminal <args>
-command! -nargs=* VT vert terminal <args>
+command! -nargs=* T split | terminal <args>
+command! -nargs=* VT vsplit | terminal <args>
 
 " }}}
 " {{{ testing

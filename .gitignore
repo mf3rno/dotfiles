@@ -14,3 +14,4 @@ vim/plugged
 vim/sessions
 vim/plugins-neovim
 vim/plugins-vim
+config/nvim/.netrwhist

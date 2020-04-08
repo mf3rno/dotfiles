@@ -1,5 +1,10 @@
 #! /bin/bash
 
+export GEM_HOME=~/.rvm/gem/ruby-2.7.0
+export GEM_PATH=~/.rvm/gems/ruby-2.7.0/bin
+export GOPATH=~/go
+export PATH="$GEM_PATH:$GOPATH/bin:/snap/bin:~/bin:~/bin/bfx-hf-ui:~/.local/bin:~/.rvm/bin:/usr/local/bin:~/bin/dev-sessions:$PATH"
+
 userresources=$HOME/.Xresources
 usermodmap=$HOME/.Xmodmap
 sysresources=/etc/X11/xinit/.Xresources
@@ -20,7 +25,7 @@ if [ -f "$userresources" ]; then
 fi
 
 if [ -f "$usermodmap" ]; then
-    xmodmap "$usermodmap"
+  xmodmap "$usermodmap"
 fi
 
 # start some nice programs

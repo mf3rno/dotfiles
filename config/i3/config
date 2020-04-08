@@ -1,6 +1,7 @@
 set $mod Mod4
 
 for_window [class=".*"] border pixel 1
+for_window [class="NeovimGtk"] fullscreen enable
 hide_edge_borders smart
 
 assign [class="Firefox"] 1
@@ -23,7 +24,7 @@ exec --no-startup-id offlineimap
 # exec --no-startup-id picom --experimental-backends -b
 
 bindsym $mod+Ctrl+Shift+l exec i3lock -f -o
-bindsym $mod+p exec rofi -show combi
+bindsym $mod+p exec rofi -show drun
 bindsym $mod+Shift+p exec rofi -show run
 bindsym $mod+m exec rofi-mpd -a
 bindsym $mod+Shift+s exec flameshot gui -p ~/Pictures/Screenshots
@@ -49,6 +50,9 @@ floating_modifier $mod
 # start a terminal
 # bindsym $mod+Return exec alacritty
 bindsym $mod+Return exec kitty
+
+# neovim shortcut
+bindsym $mod+shift+v exec nvim-gtk
 
 # kill focused window
 bindsym $mod+Shift+q kill

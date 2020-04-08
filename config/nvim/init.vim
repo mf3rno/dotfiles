@@ -1,36 +1,32 @@
+" {{{ custom cursor settings (alacritty, kitty)
+
+if !exists('g:GtkGuiLoaded') && !has('gui_running')
+  " t_SI: INSERT mode
+  " t_SR: REPLACE mode
+  " t_EI: NORMAL mode (ELSE)
+  "
+  " 1 -> blinking block
+  " 2 -> solid block
+  " 3 -> blinking underscore
+  " 4 -> solid underscore
+  " 5 -> blinking vertical bar
+  " 6 -> solid vertical bar
+  let &t_SI = "\<Esc>[3 q"
+  let &t_SR = "\<Esc>[5 q"
+  let &t_EI = "\<Esc>[1 q"
+endif
+
+" }}}
 " {{{ vim-plug init
 
 call plug#begin('~/.vim/plugins-neovim')
 
+" {{{ script libraries
+
 Plug 'google/vim-maktaba'
-Plug 'honza/vim-snippets'
-Plug 'dense-analysis/ale'
-Plug 'pechorin/any-jump.vim'
-Plug 'jlanzarotta/bufexplorer'
 
-Plug 'rhysd/committia.vim'
-Plug 'Raimondi/delimitMate'
-Plug 'AndrewRadev/dsf.vim'
-Plug 'Shougo/echodoc.vim'
-Plug 'othree/es.next.syntax.vim'
-
-Plug 'junegunn/fzf', { 'do': './install --bin' }
-Plug 'junegunn/fzf.vim'
-Plug 'zackhsi/fzf-tags'
-
-Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'kristijanhusak/defx-git'
-Plug 'kristijanhusak/defx-icons'
-
-Plug 'tpope/vim-fugitive'
-Plug 'rhysd/git-messenger.vim'
-Plug 'junegunn/goyo.vim'
-Plug 'junegunn/gv.vim'
-
-Plug 'easymotion/vim-easymotion'
-Plug 'haya14busa/incsearch.vim'
-Plug 'haya14busa/incsearch-fuzzy.vim'
-Plug 'haya14busa/incsearch-easymotion.vim'
+" }}}
+" {{{ lightline
 
 Plug 'itchyny/lightline.vim'
 Plug 'maximbaz/lightline-ale'
@@ -38,130 +34,150 @@ Plug 'taohexxx/lightline-buffer'
 Plug 'sainnhe/lightline_foobar.vim'
 Plug 'josa42/vim-lightline-coc'
 
-" {{{ JS Syntax
+" }}}
+" {{{ fzf
 
-Plug 'pangloss/vim-javascript'
+Plug 'junegunn/fzf', { 'do': './install --bin' }
+Plug 'junegunn/fzf.vim'
+Plug 'zackhsi/fzf-tags'
+
+" }}}
+" {{{ better search (easymotion)
+
+Plug 'easymotion/vim-easymotion'
+Plug 'haya14busa/incsearch.vim'
+Plug 'haya14busa/incsearch-fuzzy.vim'
+Plug 'haya14busa/incsearch-easymotion.vim'
+
+" }}}
+" {{{ syntax/languages
+
+Plug 'dag/vim-fish'
+Plug 'fatih/vim-go'
+Plug 'vim-ruby/vim-ruby'
+Plug 'mustache/vim-mustache-handlebars'
+Plug 'gabrielelana/vim-markdown'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'mboughaba/i3config.vim'
+Plug 'smancill/conky-syntax.vim'
+Plug 'sheerun/vim-yardoc'
+Plug 'moll/vim-node'
+
+" {{{ javascript
+
+" Plug 'pangloss/vim-javascript'
+Plug 'yuezk/vim-js'
+Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'othree/es.next.syntax.vim'
 
 " }}}
 
-Plug 'dag/vim-fish'
-Plug 'moll/vim-node'
-Plug 'whatever555/npm-package-info'
-Plug 'norcalli/nvim-colorizer.lua'
-Plug 'kien/rainbow_parentheses.vim'
-Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} " python syntax highlighting
-Plug 'wincent/terminus' " enhanced terminal integration
-Plug 'ternjs/tern_for_vim'
-Plug 'markonm/traces.vim' " live search/sub preview
-Plug 'sirver/UltiSnips'
-Plug 'ntpeters/vim-better-whitespace'
-Plug 'schickling/vim-bufonly'
-Plug 'tpope/vim-commentary' " fast commenting
-Plug 'hail2u/vim-css3-syntax'
-Plug 'ryanoasis/vim-devicons'
-Plug 'dkprice/vim-easygrep'
-Plug 'int3/vim-extradite' " git log
+" }}}
+" {{{ snippets
+
+Plug 'jordwalke/vimjsdocsnippets'
+
+" ultisnips/snipps provided by coc plugins
+" Plug 'honza/vim-snippets'
+" Plug 'sirver/UltiSnips'
+
+" }}}
+" {{{ git integration
+
+Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'fatih/vim-go'
-Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)'] }
-Plug 'ludovicchabant/vim-gutentags' " auto tag regen
-Plug 'thaerkh/vim-indentguides'
-Plug 'MaxMEllon/vim-jsx-pretty'
-Plug 'gabrielelana/vim-markdown'
-Plug 'matze/vim-move'
-Plug 'mustache/vim-mustache-handlebars'
+Plug 'rhysd/committia.vim' " better git commit layout
+Plug 'int3/vim-extradite' " git log
+
+" }}}
+
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'dense-analysis/ale'
+Plug 'pechorin/any-jump.vim'
+Plug 'jlanzarotta/bufexplorer'
 Plug 'tpope/vim-repeat' " . repeat for plugins
-Plug 'vim-ruby/vim-ruby'
 Plug 'mhinz/vim-startify'
-Plug 'janko/vim-test'
-Plug 'tpope/vim-unimpaired'
 Plug 'liuchengxu/vim-which-key'
 Plug 'vimwiki/vimwiki'
 Plug 'thaerkh/vim-workspace'
-Plug 'sheerun/vim-yardoc'
 Plug 'vim-scripts/ZoomWin'
-Plug 'michaeljsmith/vim-indent-object'
-Plug 'gcmt/wildfire.vim'
-Plug 'msrose/vim-perpetuloc'
-
+Plug 'janko/vim-test'
+Plug 'tpope/vim-unimpaired'
+Plug 'junegunn/goyo.vim'
+Plug 'markonm/traces.vim' " live search/sub preview
+Plug 'schickling/vim-bufonly'
+Plug 'tpope/vim-commentary' " fast commenting
+Plug 'Raimondi/delimitMate' " quote/etc autocomplete
+Plug 'AndrewRadev/dsf.vim' " delete surrounding function call
+Plug 'Shougo/echodoc.vim'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'wincent/terminus' " enhanced terminal integration
+Plug 'ternjs/tern_for_vim', { 'do': 'npm i' }
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'ryanoasis/vim-devicons'
+Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)'] }
+Plug 'ludovicchabant/vim-gutentags' " auto tag regen
+Plug 'michaeljsmith/vim-indent-object' " indent-level text object
+Plug 'gcmt/wildfire.vim' " select text objects
 Plug 'mtth/scratch.vim'
 Plug 'rhysd/clever-split.vim'
 Plug 'machakann/vim-highlightedyank'
-Plug 'yuttie/comfortable-motion.vim'
-Plug 'unblevable/quick-scope'
-Plug 'jordwalke/vimjsdocsnippets'
-Plug 'skywind3000/vim-terminal-help'
-Plug 'djdt/pyparens.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'mboughaba/i3config.vim'
-Plug 'smancill/conky-syntax.vim'
+Plug 'yuttie/comfortable-motion.vim' " smooth scrolling
+Plug 'unblevable/quick-scope' " f jump highlights
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+Plug 'tpope/vim-vinegar'
 
-" {{{ completion/intellisense
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-colorscheme-switcher'
 
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+if !exists('g:GtkGuiLoaded')
+  Plug 'drmikehenry/vim-fontsize'
+endif
 
-" }}}
 " {{{ colorschemes
 
-Plug 'flazz/vim-colorschemes'
-Plug 'ayu-theme/ayu-vim'
-Plug 'chriskempson/base16-vim'
-Plug 'nightsense/carbonized'
-Plug 'romainl/flattened'
-Plug 'morhetz/gruvbox'
-Plug 'sainnhe/gruvbox-material'
-Plug 'nanotech/jellybeans.vim'
-Plug 'lewis6991/moonlight.vim'
-Plug 'iCyMind/NeoSolarized'
-Plug 'haishanh/night-owl.vim'
-Plug 'mhartington/oceanic-next'
-Plug 'sonph/onehalf'
-Plug 'drewtempelmeyer/palenight.vim'
-Plug 'jdsimcoe/panic.vim'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'kyoz/purify'
-Plug 'eemed/sitruuna.vim'
-Plug 'dracula/vim'
-Plug 'altercation/vim-colors-solarized'
-Plug 'arzg/vim-colors-xcode'
-Plug 'toupeira/vim-desertink'
-Plug 'whatyouhide/vim-gotham'
-Plug 'ntk148v/vim-horizon'
-Plug 'w0ng/vim-hybrid'
-Plug 'Alvarocz/vim-northpole'
-Plug 'rakr/vim-one'
-Plug 'connorholyday/vim-snazzy'
-Plug 'rakr/vim-two-firewatch'
-Plug 'kabbamine/yowish.vim'
-Plug 'jnurmine/Zenburn'
-Plug 'jdsimcoe/hyper.vim'
-Plug 'tyrannicaltoucan/vim-deep-space'
-Plug 'AlessandroYorba/Alduin'
-Plug 'cocopon/iceberg.vim'
-Plug 'nice/sweater'
+" {{{ light
+
 Plug 'reedes/vim-colors-pencil'
 Plug 'mikker/lightline-theme-pencil'
-Plug 'alessandroyorba/sierra'
-Plug 'wimstefan/vim-artesanal'
-Plug 'dylanaraps/crayon'
-Plug 'bluz71/vim-nightfly-guicolors'
-Plug 'rakr/vim-colors-rakr'
-Plug 'zefei/cake16'
-Plug 'vim-scripts/habiLight'
-Plug 'nightsense/stellarized'
-Plug 'ajmwagar/vim-deus'
 Plug 'aonemd/kuroi.vim'
-Plug 'lucasprag/simpleblack'
-Plug 'fcpg/vim-farout'
-Plug 'fcpg/vim-orbital'
-Plug 'fcpg/vim-fahrenheit'
 Plug 'swalladge/paper.vim'
-Plug 'vim-scripts/donbass.vim'
-Plug 'sainnhe/edge'
-Plug 'sainnhe/forest-night'
+Plug 'vim-scripts/summerfruit256.vim'
+Plug 'habamax/vim-colors-defminus'
+Plug 'notpratheek/vim-sol'
+Plug 'kamwitsta/flatwhite-vim'
+
+" }}}
+" {{{ dark
+
+Plug 'ayu-theme/ayu-vim'
+Plug 'toupeira/vim-desertink'
+Plug 'fcpg/vim-farout'
+Plug 'fcpg/vim-fahrenheit'
+Plug 'bluz71/vim-moonfly-colors'
 Plug 'romainl/Apprentice'
+Plug 'AlessandroYorba/Alduin'
+Plug 'djjcast/mirodark'
+Plug 'ajmwagar/vim-deus'
+Plug 'nanotech/jellybeans.vim'
+
+" }}}
+" {{{ dual/multiple
+
+Plug 'chriskempson/base16-vim'
+Plug 'sainnhe/gruvbox-material'
+Plug 'sonph/onehalf', { 'rtp': 'vim/' }
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'rakr/vim-one'
+Plug 'severij/vadelma'
+Plug 'iKarith/tigrana'
+Plug 'sainnhe/sonokai'
+Plug 'chriskempson/base16-vim'
+Plug 'mike-hearn/base16-vim-lightline'
+Plug 'https://gitlab.com/protesilaos/tempus-themes-vim.git' " amazing
+
+" }}}
 
 " }}}
 
@@ -220,17 +236,6 @@ endif
 let ayucolor='dark'
 
 " }}}
-" {{{ COLORSCHEME edge
-
-let g:edge_style = 'neon'
-
-" }}}
-" {{{ COLORSCHEME xcode
-
-let g:xcodedarkhc_green_comments = 1
-let g:xcodelighthc_green_comments = 1
-
-" }}}
 " {{{ COLORSCHEME gruvbox
 
 let g:gruvbox_contrast_dark = 'hard'
@@ -243,24 +248,9 @@ let g:gruvbox_improved_warnings = 1
 let g:gruvbox_material_background = 'hard'
 
 " }}}
-" {{{ COLORSCHEME one
-
-let g:one_allow_italics = 1
-
-" }}}
 " {{{ COLORSCHEME solarized
 
 let g:solarized_contrast = 'high'
-
-" }}}
-" {{{ COLORSCHEME two-firewatch
-
-let g:two_firewatch_italics = 1
-
-" }}}
-" {{{ COLORSCHEME deep-space
-
-let g:deepspace_italics=1
 
 " }}}
 " {{{ COLORSCHEME sierra
@@ -268,110 +258,157 @@ let g:deepspace_italics=1
 let g:sierra_Twilight = 1
 
 " }}}
+" {{{ COLORSCHEME sonokai
+
+" let g:sonokai_style = 'andromeda'
+let g:sonokai_style = 'shusia'
+" let g:sonokai_style = 'atlantis'
+" let g:sonokai_style = 'maia'
+let g:sonokai_enable_italic = 1
+
+" }}}
+" {{{ COLORSCHEME miramare
+
+let g:miramare_enable_italic = 1
+
+" }}}
+" {{{ COLORSCHEME alduin
+
+" Almost black bg
+let g:alduin_Shout_Dragon_Aspect = 1
+
+" Black bg
+" let g:alduin_Shout_Become_Ethereal = 1
+
+" Deep red for special highlighting groups
+" let g:alduin_Shout_Fire_Breath = 1
+
+" Remove block matchparens & add underline
+" let g:alduin_Shout_Aura_Whisper = 1
+
+" }}}
 " {{{ colorscheme
 
-set background=dark
+set background=light
 syntax enable
-colorscheme desertink
+" colorscheme jellybeans
+" colorscheme base16-seti
+colorscheme flatwhite
 
 let g:lightline = {}
-let g:lightline.colorscheme = 'desertink'
+let g:lightline.colorscheme = 'pencil'
 
-" To trim the list to the core schemes, while tracking the 'other' good ones
-let g:colorset_dark_disabled = ['snazzy',
-                              \ 'base16-irblack',
-                              \ 'gotham',
-                              \ 'dracula',
-                              \ 'deus',
-                              \ 'palenight',
-                              \ 'hybrid']
-
-let g:colorset_dark = ['farout',
-                     \ 'forest-night',
-                     \ 'edge',
-                     \ 'ayu',
-                     \ 'apprentice',
-                     \ 'orbital',
-                     \ 'sierra',
-                     \ 'simpleblack',
+" {{{ dark colorschemes
+let g:colorset_dark = [
                      \ 'jellybeans',
-                     \ 'xcodedarkhc',
-                     \ 'gruvbox-material',
-                     \ 'deep-space',
+                     \ 'tempus_tempest',
+                     \ 'base16-seti',
+                     \ 'base16-twilight',
+                     \ 'alduin',
                      \ 'desertink',
-                     \ 'hyper',
-                     \ 'northpole',
-                     \ 'horizon',
-                     \ 'yowish',
-                     \ 'iceberg',
-                     \ 'crayon',
-                     \ 'forest-night']
+                     \ 'tempus_classic',
+                     \ 'tempus_future',
+                     \ 'ayu',
+                     \ 'base16-synth-midnight-dark',
+                     \ 'mirodark',
+                     \ 'sonokai',
+                     \ 'moonfly',
+                     \ 'tigrana-256-dark',
+                     \ 'farout',
+                     \ 'gruvbox-material',
+                     \ 'fahrenheit',
+                     \ 'apprentice',
+                     \ 'base16-xcode-woodland',
+                     \ 'base16-tomorrow-night',
+                     \ 'base16-tomorrow-night-eighties',
+                     \ 'base16-solarflare',
+                     \ 'base16-snazzy',
+                     \ 'base16-material-darker',
+                     \ 'base16-material',
+                     \ 'base16-irblack',
+		                 \ ]
 
-let g:colorset_light = ['paper',
-                      \ 'kuroi',
-                      \ 'two-firewatch',
-                      \ 'stellarized',
-                      \ 'gruvbox-material',
-                      \ 'cake16',
-                      \ 'dual',
-                      \ 'xcodelighthc',
-                      \ 'PaperColor',
-                      \ 'one',
-                      \ 'sweater',
-                      \ 'pencil',
-                      \ 'artesanal',
-                      \ 'rakr',
-                      \ 'habiLight',
-                      \ 'edge']
-
-" {{{ lightine colorset mappings
-let g:lightline_colorset_mappings = {
-  \   'apprentice': 'ayu',
-  \   'Tomorrow-Night-Bright': 'ayu',
-  \   'gotham': 'gotham',
-  \   'yowish': 'yowish',
-  \   'desertink': 'desertink',
-  \   'snazzy': 'snazzy',
-  \   'horizon': 'horizon',
-  \   'deep-space': 'deepspace',
-  \   'alduin': 'deepspace',
-  \   'xcodedarkhc': 'deepspace',
-  \   'nord': 'nord',
-  \   'ayu': 'ayu',
+let g:lightline_colorset_dark_mappings = {
   \   'jellybeans': 'jellybeans',
-  \   'palenight': 'palenight',
-  \   'dracula': 'dracula',
-  \   'iceberg': 'iceberg',
-  \   'base16-irblack': 'ayu',
-  \   'sierra': 'sierra',
-  \   'crayon': 'crayon',
-  \   'deus': 'deus',
-  \   'simpleblack': 'deus',
-  \   'farout': 'farout',
-  \   'orbital': 'orbital',
-  \   'fahrenheit': 'fahrenheit',
-  \   'edge': 'edge',
-  \   'forest-night': 'forest_night',
-  \
+  \   'tempus_future': 'ayu',
+  \   'tempus_classic': 'apprentice',
+  \   'tempus_tempest': 'sonokai',
+  \   'base16-seti': 'base16_seti',
+  \   'base16-snazzy': 'base16_snazzy',
+  \   'base16-solarflare': 'base16_solarflare',
+  \   'base16-sync-midnight-dark': 'base16_sync_midnight_dark',
+  \   'base16-tomorrow-night': 'base16_tomorrow_night',
+  \   'base16-tomorrow-night-eighties': 'base16_tomorrow_night_eighties',
+  \   'base16-irblack': 'base16_irblack',
+  \   'base16-twilight': 'base16_twilight',
+  \   'base16-atelier-forest': 'base16_atelier_forest',
+  \   'base16-xcode-woodland': 'base16_xcode_woodland',
+  \   'base16-material-darker': 'base16_material_darker',
+  \   'base16-material': 'base16_material',
+  \   'mirodark': 'ayu',
+  \   'alduin': 'desertink',
+  \   'apprentice': 'apprentice',
+  \   'moonfly': 'ayu',
+  \   'sonokai': 'sonokai',
+  \   'Tomorrow-Night-Bright': 'ayu',
+  \   'desertink': 'desertink',
+  \   'tigrana-256-dark': 'ayu',
+  \   'ayu': 'ayu',
+  \   'sol': 'pencil'
+  \ }
+" }}}
+" {{{ light colorschemes
+let g:colorset_light = [
+                      \ 'flatwhite',
+                      \ 'tempus_day',
+                      \ 'defminus',
+                      \ 'paper',
+                      \ 'PaperColor',
+                      \ 'onehalflight',
+                      \ 'summerfruit256',
+                      \ 'one',
+                      \ 'kuroi',
+                      \ 'vadelma',
+                      \ 'illigant',
+                      \ 'sol',
+                      \ 'base16-atelier-dune-light',
+                      \ 'base16-solarized-light',
+                      \ 'base16-one-light',
+                      \ 'base16-gruvbox-light-medium',
+                      \ 'base16-gruvbox-light-hard',
+                      \ 'base16-github',
+                      \ 'base16-cupertino',
+                      \ ]
+
+let g:lightline_colorset_light_mappings = {
+  \   'flatwhite': 'pencil',
+  \   'tempus_day': 'pencil',
+  \   'base16-one-light': 'base16_one_light',
+  \   'base16-solarized-light': 'base16_solarized_light',
+  \   'base16-atelier-dune-light': 'base16_atelier_dune_light',
+  \   'base16-github': 'base16_github',
+  \   'base16-cupertino': 'base16_cupertino',
+  \   'defminus': 'pencil',
   \   'paper': 'pencil',
-  \   'stellarized': 'stellarized_light',
-  \   'habiLight': 'pencil',
-  \   'cake16': 'pencil',
-  \   'two-firewatch': 'pencil',
-  \   'rakr': 'pencil',
-  \   'artesanal': 'pencil',
-  \   'pencil': 'pencil',
-  \   'gruvbox-material': 'gruvbox_material',
-  \   'dual': 'PaperColor_light',
-  \   'sweater': 'PaperColor_light',
-  \   'xcodelighthc': 'PaperColor_light',
   \   'PaperColor': 'PaperColor_light',
+  \   'kuroi': 'pencil',
+  \   'base16-gruvbox-light-hard': 'base16_gruvbox_light_hard',
+  \   'base16-gruvbox-light-medium': 'base16_gruvbox_light_medium',
+  \   'gruvbox-material': 'gruvbox_material',
+  \   'summerfruit256': 'pencil',
+  \   'onehalflight': 'onehalflight',
+  \   'one': 'one',
+  \   'illigant': 'pencil',
+  \   'vadelma': 'vadelma',
   \ }
 " }}}
 
 " }}}
 " }}}
 " {{{ basic settings
+
+" Disable background erase for kitty
+let &t_ut=''
 
 filetype plugin on
 filetype indent on
@@ -381,10 +418,8 @@ set timeoutlen=300    " default value
 set ttimeout          " for key codes
 set ttimeoutlen=10    " unnoticeable small value
 
-set shell=/usr/bin/fish
-set hidden
+set shell=/bin/bash
 set number
-set showcmd
 set splitbelow
 set showmatch
 set incsearch
@@ -393,7 +428,6 @@ set colorcolumn=80
 set cmdheight=2
 set signcolumn=yes
 set foldmethod=marker
-" set foldlevelstart=1
 set tags=./tags;,tags;$HOME;
 set regexpengine=1
 set backspace=indent,eol,start
@@ -402,6 +436,11 @@ set noshowmode " lightline renders mode already
 set showtabline=2
 set shortmess-=S
 set foldcolumn=2
+set laststatus=2
+set showcmd
+set smartcase
+set hidden
+set tw=79 " word wrap
 
 augroup editing
   au!
@@ -409,10 +448,6 @@ augroup editing
   au BufEnter * set number
   au BufLeave * set nonumber
 augroup END
-
-if exists('g:GtkGuiLoaded')
- call rpcnotify(1, 'Gui', 'Font', 'CaskaydiaCove', '10')
-endif
 
 " hacky fix for syntax highlighting in large files
 autocmd WinEnter,Filetype * syntax sync fromstart
@@ -422,16 +457,92 @@ aug i3config_ft_detection
   au BufNewFile,BufRead ~/.config/i3/config set filetype=i3config
 aug end
 
-if has('nvim')
-  autocmd TermOpen term://* startinsert
-endif
-
 " disable cursorline in insert mode
 autocmd InsertLeave,WinEnter * set cursorline
 autocmd InsertEnter,WinLeave * set nocursorline
 
 " autosave
 autocmd InsertLeave,TextChanged * update
+
+" }}}
+" {{{ Neovim GTK + GVim dynamic font size
+
+let g:default_fontsize = 11
+let g:font = "BlexMono Nerd Font Medium"
+let g:fontsize = g:default_fontsize
+
+function! SetFont()
+  if exists('g:GtkGuiLoaded')
+    call rpcnotify(1, 'Gui', 'Font', g:font . ' ' . g:fontsize)
+  elseif has('gui_running')
+    exec "GuiFont " . g:font . ":h" . g:fontsize
+  endif
+endfunction
+
+call SetFont()
+
+function! AdjustFontSize(delta)
+  let g:fontsize += a:delta
+  call SetFont()
+endfunction
+
+function! ResetFontSize()
+  let g:fontsize = g:default_fontsize
+  call SetFont()
+endfunction
+
+nnoremap <C-=> :call AdjustFontSize(1)<CR>
+nnoremap <C-+> :call AdjustFontSize(1)<CR>
+nnoremap <C--> :call AdjustFontSize(-1)<CR>
+nnoremap <C-0> :call ResetFontSize()<CR>
+
+" }}}
+" {{{ GVim settings
+
+if has('gui_running')
+  set guioptions-=T " remove toolbar
+  set guioptions-=m " remove menu bar
+  set guioptions-=r " remove right scrollbar
+  set guioptions-=L " remove left scrollbar
+
+  set guifont=BlexMono\ Nerd\ Font\ Medium:h10
+
+  " Toggle menubar w/ CTRL+F1
+  nnoremap <C-F1> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
+
+  " Toggle fullscreen w/ F11
+  map <silent> <F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
+
+  " Paste via shift + insert
+  map <S-Insert> <MiddleMouse>
+  map! <S-Insert> <MiddleMouse>
+endif
+
+" }}}
+" {{{ Neovim GTK settings
+
+if exists('g:GtkGuiLoaded')
+  " Paste via shift + insert
+  map <S-Insert> <MiddleMouse>
+  map! <S-Insert> <MiddleMouse>
+
+  call rpcnotify(1, 'Gui', 'FontFeatures', 'liga, zero, frac')
+  call rpcnotify(1, 'Gui', 'Option', 'Popupmenu', 0)
+  call rpcnotify(1, 'Gui', 'Option', 'Tabline', 0)
+  call rpcnotify(1, 'Gui', 'Option', 'Cmdline', 0)
+
+  let g:GuiInternalClipoard = 1
+endif
+
+" }}}
+" {{{ netrw
+
+let g:netrw_banner = 0
+let g:netrw_altv = 1 " split to right
+" let g:netrw_browse_split = 2 " open file in right split
+let g:netrw_sizestyle = "H" " human readable base 1024
+let g:netrw_liststyle = 3
+let g:netrw_winsize = 20
 
 " }}}
 " {{{ backups
@@ -446,7 +557,7 @@ set nowritebackup
 
 let g:ale_enabled = 1
 
-let g:ale_linters = { 'ruby': ['rubocop'] }
+let g:ale_linters = { 'javascript': ['eslint'], 'ruby': ['rubocop'] }
 let g:ale_fixers = { 'javascript': ['standard', 'eslint'] }
 let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_enter = 1
@@ -465,11 +576,6 @@ let g:ale_open_list = 0
 let g:any_jump_search_prefered_engine = 'ag'
 let g:any_jump_references_only_for_current_filetype = 1
 let g:any_jump_disable_default_keybindings = 1
-
-" }}}
-" {{{ PLUGIN: bufexplorer
-
-
 
 " }}}
 " {{{ PLUGIN: coc
@@ -513,42 +619,10 @@ let g:coc_node_path = '/home/f3rno/.nvm/versions/node/v13.12.0/bin/node'
 let g:coc_node_args = ['--max-old-space-size=16384']
 
 " }}}
-" {{{ PLUGIN: committia
-
-
-
-" }}}
-" {{{ PLUGIN: deliminate
-
-
-
-" }}}
-" {{{ PLUGIN: dsf
-
-
-
-" }}}
 " {{{ PLUGIN: echodoc
 
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'virtual'
-
-" }}}
-" {{{ PLUGIN: es.next.syntax
-
-
-" }}}
-" {{{ PLUGIN: firenvim
-
-
-" }}}
-" {{{ PLUGIN: float-preview
-
-let g:float_preview#docked = 0
-
-" }}}
-" {{{ PLUGIN: fzf-tags
-
 
 " }}}
 " {{{ PLUGIN: fzf
@@ -570,10 +644,9 @@ command! -bang -nargs=? -complete=dir FZFFilesWithNativePreview
     \  ]}, <bang>0)
 
 " }}}
-" {{{ PLUGIN: git-messenger
+" {{{ PLUGIN: gitgutter
 
-let g:git_messenger_into_popup_after_show = 0
-let g:git_messenger_preview_mods = '"botleft"'
+let g:gitgutter_max_signs = 1000
 
 " }}}
 " {{{ PLUGIN: goyo
@@ -597,32 +670,6 @@ autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 " }}}
-" {{{ PLUGIN: gv
-
-
-" }}}
-" {{{ PLUGIN: incsearch-easymotion
-
-
-" }}}
-" {{{ PLUGIN: incsearch-fuzzy
-
-
-" }}}
-" {{{ PLUGIN: incsearch
-
-let g:incsearch#auto_nohlsearch = 1
-
-" }}}
-" {{{ PLUGIN: javascript-libraries-syntax
-
-
-" }}}
-" {{{ PLUGIN: lightline-ale
-
-
-
-" }}}
 " {{{ PLUGIN: lightline
 
 " colorscheme defined in colorscheme config section
@@ -641,7 +688,7 @@ endfunction
 
 function! LightlineFilename()
   let root = fnamemodify(get(b:, 'git_dir'), ':h')
-  let path = expand('%:p')
+  let path = expand('%:P')
   if path[:len(root)-1] ==# root
     return path[len(root)+1:]
   endif
@@ -714,50 +761,14 @@ let g:lightline#ale#indicator_errors = "\uf05e "
 let g:lightline#ale#indicator_ok = "\uf00c "
 
 let g:lightline.tabline = {
-    \ 'left': [ [ 'bufferinfo' ],
-    \           [ 'separator' ],
-    \           [ 'bufferbefore', 'buffercurrent', 'bufferafter' ], ],
-    \ 'right': [ [ 'close' ], ],
+    \ 'left': [ [ 'bufferbefore', 'buffercurrent', 'bufferafter' ] ],
+    \ 'right': [ [ 'bufferinfo' ], ],
     \ }
 
 let g:lightline_buffer_enable_devicons = 1
 let g:lightline_buffer_show_bufnr = 1
 
 autocmd User CocStatusChange,CocDiagnosticChange,GutentagsUpdating,GutentagsUpdated call lightline#update()
-
-" }}}
-" {{{ PLUGIN: ncm2 (DISABLED)
-
-function! _DISABLED_NCM2()
-  " enable ncm2 for all buffers
-  autocmd BufEnter * call ncm2#enable_for_buffer()
-
-  " IMPORTANT: :help Ncm2PopupOpen for more information
-  au User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
-  au User Ncm2PopupClose set completeopt=menuone
-
-  let g:ncm2#matcher = 'substrfuzzy'
-  let g:languageClient_selectionUI =  'fzf'
-  let g:LanguageClient_serverCommands = {
-      \ 'javascript': ['/home/f3rno/.config/nvm/13.1.0/bin/javascript-typescript-stdio'],
-      \ 'ruby': ['/home/f3rno/.rvm/gems/ruby-2.7.0/bin/solargraph', 'stdio'],
-      \ 'vim': ['/home/f3rno/.config/nvm/13.1.0/bin/vim-language-server', '--stdio'],
-      \ 'python': ['/home/f3rno/.local/bin/pyls'],
-      \ }
-endfunction
-
-" }}}
-" {{{ PLUGIN: node
-
-
-" }}}
-" {{{ PLUGIN: npm-package-info
-
-
-" }}}
-" {{{ PLUGIN: nvim-colorizer
-
-lua require'colorizer'.setup()
 
 " }}}
 " {{{ PLUGIN: rainbow-parantheses
@@ -770,29 +781,10 @@ au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
 " }}}
-" {{{ PLUGIN: ScrollColors
-
-
-" }}}
-" {{{ PLUGIN: traces
-
-
-" }}}
 " {{{ PLUGIN: ultisnips
 
 let g:UltiSnipsExpandTrigger = "<c-j>"
 let g:ultisnips_javascript = { 'semi': 'never' }
-
-" }}}
-" {{{ PLUGIN: vCooler
-
-
-" }}}
-" {{{ PLUGIN: vim-auto-save
-
-let g:auto_save = 1
-let g:auto_save_silent = 1
-let g:auto_save_events = ['InsertLeave']
 
 " }}}
 " {{{ PLUGIN: vim-better-whitespace
@@ -800,51 +792,133 @@ let g:auto_save_events = ['InsertLeave']
 let g:better_whitespace_enabled = 1
 
 " }}}
-" {{{ PLUGIN: vim-bufonly
-
-
-" }}}
 " {{{ PLUGIN: vim-colorscheme-switcher
 
-let g:colorscheme_switcher_define_mappings = 0
-let g:colorscheme_switcher_keep_background = 0
+let g:colorscheme_switcher_keep_background = 1
 let g:colorscheme_switcher_exclude_builtins = 1
-
-" }}}
-" {{{ PLUGIN: vim-commentary
-
-
-" }}}
-" {{{ PLUGIN: vim-css3-syntax
-
-
-" }}}
-" {{{ PLUGIN: vim-devicons
-
-
-" }}}
-" {{{ PLUGIN: vim-easygrep
-
-
-" }}}
-" {{{ PLUGIN: vim-easymotion
-
-
-" }}}
-" {{{ PLUGIN: vim-extradite
-
-
-" }}}
-" {{{ PLUGIN: vim-fugitive
-
-
-" }}}
-" {{{ PLUGIN: vim-gitgutter
-
-
-" }}}
-" {{{ PLUGIN: vim-go
-
+let g:colorscheme_switcher_define_mappings = 0
+let g:colorscheme_switcher_exclude = ['tempus_autumn',
+                                    \ 'tempus_dusk',
+                                    \ 'tempus_night',
+                                    \ 'tempus_rift',
+                                    \ 'tempus_spring',
+                                    \ 'tempus_summer',
+                                    \ 'tempus_warp',
+                                    \ 'tempus_winter',
+                                    \ 'sol-term',
+                                    \ 'base16-3024',
+                                    \ 'base16-3024',
+                                    \ 'base16-apathy',
+                                    \ 'base16-ashes',
+                                    \ 'base16-atelier-cave',
+                                    \ 'base16-atelier-cave-light',
+                                    \ 'base16-atelier-dune',
+                                    \ 'base16-atelier-estuary',
+                                    \ 'base16-atelier-estuary-light',
+                                    \ 'base16-atelier-forest',
+                                    \ 'base16-atelier-forest-light',
+                                    \ 'base16-atelier-heath',
+                                    \ 'base16-atelier-heath-light',
+                                    \ 'base16-atelier-lakeside',
+                                    \ 'base16-atelier-lakeside-light',
+                                    \ 'base16-atelier-plateau',
+                                    \ 'base16-atelier-plateau-light',
+                                    \ 'base16-atelier-savanna',
+                                    \ 'base16-atelier-savanna-light',
+                                    \ 'base16-atelier-seaside',
+                                    \ 'base16-atelier-seaside-light',
+                                    \ 'base16-atelier-sulphurpool',
+                                    \ 'base16-atelier-sulphur-light',
+                                    \ 'base16-atlas',
+                                    \ 'base16-bespin',
+                                    \ 'base16-black-metal',
+                                    \ 'base16-black-metal-bathory',
+                                    \ 'base16-black-metal-burzum',
+                                    \ 'base16-black-metal-dark-funeral',
+                                    \ 'base16-black-metal-gorgoroth',
+                                    \ 'base16-black-metal-immortal',
+                                    \ 'base16-black-metal-khold',
+                                    \ 'base16-black-metal-marduk',
+                                    \ 'base16-black-metal-mayhem',
+                                    \ 'base16-black-metal-nile',
+                                    \ 'base16-black-metal-venom',
+                                    \ 'base16-brewer',
+                                    \ 'base16-bright',
+                                    \ 'base16-brogrammer',
+                                    \ 'base16-brushtrees',
+                                    \ 'base16-brushtrees-dark',
+                                    \ 'base16-chalk',
+                                    \ 'base16-circus',
+                                    \ 'base16-classic-dark',
+                                    \ 'base16-classic-light',
+                                    \ 'base16-codeschool',
+                                    \ 'base16-cupcake',
+                                    \ 'base16-darktooth',
+                                    \ 'base16-default-dark',
+                                    \ 'base16-default-light',
+                                    \ 'base16-dracula',
+                                    \ 'base16-eighties',
+                                    \ 'base16-embers',
+                                    \ 'base16-flat',
+                                    \ 'base16-fruit-soda',
+                                    \ 'base16-google-dark',
+                                    \ 'base16-google-light',
+                                    \ 'base16-grayscale-dark',
+                                    \ 'base16-grayscale-light',
+                                    \ 'base16-greenscreen',
+                                    \ 'base16-gruvbox-dark-hard',
+                                    \ 'base16-gruvbox-dark-medium',
+                                    \ 'base16-gruvbox-dark-pale',
+                                    \ 'base16-gruvbox-dark-soft',
+                                    \ 'base16-gruvbox-light-soft',
+                                    \ 'base16-harmonic-dark',
+                                    \ 'base16-harmonic-light',
+                                    \ 'base16-heetch',
+                                    \ 'base16-heetch-light',
+                                    \ 'base16-helios',
+                                    \ 'base16-hopscotch',
+                                    \ 'base16-horizon-dark',
+                                    \ 'base16-ia-dark',
+                                    \ 'base16-ia-light',
+                                    \ 'base16-icy',
+                                    \ 'base16-isotope',
+                                    \ 'base16-macintosh',
+                                    \ 'base16-marrakesh',
+                                    \ 'base16-materia',
+                                    \ 'base16-material-lighter',
+                                    \ 'base16-material-palenight',
+                                    \ 'base16-material-vivid',
+                                    \ 'base16-mellow-purple',
+                                    \ 'base16-mexico-light',
+                                    \ 'base16-mocha',
+                                    \ 'base16-monokai',
+                                    \ 'base16-nord',
+                                    \ 'base16-ocean',
+                                    \ 'base16-oceanicnext',
+                                    \ 'base16-onedark',
+                                    \ 'base16-outrun-dark',
+                                    \ 'base16-papercolor-dark',
+                                    \ 'base16-papercolor-light',
+                                    \ 'base16-paraiso',
+                                    \ 'base16-phd',
+                                    \ 'base16-pico',
+                                    \ 'base16-pop',
+                                    \ 'base16-porple',
+                                    \ 'base16-railscasts',
+                                    \ 'base16-rebecca',
+                                    \ 'base16-shapeshifter',
+                                    \ 'base16-solarized-dark',
+                                    \ 'base16-spacemacs',
+                                    \ 'base16-summerfruit-dark',
+                                    \ 'base16-summerfruit-light',
+                                    \ 'base16-tomorrow',
+                                    \ 'base16-tube',
+                                    \ 'base16-unikitty-dark',
+                                    \ 'base16-unikitty-light',
+                                    \ 'base16-xcode-dusk',
+                                    \ 'base16-woodland',
+                                    \ 'base16-zenburn',
+                                  \ ]
 
 " }}}
 " {{{ PLUGIN: vim-grepper
@@ -857,7 +931,7 @@ let g:grepper.open = 1
 let g:grepper.switch = 1
 let g:grepper.dir = 'repo,file'
 let g:grepper.ag = {
-  \ 'grepprg': 'ag --ignore-dir=node_modules --ignore-dir=bower_components --ignore-dir=dist --ignore-dir=build'
+  \ 'grepprg': 'ag --ignore-dir=node_modules --ignore-dir=.undodir --ignore-dir=docs --ignore-dir=bower_components --ignore-dir=dist --ignore-dir=build'
   \ }
 
 " }}}
@@ -872,14 +946,10 @@ let g:gutentags_enabled = 1
 let g:highlightedyank_highlight_duration = 300
 
 " }}}
-" {{{ PLUGIN: vim-indentguides
+" {{{ PLUGIN: vim-javascript (replaced by vim-js)
 
-
-" }}}
-" {{{ PLUGIN: vim-javascript
-
-let g:javascript_plugin_jsdoc = 1
-let g:javascript_plugin_flow = 1
+" let g:javascript_plugin_jsdoc = 1
+" let g:javascript_plugin_flow = 1
 
 " }}}
 " {{{ PLUGIN: javascript-libraries-syntax
@@ -887,34 +957,14 @@ let g:javascript_plugin_flow = 1
 let g:used_javascript_libs = 'underscore,react,chai'
 
 " }}}
-" {{{ PLUGIN: vim-js-file-import
-
-
-" }}}
 " {{{ PLUGIN: vim-jsx-pretty
 
 let g:vim_jsx_pretty_colorful_config = 1
 
 " }}}
-" {{{ PLUGIN: vim-maktaba
-
-
-" }}}
-" {{{ PLUGIN: vim-markdown
-
-
-" }}}
 " {{{ PLUGIN: vim-move
 
 let g:move_key_modifier = 'C'
-
-" }}}
-" {{{ PLUGIN: vim-mustache-handlebars
-
-
-" }}}
-" {{{ PLUGIN: vim-nerdtree-syntax-higlight
-
 
 " }}}
 " {{{ PLUGIN: vim-perpetuloc
@@ -923,30 +973,9 @@ nnoremap <leader>[ :Lnext<cr>
 nnoremap <leader>] :Lprevious<cr>
 
 " }}}
-" {{{ PLUGIN: vim-repeat
-
-
-" }}}
 " {{{ PLUGIN: vim-ripgrep
 
 let g:vim_search_pulse_mode = 'cursor_line'
-
-" }}}
-" {{{ PLUGIN: vim-ruby
-
-
-" }}}
-" {{{ PLUGIN: vim-snippets
-
-
-" }}}
-" {{{ PLUGIN: vim-startify
-
-
-" }}}
-" {{{ PLUGIN: vim-terminal-help
-
-let g:terminal_edit = 'tab drop'
 
 " }}}
 " {{{ PLUGIN: vim-test
@@ -988,12 +1017,6 @@ let g:which_key_use_floating_win = 0
 nnoremap <silent> <leader> :<c-u>WhichKey ','<CR>
 
 " }}}
-" {{{ PLUGIN: vimade
-
-let g:vimade = {}
-let g:vimade.fadelevel = 0.5
-
-" }}}
 " {{{ PLUGIN: vimwiki
 
 let g:vimwiki_folding = 'expr'
@@ -1004,20 +1027,10 @@ let g:vimwiki_folding = 'expr'
 let g:workspace_create_new_tabs = 0
 let g:workspace_autosave_untrailspaces = 0
 let g:workspace_autosave = 0
+let g:workspace_session_directory = $HOME . '/.config/nvim/sessions/'
 
 " }}}
-" {{{ PLUGIN: vim-yardoc
 
-
-" }}}
-" {{{ PLUGIN: yajs
-
-
-" }}}
-" {{{ PLUGIN: ZoomWin
-
-
-" }}}
 " }}}
 " {{{ color switching
 
@@ -1033,8 +1046,8 @@ function! s:SwitchToLightColors(n)
   exec 'colorscheme ' . g:colorset_light[n]
   echo 'set light color scheme ' . g:colorset_light[n]
 
-  if has_key(g:lightline_colorset_mappings, g:colorset_light[n])
-    let g:lightline.colorscheme = g:lightline_colorset_mappings[g:colorset_light[n]]
+  if has_key(g:lightline_colorset_light_mappings, g:colorset_light[n])
+    let g:lightline.colorscheme = g:lightline_colorset_light_mappings[g:colorset_light[n]]
 
     call lightline#init()
     call lightline#colorscheme()
@@ -1054,8 +1067,8 @@ function! s:SwitchToDarkColors(n)
   exec 'colorscheme ' . g:colorset_dark[n]
   echo 'set light color scheme ' . g:colorset_dark[n]
 
-  if has_key(g:lightline_colorset_mappings, g:colorset_dark[n])
-    let g:lightline.colorscheme = g:lightline_colorset_mappings[g:colorset_dark[n]]
+  if has_key(g:lightline_colorset_dark_mappings, g:colorset_dark[n])
+    let g:lightline.colorscheme = g:lightline_colorset_dark_mappings[g:colorset_dark[n]]
 
     call lightline#init()
     call lightline#colorscheme()
@@ -1075,6 +1088,10 @@ let g:which_key_map =  {}
 
 " }}}
 
+" fast line movements
+nnoremap J 2j
+nnoremap K 2k
+
 " {{{ ale
 
 nmap <silent> <leader>aj :ALENext<cr>
@@ -1085,6 +1102,12 @@ nmap <silent> <leader>ak :ALEPrevious<cr>
 
 nnoremap <leader>J :AnyJump<CR>
 xnoremap <leader>J :AnyJumpVisual<CR>
+
+" }}}
+" {{{ tab control
+
+nnoremap <leader>N :tabnext<CR>
+nnoremap <leader>P :tabprev<CR>
 
 " }}}
 " {{{ buffer control
@@ -1166,122 +1189,10 @@ nnoremap <leader>Cb :BlacklistAddColorScheme<cr>
 nnoremap <leader>Cw :BlacklistRemColorScheme<cr>
 
 " }}}
-" {{{ defx
-
-let g:defx_is_open = 0
-let g:defx_target = ''
-
-function! DefxDoToggle()
-  let g:defx_buff_info_arr = getbufinfo('defx-0')
-
-  if empty(g:defx_buff_info_arr)
-    let g:defx_buff_windows = []
-  else
-    let g:defx_buff_windows = g:defx_buff_info_arr[0].windows
-  endif
-
-  if !empty(g:defx_buff_windows)
-    call win_gotoid(g:defx_buff_windows[0])
-  end
-
-  if g:defx_is_open
-    call defx#call_action('quit')
-  else
-    exec 'Defx'
-  endif
-
-  let g:defx_is_open = !g:defx_is_open
-endfunction
-
-function! DefxClose()
-  let g:defx_is_open = 0
-  call defx#call_action('quit')
-endfunction
-
-function! DefxOnOpenV()
-  if defx#is_directory()
-    call defx#call_action('open_or_close_tree')
-  else
-    let g:defx_target = defx#get_candidate()
-    let g:defx_is_open = 0
-
-    call defx#call_action('quit')
-    exec 'e '.g:defx_target.action__path
-  endif
-endfunction
-
-function! DefxOnOpenH()
-  if defx#is_directory()
-    call defx#call_action('open_or_close_tree')
-  else
-    let g:defx_target = defx#get_candidate()
-    let g:defx_is_open = 0
-
-    call defx#call_action('quit')
-    exec 'sp '.g:defx_target.action__path
-  endif
-endfunction
-
-function! DefxOnOpen()
-  if defx#is_directory()
-    call defx#call_action('open_or_close_tree')
-  else
-    call defx#call_action('drop')
-  endif
-endfunction
-
-nnoremap <silent> <leader>e :call DefxDoToggle()<cr>
-
-autocmd FileType defx call s:DefxRegisterKeybindings()
-autocmd BufWritePost * call defx#redraw()
-
-function! s:DefxRegisterKeybindings() abort
-  nnoremap <silent><buffer> <cr> :call DefxOnOpen()<cr>
-  nnoremap <silent><buffer>v :call DefxOnOpenV()<cr>
-  nnoremap <silent><buffer>h :call DefxOnOpenH()<cr>
-  nnoremap <silent><buffer><expr> m defx#do_action('move')
-  nnoremap <silent><buffer><expr> r defx#do_action('rename')
-  nnoremap <silent><buffer><expr> d defx#do_action('remove')
-  nnoremap <silent><buffer><expr> D defx#do_action('new_directory')
-  nnoremap <silent><buffer><expr> F defx#do_action('new_file')
-	nnoremap <silent><buffer><expr> y defx#do_action('yank_path')
-  nnoremap <silent><buffer><expr> u defx#do_action('cd', ['..'])
-  nnoremap <silent><buffer><expr> s defx#do_action('search')
-  nnoremap <silent> q :call DefxClose()<cr>
-  nnoremap <silent> <esc> :call DefxClose()<cr>
-endfunction
-
-call defx#custom#option('_', {
-	\ 'columns': 'indent:git:icon:icons:filename',
-	\ 'winwidth': 40,
-	\ 'split': 'vertical',
-	\ 'direction': 'topleft',
-	\ 'show_ignored_files': 0,
-	\ 'root_marker': ':',
-	\ 'buffer_name': 'defx',
-	\ 'ignored_files':
-	\     'node_modules,dist,build,package-lock.json,.git,.undodir,.github,.nyc_output,coverage,tags'
-	\ })
-
-call defx#custom#column('filename', {
-      \ 'directory_icon': '▸',
-      \ 'opened_icon': '▾',
-      \ 'root_icon': ' ',
-      \ 'min_width': '5',
-      \ 'max_width': '40',
-      \ 'root_marker_highlight': 'Ignore',
-      \ })
-
-" }}}
 " {{{ easymotion
 
 map in <Plug>(easymotion-next)
 map iN <Plug>(easymotion-prev)
-
-" }}}
-" {{{ extradite
-
-nnoremap <silent> <leader>L :Extradite<cr>
 
 " }}}
 " {{{ fast quit
@@ -1360,13 +1271,6 @@ nnoremap <silent> <leader>g :Goyo<cr>
 let g:which_key_map.g = ['Goyo', 'toggle goyo']
 
 " }}}
-" {{{ gv
-
-nnoremap <leader>gv :GV<cr>
-nnoremap <leader>gv! :GV!<cr>
-nnoremap <leader>gv? :GV?<cr>
-
-" }}}
 " {{{ grepper
 
 nnoremap <silent> <leader>G :Grepper<cr>
@@ -1389,33 +1293,9 @@ map z? <Plug>(incsearch-fuzzy-?)
 map zg/ <Plug>(incsearch-fuzzy-stay)
 
 " }}}
-" {{{ ncm2
+" {{{ netrw
 
-function! _DISABLED_NCM2_KEYBINDINGS()
-  " Use <TAB> to select the popup menu:
-  inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-  " Press enter key to trigger snippet expansion
-  " The parameters are the same as `:help feedkeys()`
-  inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
-
-  " c-j c-k for moving in snippet
-  let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
-  let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
-  let g:UltiSnipsRemoveSelectModeMappings = 0
-
-  nnoremap gd :call LanguageClient#textDocument_definition({'gotoCmd': 'split'})<cr>
-  nnoremap gr :call LanguageClient#textDocument_references()<cr>
-  " nnoremap gs :call LanguageClient#workspace_symbol()<cr>
-  nnoremap <c-space> :call LanguageClient#textDocument_hover()<cr>
-endfunction
-
-" }}}
-" {{{ npm package info
-
-nnoremap <silent> <leader>N :PackageInfo<cr>
-let g:which_key_map.N = ['PackageInfo', 'show info for package']
+nnoremap <leader>e :Lexplore<cr>
 
 " }}}
 " {{{ quickhl
