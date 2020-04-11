@@ -8,7 +8,7 @@ export GEM_HOME=~/.rvm/gem/ruby-2.7.0
 export GEM_PATH=~/.rvm/gems/ruby-2.7.0/bin
 export NVM_DIR=~/.nvm
 export GOPATH=~/go
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore .undodir --ignore docs --ignore node_modules --ignore bower_components --ignore dist --ignore build --ignore db -g ""'
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore .undodir --ignore docs --ignore node_modules --ignore bower_components --ignore dist --ignore build -g ""'
 
 export PATH="$GEM_PATH:$GOPATH/bin:/snap/bin:~/bin:~/bin/bfx-hf-ui:~/.local/bin:~/.rvm/bin:/usr/local/bin:~/bin/dev-sessions:$PATH"
 

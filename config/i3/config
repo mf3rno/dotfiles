@@ -23,7 +23,7 @@ exec --no-startup-id dunst --config ~/.config/dunst/config
 exec --no-startup-id offlineimap
 # exec --no-startup-id picom --experimental-backends -b
 
-bindsym $mod+Ctrl+Shift+l exec i3lock -f -o
+bindsym $mod+Ctrl+Shift+l exec i3lock -c 000000
 bindsym $mod+p exec rofi -show drun
 bindsym $mod+Shift+p exec rofi -show run
 bindsym $mod+m exec rofi-mpd -a
