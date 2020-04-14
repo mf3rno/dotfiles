@@ -101,10 +101,11 @@ Plug 'int3/vim-extradite' " git log
 " }}}
 " {{{ visual
 
-Plug 'thaerkh/vim-indentguides'
 Plug 'jbgutierrez/vim-better-comments'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'Yggdroot/indentLine'
+Plug 'lukas-reineke/indent-blankline.nvim'
 
 " }}}
 
@@ -187,12 +188,17 @@ Plug 'cocopon/iceberg.vim'
 Plug 'itchyny/landscape.vim'
 Plug 'sstallion/vim-wtf'
 Plug 'sstallion/lightline-wtf'
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'AlessandroYorba/Sierra'
+Plug 'srcery-colors/srcery-vim'
+Plug 'tpope/vim-vividchalk'
 
 " }}}
 " {{{ dual/multiple
 
 Plug 'chriskempson/base16-vim'
 Plug 'sainnhe/gruvbox-material'
+Plug 'morhetz/gruvbox'
 Plug 'sonph/onehalf', { 'rtp': 'vim/' }
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'rakr/vim-one'
@@ -266,8 +272,12 @@ let ayucolor='dark'
 " {{{ COLORSCHEME gruvbox
 
 let g:gruvbox_contrast_dark = 'hard'
-let g:gruvbox_improved_strings = 1
-let g:gruvbox_improved_warnings = 1
+let g:gruvbox_improved_strings = 0
+let g:gruvbox_improved_warnings = 0
+let g:gruvbox_bold = 1
+let g:gruvbox_italic = 1
+let g:gruvbox_underline = 1
+let g:gruvbox_invert_selection = 0
 
 " }}}
 " {{{ COLORSCHEME gruvbox_material
@@ -323,14 +333,28 @@ let g:alduin_Shout_Dragon_Aspect = 1
 " let g:alduin_Shout_Aura_Whisper = 1
 
 " }}}
+" {{{ COLORSCHEME one
+
+let g:one_allow_italics = 1
+
+" }}}
+" {{{ COLORSCHEME srcery
+
+let g:srcery_italic = 1
+
+" }}}
 " {{{ colorscheme
 
 set background=dark
 syntax enable
-colorscheme jellybeans
+" colorscheme jellybeans
 " colorscheme base16-seti
 " colorscheme flatwhite
-" colorscheme gruvbox-material
+" colorscheme gruvbox
+" colorscheme dracula
+" colorscheme srcery
+" colorscheme PaperColor
+colorscheme jellybeans
 
 let g:lightline = {}
 let g:lightline.colorscheme = 'jellybeans'
@@ -563,7 +587,7 @@ let g:fontsize = g:default_fontsize
 " let g:font = 'Input Mono Narrow'
 " let g:font_features = ''
 
-let g:font = 'Hasklug Nerd Font'
+let g:font = 'Hasklug Nerd Font Medium'
 let g:font_features = ''
 
 " let g:font = 'Hermit'
@@ -791,6 +815,11 @@ augroup incsearch-keymap
   autocmd!
   autocmd VimEnter * call s:incsearch_keymap()
 augroup END
+
+" }}}
+" {{{ indentLine
+
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 
 " }}}
 " {{{ PLUGIN: javascript-libraries-syntax
