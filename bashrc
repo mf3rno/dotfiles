@@ -5,12 +5,10 @@ if [[ $- != *i* ]]; then return; fi
 export EDITOR=vim
 export SHELL=bash
 export GEM_HOME=~/.rvm/gem/ruby-2.7.0
-export GEM_PATH=~/.rvm/gems/ruby-2.7.0/bin
-export NVM_DIR=~/.nvm
+export GEM_PATH=~/.rvm/gem/ruby-2.7.0/bin
 export GOPATH=~/go
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore .undodir --ignore docs --ignore node_modules --ignore bower_components --ignore dist --ignore build -g ""'
-
-export PATH="$GEM_PATH:$GOPATH/bin:/snap/bin:~/bin:~/bin/bfx-hf-ui:~/.local/bin:~/.rvm/bin:/usr/local/bin:~/bin/dev-sessions:$PATH"
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore-dir={.git,.undodir,docs/dist,node_modules,bower_components,dist} -g ""'
+export PATH="$GEM_PATH:$GOPATH/bin:/snap/bin:~/bin:~/bin/bfx-hf-ui:~/.local/bin:~/.rvm/bin:/usr/local/bin:~/bin/dev-sessions:~/.yarn/bin/:$PATH"
 
 # export TERM=xterm-256color
 
@@ -43,6 +41,11 @@ gd() {
   git diff
 }
 
+# Hehe, GG
+gg() {
+  env HUSKY_SKIP_HOOKS=1 git commit
+}
+
 # convenience
 # lsd disabled due to poor visiblity on white bg, no color scheme support
 # alias ls="lsd"
@@ -52,8 +55,10 @@ alias ls="ls --color=auto"
 alias ll='ls -lah --color=auto'
 alias grep='grep --color'
 alias cat="bat"
+alias vim="nvim"
 
-# load nvm
+# NVM initialisation
+export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 

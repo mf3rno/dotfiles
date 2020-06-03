@@ -2,6 +2,7 @@ set $mod Mod4
 
 for_window [class=".*"] border pixel 1
 for_window [class="NeovimGtk"] fullscreen enable
+
 hide_edge_borders smart
 
 assign [class="Firefox"] 1
@@ -28,6 +29,7 @@ bindsym $mod+p exec rofi -show drun
 bindsym $mod+Shift+p exec rofi -show run
 bindsym $mod+m exec rofi-mpd -a
 bindsym $mod+Shift+s exec flameshot gui -p ~/Pictures/Screenshots
+bindsym $mod+Shift+c exec ~/bin/dev-sessions/open-project
 # bindsym Ctrl+grave exec /home/f3rno/code/i3-quickterm/i3-quickterm shell
 
 bindsym $mod+g gaps inner all set 16, border pixel
@@ -164,7 +166,6 @@ bindsym $mod+Control+Shift+8 move container to workspace number $ws18
 bindsym $mod+Control+Shift+9 move container to workspace number $ws19
 bindsym $mod+Control+Shift+0 move container to workspace number $ws20
 
-bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
@@ -199,7 +200,7 @@ bar {
   position bottom
   status_command i3blocks
   tray_output none
-  output primary
+  output eDP1
   mode hide
   colors {
     background $bg
@@ -214,7 +215,7 @@ bar {
 
 bar {
   position bottom
-  output DP-1
+  output DP1
   tray_output none
   mode hide
 
@@ -231,7 +232,7 @@ bar {
 
 bar {
   position bottom
-  output DP-2
+  output DP2
   tray_output none
   mode hide
 

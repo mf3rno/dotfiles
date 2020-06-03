@@ -17,13 +17,21 @@ if !exists('g:GtkGuiLoaded') && !has('gui_running')
 endif
 
 " }}}
-" {{{ vim-plug init
+" {{{ plugins [vim-plug]
 
-call plug#begin('~/.vim/plugins-neovim')
+" {{{ START
 
+if has('nvim')
+  call plug#begin('~/.vim/plugins-neovim')
+else
+  call plug#begin('~/.vim/plugins-vim')
+end
+
+" }}}
 " {{{ script libraries
 
 Plug 'google/vim-maktaba'
+Plug 'xolox/vim-misc'
 
 " }}}
 " {{{ lightline
@@ -57,13 +65,16 @@ Plug 'dag/vim-fish'
 Plug 'fatih/vim-go'
 Plug 'vim-ruby/vim-ruby'
 Plug 'mustache/vim-mustache-handlebars'
-Plug 'gabrielelana/vim-markdown'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'mboughaba/i3config.vim'
 Plug 'smancill/conky-syntax.vim'
 Plug 'sheerun/vim-yardoc'
 Plug 'moll/vim-node'
 Plug 'gisphm/vim-gitignore'
+Plug 'andyk/vim-liquid'
+Plug 'digitaltoad/vim-pug'
+Plug 'Glench/Vim-Jinja2-Syntax'
+Plug 'vim-python/python-syntax'
 
 " {{{ typescript
 
@@ -78,6 +89,7 @@ Plug 'yuezk/vim-js'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'othree/es.next.syntax.vim'
+Plug 'isRuslan/vim-es6'
 
 " }}}
 
@@ -104,10 +116,11 @@ Plug 'int3/vim-extradite' " git log
 Plug 'jbgutierrez/vim-better-comments'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/rainbow_parentheses.vim'
-Plug 'Yggdroot/indentLine'
-Plug 'lukas-reineke/indent-blankline.nvim'
+" Plug 'Yggdroot/indentLine'
+" Plug 'lukas-reineke/indent-blankline.nvim'
 
 " }}}
+" {{{ misc/general
 
 Plug 'Shougo/neco-vim'
 Plug 'neoclide/coc-neco'
@@ -119,7 +132,6 @@ Plug 'tpope/vim-repeat' " . repeat for plugins
 Plug 'mhinz/vim-startify'
 Plug 'liuchengxu/vim-which-key'
 Plug 'vimwiki/vimwiki'
-Plug 'thaerkh/vim-workspace'
 Plug 'vim-scripts/ZoomWin'
 Plug 'janko/vim-test'
 Plug 'tpope/vim-unimpaired'
@@ -142,19 +154,20 @@ Plug 'rhysd/clever-split.vim'
 Plug 'machakann/vim-highlightedyank'
 Plug 'yuttie/comfortable-motion.vim' " smooth scrolling
 Plug 'unblevable/quick-scope' " f jump highlights
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-eunuch' " shell command helpers
 Plug 'fcpg/vim-shore' " mv to 1st non-blank char w/ j/k
 Plug 'AndrewRadev/bufferize.vim'
-
-Plug 'xolox/vim-misc'
+Plug 'voldikss/vim-floaterm'
+Plug 'danro/rename.vim'
+Plug 'vim-scripts/DrawIt'
 Plug 'xolox/vim-colorscheme-switcher'
+Plug 'thaerkh/vim-workspace'
 
 if has('gui_running')
   Plug 'drmikehenry/vim-fontsize'
 endif
-
+" }}}
 " {{{ colorschemes
 
 " {{{ light
@@ -192,29 +205,46 @@ Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'AlessandroYorba/Sierra'
 Plug 'srcery-colors/srcery-vim'
 Plug 'tpope/vim-vividchalk'
+Plug 'jacoborus/tender.vim'
+Plug 'artanikin/vim-synthwave84'
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'DemonCloud/J'
+Plug 'whatyouhide/vim-gotham'
+Plug 'bignimbus/pop-punk.vim'
+Plug 'franbach/miramare'
+Plug 'trevordmiller/nova-vim'
+Plug 'acepukas/vim-zenburn'
+Plug 'arcticicestudio/nord-vim'
+Plug 'relastle/bluewery.vim'
 
 " }}}
 " {{{ dual/multiple
 
 Plug 'chriskempson/base16-vim'
 Plug 'sainnhe/gruvbox-material'
-Plug 'morhetz/gruvbox'
+Plug 'gruvbox-community/gruvbox'
 Plug 'sonph/onehalf', { 'rtp': 'vim/' }
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'rakr/vim-one'
 Plug 'severij/vadelma'
 Plug 'iKarith/tigrana'
 Plug 'sainnhe/sonokai'
-Plug 'chriskempson/base16-vim'
 Plug 'mike-hearn/base16-vim-lightline'
 Plug 'https://gitlab.com/protesilaos/tempus-themes-vim.git' " amazing
 Plug 'junegunn/seoul256.vim'
+Plug 'machakann/vim-colorscheme-tatami'
+Plug 'noahfrederick/vim-hemisu'
+Plug 'jan-warchol/selenized', { 'rtp': 'editors/vim' }
+Plug 'andbar-ru/vim-unicon'
 
 " }}}
 
 " }}}
+" {{{ END
 
 call plug#end()
+
+" }}}
 
 " }}}
 " {{{ function Random()
@@ -352,12 +382,27 @@ syntax enable
 " colorscheme flatwhite
 " colorscheme gruvbox
 " colorscheme dracula
-" colorscheme srcery
+" colorscheme synthwave84
+" colorscheme alduin
+" colorscheme ayu
 " colorscheme PaperColor
-colorscheme jellybeans
+" colorscheme shirotelin
+" colorscheme selenized_bw
+" colorscheme hemisu
+" colorscheme desertink
+" colorscheme moonfly
+" colorscheme base16-irblack
+" colorscheme gotham
+" colorscheme miramare
+" colorscheme nova
+colorscheme zenburn
+" colorscheme nord
+" colorscheme tender
+" colorscheme bluewery
+" colorscheme bluewery-light
 
 let g:lightline = {}
-let g:lightline.colorscheme = 'jellybeans'
+let g:lightline.colorscheme = 'zenburn'
 
 " {{{ dark colorschemes
 let g:colorset_dark = [
@@ -383,7 +428,6 @@ let g:colorset_dark = [
                      \ 'gruvbox-material',
                      \ 'fahrenheit',
                      \ 'apprentice',
-                     \ 'base16-xcode-woodland',
                      \ 'base16-tomorrow-night',
                      \ 'base16-tomorrow-night-eighties',
                      \ 'base16-solarflare',
@@ -429,12 +473,11 @@ let g:lightline_colorset_dark_mappings = {
 " }}}
 " {{{ light colorschemes
 let g:colorset_light = [
-                      \ 'mayansmoke',
+                      \ 'unicon',
+                      \ 'paper',
                       \ 'flatwhite',
-                      \ 'shirotelin',
                       \ 'tempus_day',
                       \ 'defminus',
-                      \ 'paper',
                       \ 'PaperColor',
                       \ 'onehalflight',
                       \ 'summerfruit256',
@@ -493,6 +536,7 @@ set ttimeout          " for key codes
 set ttimeoutlen=10    " unnoticeable small value
 
 set shell=/bin/bash
+set encoding=utf-8
 set number
 set splitbelow
 set showmatch
@@ -544,10 +588,7 @@ augroup END
 " hacky fix for syntax highlighting in large files
 autocmd WinEnter,Filetype * syntax sync fromstart
 
-aug i3config_ft_detection
-  au!
-  au BufNewFile,BufRead ~/.config/i3/config set filetype=i3config
-aug end
+au BufNewFile,BufRead ~/.config/i3/config setf i3config
 
 " disable cursorline in insert mode
 autocmd InsertLeave,WinEnter * set cursorline
@@ -555,6 +596,15 @@ autocmd InsertEnter,WinLeave * set nocursorline
 
 " autosave
 autocmd InsertLeave,TextChanged * update
+
+" Fix for https://github.com/itchyny/lightline.vim/issues/448
+" Called at end of vimrc
+function! FixLightlineStartupRender(timer)
+  execute('resize -1')
+  execute('resize +1')
+endfunction
+
+autocmd VimEnter * call timer_start(600, 'FixLightlineStartupRender')
 
 " {{{ JS block comment indent fix
 
@@ -573,9 +623,11 @@ autocmd FileType javascript setlocal indentkeys+==* indentexpr=CustomJSIndentExp
 " }}}
 
 " }}}
-" {{{ Neovim GTK + GVim font + dynamic size
+" {{{ GUI settings
 
-let g:default_fontsize = 11
+" {{{ font & dynamic size
+
+let g:default_fontsize = 10
 let g:fontsize = g:default_fontsize
 
 " let g:font = 'Iosevka'
@@ -584,11 +636,17 @@ let g:fontsize = g:default_fontsize
 " let g:font = 'FuraCode Nerd Font'
 " let g:font_features = 'cali'
 
+" let g:font = 'Input Mono Normal'
 " let g:font = 'Input Mono Narrow'
+" let g:font = 'Input Mono Condensed'
+" let g:font = 'Input Mono Compressed'
 " let g:font_features = ''
 
 let g:font = 'Hasklug Nerd Font Medium'
 let g:font_features = ''
+
+" let g:font = 'Operator Mono'
+" let g:font_features = ''
 
 " let g:font = 'Hermit'
 " let g:font_features = ''
@@ -596,7 +654,10 @@ let g:font_features = ''
 " let g:font = 'Source Code Pro'
 " let g:font_features = ''
 
-" let g:font = 'Hack Nerd Font'
+" let g:font = 'Hack'
+" let g:font_features = ''
+
+" let g:font = 'JetBrainsMono Nerd Font'
 " let g:font_features = ''
 
 " let g:font = 'BlexMono Nerd Font'
@@ -629,28 +690,6 @@ nnoremap <C--> :call AdjustFontSize(-1)<CR>
 nnoremap <C-0> :call ResetFontSize()<CR>
 
 " }}}
-" {{{ GVim settings
-
-if has('gui_running')
-  set guioptions-=T " remove toolbar
-  set guioptions-=m " remove menu bar
-  set guioptions-=r " remove right scrollbar
-  set guioptions-=L " remove left scrollbar
-
-  set guifont=BlexMono\ Nerd\ Font\ Medium:h10
-
-  " Toggle menubar w/ CTRL+F1
-  nnoremap <C-F1> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
-
-  " Toggle fullscreen w/ F11
-  map <silent> <F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
-
-  " Paste via shift + insert
-  map <S-Insert> <MiddleMouse>
-  map! <S-Insert> <MiddleMouse>
-endif
-
-" }}}
 " {{{ Neovim GTK settings
 
 if exists('g:GtkGuiLoaded')
@@ -663,6 +702,25 @@ if exists('g:GtkGuiLoaded')
   call rpcnotify(1, 'Gui', 'Option', 'Cmdline', 0)
 
   let g:GuiInternalClipoard = 1
+endif
+
+" }}}
+
+if has('gui_running')
+  set guioptions-=T " remove toolbar
+  set guioptions-=m " remove menu bar
+  set guioptions-=r " remove right scrollbar
+  set guioptions-=L " remove left scrollbar
+
+  " Toggle menubar w/ CTRL+F1
+  nnoremap <C-F1> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
+
+  " Toggle fullscreen w/ F11
+  map <silent> <F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
+
+  " Paste via shift + insert
+  map <S-Insert> <MiddleMouse>
+  map! <S-Insert> <MiddleMouse>
 endif
 
 " }}}
@@ -684,17 +742,22 @@ set nowritebackup
 
 " }}}
 " {{{ plugins
-" {{{ PLUGIN: ale
+" {{{ ale
 
 let g:ale_enabled = 1
 
 let g:ale_linters = {
   \ 'javascript': ['eslint'],
   \ 'typescript': ['eslint'],
-  \ 'ruby': ['rubocop']
+  \ 'ruby': ['rubocop'],
+  \ 'pug': ['puglint'],
   \ }
 
-let g:ale_fixers = { 'javascript': ['standard', 'eslint'] }
+let g:ale_fixers = {
+  \ 'javascript': ['standard', 'eslint'],
+  \ 'ruby': ['rubocop'],
+  \ }
+
 let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
@@ -707,14 +770,14 @@ let g:ale_virtualtext_cursor = 1
 let g:ale_open_list = 0
 
 " }}}
-" {{{ PLUGIN: any-jump
+" {{{ any-jump
 
 let g:any_jump_search_prefered_engine = 'ag'
 let g:any_jump_references_only_for_current_filetype = 1
 let g:any_jump_disable_default_keybindings = 1
 
 " }}}
-" {{{ PLUGIN: coc
+" {{{ coc
 
 " Taken from docs
 "
@@ -737,17 +800,17 @@ let g:coc_snippet_next = '<tab>'
 " Taken from docs, trigger completion
 inoremap <silent><expr> <c-space> coc#refresh()
 
-let g:coc_node_path = '/home/f3rno/.nvm/versions/node/v13.12.0/bin/node'
-let g:coc_node_args = ['--max-old-space-size=16384']
+let g:coc_node_path = '/home/f3rno/.nvm/versions/node/v14.2.0/bin/node'
+let g:coc_node_args = ['--max-old-space-size=16384', '--no-warnings']
 
 " }}}
-" {{{ PLUGIN: echodoc
+" {{{ echodoc
 
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'virtual'
 
 " }}}
-" {{{ PLUGIN: fzf
+" {{{ fzf
 
 set rtp+=/usr/bin/fzf
 
@@ -766,12 +829,12 @@ command! -bang -nargs=? -complete=dir FZFFilesWithNativePreview
     \  ]}, <bang>0)
 
 " }}}
-" {{{ PLUGIN: gitgutter
+" {{{ gitgutter
 
 let g:gitgutter_max_signs = 1000
 
 " }}}
-" {{{ PLUGIN: goyo
+" {{{ goyo
 
 let g:goyo_height = '80%'
 let g:goyo_width = '60%'
@@ -801,7 +864,7 @@ autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 " }}}
-" {{{ PLUGIN: incsearch
+" {{{ incsearch
 
 let g:incsearch#auto_nohlsearch = 1 " disable hlsearch on cursor move
 
@@ -822,12 +885,12 @@ augroup END
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 
 " }}}
-" {{{ PLUGIN: javascript-libraries-syntax
+" {{{ javascript-libraries-syntax
 
 let g:used_javascript_libs = 'underscore,react,chai'
 
 " }}}
-" {{{ PLUGIN: lightline
+" {{{ lightline
 
 " colorscheme defined in colorscheme config section
 
@@ -931,28 +994,44 @@ let g:lightline#bufferline#number_map = {
 autocmd User CocStatusChange,CocDiagnosticChange,GutentagsUpdating,GutentagsUpdated call lightline#update()
 
 " }}}
-" {{{ PLUGIN: rainbow_parentheses.vim
+" {{{ python-syntax
+
+let g:python_highlight_all = 1
+
+" }}}
+" {{{ rainbow_parentheses.vim
 
 autocmd FileType javascript,json,typescript,ruby,python RainbowParentheses
 
 " }}}
-" {{{ PLUGIN: ultisnips
+" {{{ startify
+
+let g:startify_custom_header = [
+      \ '        _________',
+      \ '       / __/__  /_________  ____',
+      \ '      / /_  /_ </ ___/ __ \/ __ \',
+      \ '     / __/___/ / /  / / / / /_/ /',
+      \ '    /_/  /____/_/  /_/ /_/\____/',
+      \ ]
+
+" }}}
+" {{{ ultisnips
 
 let g:UltiSnipsExpandTrigger = "<c-j>"
 let g:ultisnips_javascript = { 'semi': 'never' }
 
 " }}}
-" {{{ PLUGIN: vim-better-whitespace
+" {{{ vim-better-whitespace
 
 let g:better_whitespace_enabled = 1
 
 " }}}
-" {{{ PLUGIN: vim-better-comments
+" {{{ vim-better-comments
 
 let g:bettercomments_language_aliases = { 'javascript': 'js' }
 
 " }}}
-" {{{ PLUGIN: vim-colorscheme-switcher
+" {{{ vim-colorscheme-switcher
 
 let g:colorscheme_switcher_keep_background = 1
 let g:colorscheme_switcher_exclude_builtins = 1
@@ -1081,7 +1160,13 @@ let g:colorscheme_switcher_exclude = ['tempus_autumn',
                                   \ ]
 
 " }}}
-" {{{ PLUGIN: vim-grepper
+" {{{ vim-floaterm
+
+hi Floaterm guibg=black
+hi FloatermBorder guibg=green guifg=black
+
+" }}}
+" {{{ vim-grepper
 
 let g:grepper = {}
 let g:grepper.tools = ['ag']
@@ -1091,49 +1176,49 @@ let g:grepper.open = 1
 let g:grepper.switch = 1
 let g:grepper.dir = 'repo,file'
 let g:grepper.ag = {
-  \ 'grepprg': 'ag --ignore-dir=node_modules --ignore-dir=.undodir --ignore-dir=docs --ignore-dir=bower_components --ignore-dir=dist --ignore-dir=build'
+  \ 'grepprg': 'ag --ignore-dir={modules,node_modules,.undodir,docs/dist,bower_components,dist,build}'
   \ }
 
 " }}}
-" {{{ PLUGIN: vim-gutentags
+" {{{ vim-gutentags
 
 let g:gutentags_ctags_exclude = ['coverage/*', 'node_modules/*', '*%*', 'docs/*']
 let g:gutentags_enabled = 1
 
 " }}}
-" {{{ PLUGIN: vim-highlightedyank
+" {{{ vim-highlightedyank
 
 let g:highlightedyank_highlight_duration = 300
 
 " }}}
-" {{{ PLUGIN: vim-javascript (replaced by vim-js)
+" {{{ vim-javascript (replaced by vim-js)
 
 " let g:javascript_plugin_jsdoc = 1
 " let g:javascript_plugin_flow = 1
 
 " }}}
-" {{{ PLUGIN: vim-jsx-pretty
+" {{{ vim-jsx-pretty
 
 let g:vim_jsx_pretty_colorful_config = 1
 
 " }}}
-" {{{ PLUGIN: vim-move
+" {{{ vim-move
 
 let g:move_key_modifier = 'C'
 
 " }}}
-" {{{ PLUGIN: vim-perpetuloc
+" {{{ vim-perpetuloc
 
 nnoremap <leader>[ :Lnext<cr>
 nnoremap <leader>] :Lprevious<cr>
 
 " }}}
-" {{{ PLUGIN: vim-ripgrep
+" {{{ vim-ripgrep
 
 let g:vim_search_pulse_mode = 'cursor_line'
 
 " }}}
-" {{{ PLUGIN: vim-searchant
+" {{{ vim-searchant
 
 let g:searchant_all = 0 " only toggle current result highlight
 
@@ -1144,7 +1229,7 @@ function SearchantStop()
 endfunction
 
 " }}}
-" {{{ PLUGIN: vim-test
+" {{{ vim-test
 
 let g:test#vim#term_position = "belowright"
 let g:test#strategy = 'neovim'
@@ -1176,19 +1261,14 @@ function! s:RunVimTest(cmd)
 endfunction
 
 " }}}
-" {{{ PLUGIN: vim-which-key
+" {{{ vim-which-key
 
 let g:which_key_use_floating_win = 0
 
 nnoremap <silent> <leader> :<c-u>WhichKey ','<CR>
 
 " }}}
-" {{{ PLUGIN: vimwiki
-
-let g:vimwiki_folding = 'expr'
-
-" }}}
-" {{{ PLUGIN: vim-workspace
+" {{{ vim-workspace
 
 let g:workspace_create_new_tabs = 0
 let g:workspace_autosave_untrailspaces = 0
@@ -1197,8 +1277,13 @@ let g:workspace_autosave = 0
 if has('nvim')
   let g:workspace_session_directory = $HOME . '/.config/nvim/sessions/'
 else
-  let g:workspace_session_directory = $HOME . '/.vim/sessions'
+  let g:workspace_session_directory = $HOME . '/.vim/sessions/'
 endif
+
+" }}}
+" {{{ vimwiki
+
+let g:vimwiki_folding = 'expr'
 
 " }}}
 " }}}
@@ -1494,6 +1579,11 @@ map z? <Plug>(incsearch-fuzzy-?)
 map zg/ <Plug>(incsearch-fuzzy-stay)
 
 " }}}
+" {{{ search
+
+command! -nargs=? Filter let @a='' | execute 'g/<args>/y A' | new | setlocal bt=nofile | put! a
+
+" }}}
 " {{{ netrw
 
 nnoremap <leader>e :Lexplore<cr>
@@ -1542,6 +1632,12 @@ command! -nargs=* T split | terminal <args>
 command! -nargs=* VT vsplit | terminal <args>
 
 " }}}
+" {{{ terminal floating
+
+nnoremap   <silent>   <F10>   :FloatermToggle<CR>
+tnoremap   <silent>   <F10>   <C-\><C-n>:FloatermToggle<CR>
+
+" }}}
 " {{{ testing
 
 nnoremap <leader>tf :call <SID>RunVimTest('TestFile')<cr>
@@ -1555,6 +1651,11 @@ let g:which_key_map.t.f = ["<SID>RunVimTest('TestFile')<cr>", 'test file']
 let g:which_key_map.t.n = ["<SID>RunVimTest('TestNearest')<cr>", 'test nearest']
 let g:which_key_map.t.s = ["<SID>RunVimTest('TestSuite')<cr>", 'test suite']
 let g:which_key_map.t.l = ["<SID>RunVimTest('TestLast')<cr>", 'test last']
+
+" }}}
+" {{{ trim trailing spaces
+
+nnoremap <leader><leader><leader> :%s/\s\+$//e<cr>
 
 " }}}
 " {{{ vimjsdocsnippets
