@@ -1,4 +1,4 @@
-" {{{ custom cursor settings (alacritty, kitty)
+" {{{ 1. Custom cursor settings (alacritty, kitty)
 
 if !exists('g:GtkGuiLoaded') && !has('gui_running')
   " t_SI: INSERT mode
@@ -17,7 +17,7 @@ if !exists('g:GtkGuiLoaded') && !has('gui_running')
 endif
 
 " }}}
-" {{{ plugins [vim-plug]
+" {{{ 2. Plugins
 
 " {{{ START
 
@@ -247,40 +247,8 @@ call plug#end()
 " }}}
 
 " }}}
-" {{{ function Random()
+" {{{ 3. Colorscheme
 
-" from https://github.com/posva/Rndm
-let g:rndm_m1 = 32007779 + (localtime()%100 - 50)
-let g:rndm_m2 = 23717810 + (localtime()/86400)%100
-let g:rndm_m3 = 52636370 + (localtime()/3600)%100
-
-function! Random()
-  let m4= g:rndm_m1 + g:rndm_m2 + g:rndm_m3
-  if( g:rndm_m2 < 50000000 )
-    let m4= m4 + 1357
-  endif
-  if( m4 >= 100000000 )
-    let m4= m4 - 100000000
-    if( m4 >= 100000000 )
-      let m4= m4 - 100000000
-    endif
-  endif
-  let g:rndm_m1 = g:rndm_m2
-  let g:rndm_m2 = g:rndm_m3
-  let g:rndm_m3 = m4
-  return g:rndm_m3
-endfunction
-
-" }}}
-" {{{ indent
-
-set tabstop=2
-set softtabstop=2
-set expandtab
-set shiftwidth=2
-
-" }}}
-" {{{ colors & colorschemes
 " {{{ 256 colors
 
 set t_Co=256
@@ -368,6 +336,13 @@ let g:alduin_Shout_Dragon_Aspect = 1
 let g:one_allow_italics = 1
 
 " }}}
+" {{{ COLORSCHEME sonokai
+
+" shusia, andromeda, atlantis, maia
+let g:sonokai_style = 'maia'
+let g:sonokai_enable_italic = 1
+
+" }}}
 " {{{ COLORSCHEME srcery
 
 let g:srcery_italic = 1
@@ -375,7 +350,7 @@ let g:srcery_italic = 1
 " }}}
 " {{{ colorscheme
 
-set background=dark
+set background=light
 syntax enable
 " colorscheme jellybeans
 " colorscheme base16-seti
@@ -385,8 +360,7 @@ syntax enable
 " colorscheme synthwave84
 " colorscheme alduin
 " colorscheme ayu
-" colorscheme PaperColor
-" colorscheme shirotelin
+colorscheme PaperColor
 " colorscheme selenized_bw
 " colorscheme hemisu
 " colorscheme desertink
@@ -395,14 +369,15 @@ syntax enable
 " colorscheme gotham
 " colorscheme miramare
 " colorscheme nova
-colorscheme zenburn
+" colorscheme zenburn
 " colorscheme nord
 " colorscheme tender
 " colorscheme bluewery
 " colorscheme bluewery-light
+" colorscheme sonokai
 
 let g:lightline = {}
-let g:lightline.colorscheme = 'zenburn'
+let g:lightline.colorscheme = 'pencil'
 
 " {{{ dark colorschemes
 let g:colorset_dark = [
@@ -521,14 +496,21 @@ let g:lightline_colorset_light_mappings = {
 " }}}
 
 " }}}
-" }}}
-" {{{ basic settings
 
+" }}}
+" {{{ 4. Base
+
+" {{{ general
 " Disable background erase for kitty
 let &t_ut=''
 
 filetype plugin on
 filetype indent on
+
+set tabstop=2
+set softtabstop=2
+set expandtab
+set shiftwidth=2
 
 set timeout           " for mappings
 set timeoutlen=300    " default value
@@ -560,6 +542,11 @@ set smartcase
 set hidden
 set tw=79 " word wrap
 
+set noswapfile
+set nobackup
+set nowritebackup
+
+" }}}
 " {{{ undo history
 
 if has('persistent_undo')
@@ -577,6 +564,7 @@ if has('persistent_undo')
 endif
 
 " }}}
+" {{{ autocommands
 
 augroup editing
   au!
@@ -606,6 +594,7 @@ endfunction
 
 autocmd VimEnter * call timer_start(600, 'FixLightlineStartupRender')
 
+" }}}
 " {{{ JS block comment indent fix
 
 function! CustomJSIndentExpr()
@@ -623,7 +612,7 @@ autocmd FileType javascript setlocal indentkeys+==* indentexpr=CustomJSIndentExp
 " }}}
 
 " }}}
-" {{{ GUI settings
+" {{{ 5. GUI
 
 " {{{ font & dynamic size
 
@@ -705,6 +694,7 @@ if exists('g:GtkGuiLoaded')
 endif
 
 " }}}
+" {{{ general settings
 
 if has('gui_running')
   set guioptions-=T " remove toolbar
@@ -724,7 +714,9 @@ if has('gui_running')
 endif
 
 " }}}
-" {{{ netrw
+
+" }}}
+" {{{ 6. netrw
 
 let g:netrw_banner = 0
 let g:netrw_altv = 1 " split to right
@@ -734,14 +726,8 @@ let g:netrw_liststyle = 3
 let g:netrw_winsize = 20
 
 " }}}
-" {{{ backups
+" {{{ 7. Plugin Configuration
 
-set noswapfile
-set nobackup
-set nowritebackup
-
-" }}}
-" {{{ plugins
 " {{{ ale
 
 let g:ale_enabled = 1
@@ -1286,8 +1272,36 @@ endif
 let g:vimwiki_folding = 'expr'
 
 " }}}
+
 " }}}
-" {{{ color switching
+" {{{ 8. Color switching
+
+" {{{ Random()
+
+" from https://github.com/posva/Rndm
+let g:rndm_m1 = 32007779 + (localtime() % 100 - 50)
+let g:rndm_m2 = 23717810 + (localtime() / 86400)%100
+let g:rndm_m3 = 52636370 + (localtime() / 3600) % 100
+
+function! Random()
+  let m4 = g:rndm_m1 + g:rndm_m2 + g:rndm_m3
+  if( g:rndm_m2 < 50000000 )
+    let m4 = m4 + 1357
+  endif
+  if( m4 >= 100000000 )
+    let m4 = m4 - 100000000
+    if( m4 >= 100000000 )
+      let m4 = m4 - 100000000
+    endif
+  endif
+  let g:rndm_m1 = g:rndm_m2
+  let g:rndm_m2 = g:rndm_m3
+  let g:rndm_m3 = m4
+  return g:rndm_m3
+endfunction
+
+" }}}
+" {{{ SwitchToLightColors()
 
 function! s:SwitchToLightColors(n)
   set background=light
@@ -1309,6 +1323,9 @@ function! s:SwitchToLightColors(n)
     call lightline#update()
   endif
 endfunction
+
+" }}}
+" {{{ SwitchToDarkColors()
 
 function! s:SwitchToDarkColors(n)
   set background=dark
@@ -1336,13 +1353,17 @@ function! s:SwitchToDarkColors(n)
   endif
 endfunction
 
-" init for wtf
+" }}}
+" {{{ init for wtf
+
 if g:lightline.colorscheme == 'wtf'
   call lightline#colorscheme#wtf#highlight()
 endif
 
 " }}}
-" {{{ search highlight toggle
+
+" }}}
+" {{{ 9. Search highlight toggle
 
 " Removes the search highlight on insert mode and restores it in normal mode
 function! s:toggle_highlight()
@@ -1362,7 +1383,7 @@ augroup vimrc_search
 augroup END
 
 " }}}
-" {{{ keybindings
+" {{{ 10. Keybindings
 
 let mapleader = ','
 
@@ -1372,11 +1393,12 @@ let mapleader = ','
 let g:which_key_map =  {}
 
 " }}}
+" {{{ fast line movements
 
-" fast line movements
 nnoremap J 2j
 nnoremap K 2k
 
+" }}}
 " {{{ ale
 
 nmap <silent> <leader>aj :ALENext<cr>
