@@ -18,3 +18,9 @@ config/nvim/.netrwhist
 config/nvim/sessions
 config/nvim/undodir
 vim/undodir
+
+vim-plugins/*
+nvim-plugins/*
+
+!nvim-plugins/.keep
+!vim-plugins/.keep

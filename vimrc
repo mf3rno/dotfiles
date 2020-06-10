@@ -1,30 +1,51 @@
-" {{{ 1. Custom cursor settings (alacritty, kitty)
+" {{{ 1. Custom cursor settings
 
-if !exists('g:GtkGuiLoaded') && !has('gui_running')
-  " t_SI: INSERT mode
-  " t_SR: REPLACE mode
-  " t_EI: NORMAL mode (ELSE)
-  "
-  " 1 -> blinking block
-  " 2 -> solid block
-  " 3 -> blinking underscore
-  " 4 -> solid underscore
-  " 5 -> blinking vertical bar
-  " 6 -> solid vertical bar
+" {{{ GUI
+
+if has('gui_running')
+  set guicursor=
+  " set guicursor+=a:blinkwait300-blinkon500-blinkoff-100
+  set guicursor+=n-v-c-sm:block
+  set guicursor+=i-ci-ve:ver25
+  set guicursor+=r-cr-o:hor20
+  set guicursor+=a:blinkon0
+endif
+
+" }}}
+" {{{ terminal
+
+" {{{ reference
+
+" t_SI: INSERT mode
+" t_SR: REPLACE mode
+" t_EI: NORMAL mode (ELSE)
+"
+" 1 -> blinking block
+" 2 -> solid block
+" 3 -> blinking underscore
+" 4 -> solid underscore
+" 5 -> blinking vertical bar
+" 6 -> solid vertical bar
+
+" }}}
+
+if !has('gui_running')
   let &t_SI = "\<Esc>[3 q"
   let &t_SR = "\<Esc>[5 q"
   let &t_EI = "\<Esc>[1 q"
 endif
 
 " }}}
+
+" }}}
 " {{{ 2. Plugins
 
-" {{{ START
+" {{{
 
 if has('nvim')
-  call plug#begin('~/.vim/plugins-neovim')
+  call plug#begin('~/.nvim-plugins')
 else
-  call plug#begin('~/.vim/plugins-vim')
+  call plug#begin('~/.vim-plugins')
 end
 
 " }}}
@@ -32,6 +53,7 @@ end
 
 Plug 'google/vim-maktaba'
 Plug 'xolox/vim-misc'
+Plug 'godlygeek/tabular'
 
 " }}}
 " {{{ lightline
@@ -75,6 +97,9 @@ Plug 'andyk/vim-liquid'
 Plug 'digitaltoad/vim-pug'
 Plug 'Glench/Vim-Jinja2-Syntax'
 Plug 'vim-python/python-syntax'
+Plug 'plasticboy/vim-markdown'
+Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
+Plug 'masukomi/vim-markdown-folding'
 
 " {{{ typescript
 
@@ -92,15 +117,6 @@ Plug 'othree/es.next.syntax.vim'
 Plug 'isRuslan/vim-es6'
 
 " }}}
-
-" }}}
-" {{{ snippets
-
-Plug 'jordwalke/vimjsdocsnippets'
-
-" ultisnips/snipps provided by coc plugins
-" Plug 'honza/vim-snippets'
-" Plug 'sirver/UltiSnips'
 
 " }}}
 " {{{ git integration
@@ -126,11 +142,9 @@ Plug 'Shougo/neco-vim'
 Plug 'neoclide/coc-neco'
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'dense-analysis/ale'
-Plug 'pechorin/any-jump.vim'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'tpope/vim-repeat' " . repeat for plugins
 Plug 'mhinz/vim-startify'
-Plug 'liuchengxu/vim-which-key'
 Plug 'vimwiki/vimwiki'
 Plug 'vim-scripts/ZoomWin'
 Plug 'janko/vim-test'
@@ -158,10 +172,8 @@ Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-eunuch' " shell command helpers
 Plug 'fcpg/vim-shore' " mv to 1st non-blank char w/ j/k
 Plug 'AndrewRadev/bufferize.vim'
-Plug 'voldikss/vim-floaterm'
 Plug 'danro/rename.vim'
 Plug 'vim-scripts/DrawIt'
-Plug 'xolox/vim-colorscheme-switcher'
 Plug 'thaerkh/vim-workspace'
 
 if has('gui_running')
@@ -215,7 +227,9 @@ Plug 'franbach/miramare'
 Plug 'trevordmiller/nova-vim'
 Plug 'acepukas/vim-zenburn'
 Plug 'arcticicestudio/nord-vim'
-Plug 'relastle/bluewery.vim'
+Plug 'atahabaki/archman-vim'
+Plug 'levelone/tequila-sunrise.vim'
+Plug 'ts-26a/vim-darkspace'
 
 " }}}
 " {{{ dual/multiple
@@ -236,497 +250,18 @@ Plug 'machakann/vim-colorscheme-tatami'
 Plug 'noahfrederick/vim-hemisu'
 Plug 'jan-warchol/selenized', { 'rtp': 'editors/vim' }
 Plug 'andbar-ru/vim-unicon'
+Plug 'wimstefan/vim-artesanal'
 
 " }}}
 
 " }}}
-" {{{ END
+" {{{
 
 call plug#end()
 
 " }}}
 
-" }}}
-" {{{ 3. Colorscheme
-
-" {{{ 256 colors
-
-set t_Co=256
-
-if (has("termguicolors"))
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-  set termguicolors
-endif
-
-" }}}
-" {{{ COLORSCHEME ayu
-
-" let ayucolor='light'
-" let ayucolor='mirage'
-let ayucolor='dark'
-
-" }}}
-" {{{ COLORSCHEME gruvbox
-
-let g:gruvbox_contrast_dark = 'hard'
-let g:gruvbox_improved_strings = 0
-let g:gruvbox_improved_warnings = 0
-let g:gruvbox_bold = 1
-let g:gruvbox_italic = 1
-let g:gruvbox_underline = 1
-let g:gruvbox_invert_selection = 0
-
-" }}}
-" {{{ COLORSCHEME gruvbox_material
-
-let g:gruvbox_material_background = 'hard'
-
-" }}}
-" {{{ COLORSCHEME seoul256
-
-" 233 (darkest) - 239 (lightest)
-let g:seoul256_background = 234
-
-" 252 (darkest) - 256 (lightest)
-let g:seoul256_light_background = 252
-
-" }}}
-" {{{ COLORSCHEME solarized
-
-let g:solarized_contrast = 'high'
-
-" }}}
-" {{{ COLORSCHEME sierra
-
-let g:sierra_Twilight = 1
-
-" }}}
-" {{{ COLORSCHEME sonokai
-
-" let g:sonokai_style = 'andromeda'
-let g:sonokai_style = 'shusia'
-" let g:sonokai_style = 'atlantis'
-" let g:sonokai_style = 'maia'
-let g:sonokai_enable_italic = 1
-
-" }}}
-" {{{ COLORSCHEME miramare
-
-let g:miramare_enable_italic = 1
-
-" }}}
-" {{{ COLORSCHEME alduin
-
-" Almost black bg
-let g:alduin_Shout_Dragon_Aspect = 1
-
-" Black bg
-" let g:alduin_Shout_Become_Ethereal = 1
-
-" Deep red for special highlighting groups
-" let g:alduin_Shout_Fire_Breath = 1
-
-" Remove block matchparens & add underline
-" let g:alduin_Shout_Aura_Whisper = 1
-
-" }}}
-" {{{ COLORSCHEME one
-
-let g:one_allow_italics = 1
-
-" }}}
-" {{{ COLORSCHEME sonokai
-
-" shusia, andromeda, atlantis, maia
-let g:sonokai_style = 'maia'
-let g:sonokai_enable_italic = 1
-
-" }}}
-" {{{ COLORSCHEME srcery
-
-let g:srcery_italic = 1
-
-" }}}
-" {{{ colorscheme
-
-set background=light
-syntax enable
-" colorscheme jellybeans
-" colorscheme base16-seti
-" colorscheme flatwhite
-" colorscheme gruvbox
-" colorscheme dracula
-" colorscheme synthwave84
-" colorscheme alduin
-" colorscheme ayu
-colorscheme PaperColor
-" colorscheme selenized_bw
-" colorscheme hemisu
-" colorscheme desertink
-" colorscheme moonfly
-" colorscheme base16-irblack
-" colorscheme gotham
-" colorscheme miramare
-" colorscheme nova
-" colorscheme zenburn
-" colorscheme nord
-" colorscheme tender
-" colorscheme bluewery
-" colorscheme bluewery-light
-" colorscheme sonokai
-
-let g:lightline = {}
-let g:lightline.colorscheme = 'pencil'
-
-" {{{ dark colorschemes
-let g:colorset_dark = [
-                     \ 'jellybeans',
-                     \ 'tempus_tempest',
-                     \ 'base16-seti',
-                     \ 'seoul256',
-                     \ 'iceberg',
-                     \ 'base16-twilight',
-                     \ 'landscape',
-                     \ 'hydrangea',
-                     \ 'alduin',
-                     \ 'desertink',
-                     \ 'tempus_classic',
-                     \ 'tempus_future',
-                     \ 'ayu',
-                     \ 'base16-synth-midnight-dark',
-                     \ 'mirodark',
-                     \ 'sonokai',
-                     \ 'moonfly',
-                     \ 'tigrana-256-dark',
-                     \ 'farout',
-                     \ 'gruvbox-material',
-                     \ 'fahrenheit',
-                     \ 'apprentice',
-                     \ 'base16-tomorrow-night',
-                     \ 'base16-tomorrow-night-eighties',
-                     \ 'base16-solarflare',
-                     \ 'base16-snazzy',
-                     \ 'base16-material-darker',
-                     \ 'base16-material',
-                     \ 'base16-irblack',
-		                 \ ]
-
-let g:lightline_colorset_dark_mappings = {
-  \   'landscape': 'landscape',
-  \   'deus': 'deus',
-  \   'iceberg': 'iceberg',
-  \   'hydrangea': 'hydrangea',
-  \   'seoul256': 'seoul256',
-  \   'jellybeans': 'jellybeans',
-  \   'tempus_future': 'ayu',
-  \   'tempus_classic': 'apprentice',
-  \   'tempus_tempest': 'sonokai',
-  \   'base16-seti': 'base16_seti',
-  \   'base16-snazzy': 'base16_snazzy',
-  \   'base16-solarflare': 'base16_solarflare',
-  \   'base16-sync-midnight-dark': 'base16_sync_midnight_dark',
-  \   'base16-tomorrow-night': 'base16_tomorrow_night',
-  \   'base16-tomorrow-night-eighties': 'base16_tomorrow_night_eighties',
-  \   'base16-irblack': 'base16_irblack',
-  \   'base16-twilight': 'base16_twilight',
-  \   'base16-atelier-forest': 'base16_atelier_forest',
-  \   'base16-xcode-woodland': 'base16_xcode_woodland',
-  \   'base16-material-darker': 'base16_material_darker',
-  \   'base16-material': 'base16_material',
-  \   'mirodark': 'ayu',
-  \   'alduin': 'desertink',
-  \   'apprentice': 'apprentice',
-  \   'moonfly': 'ayu',
-  \   'sonokai': 'sonokai',
-  \   'Tomorrow-Night-Bright': 'ayu',
-  \   'desertink': 'desertink',
-  \   'tigrana-256-dark': 'ayu',
-  \   'ayu': 'ayu',
-  \   'sol': 'pencil'
-  \ }
-" }}}
-" {{{ light colorschemes
-let g:colorset_light = [
-                      \ 'unicon',
-                      \ 'paper',
-                      \ 'flatwhite',
-                      \ 'tempus_day',
-                      \ 'defminus',
-                      \ 'PaperColor',
-                      \ 'onehalflight',
-                      \ 'summerfruit256',
-                      \ 'one',
-                      \ 'kuroi',
-                      \ 'vadelma',
-                      \ 'illigant',
-                      \ 'sol',
-                      \ 'base16-atelier-dune-light',
-                      \ 'base16-solarized-light',
-                      \ 'base16-one-light',
-                      \ 'base16-gruvbox-light-medium',
-                      \ 'base16-gruvbox-light-hard',
-                      \ 'base16-github',
-                      \ 'base16-cupertino',
-                      \ ]
-
-let g:lightline_colorset_light_mappings = {
-  \   'mayansmoke': 'mayansmoke',
-  \   'shirotelin': 'pencil',
-  \   'flatwhite': 'pencil',
-  \   'tempus_day': 'pencil',
-  \   'base16-one-light': 'base16_one_light',
-  \   'base16-solarized-light': 'base16_solarized_light',
-  \   'base16-atelier-dune-light': 'base16_atelier_dune_light',
-  \   'base16-github': 'base16_github',
-  \   'base16-cupertino': 'base16_cupertino',
-  \   'defminus': 'pencil',
-  \   'paper': 'pencil',
-  \   'PaperColor': 'PaperColor_light',
-  \   'kuroi': 'pencil',
-  \   'base16-gruvbox-light-hard': 'base16_gruvbox_light_hard',
-  \   'base16-gruvbox-light-medium': 'base16_gruvbox_light_medium',
-  \   'gruvbox-material': 'gruvbox_material',
-  \   'summerfruit256': 'pencil',
-  \   'onehalflight': 'onehalflight',
-  \   'one': 'one',
-  \   'illigant': 'pencil',
-  \   'vadelma': 'vadelma',
-  \ }
-" }}}
-
-" }}}
-
-" }}}
-" {{{ 4. Base
-
-" {{{ general
-" Disable background erase for kitty
-let &t_ut=''
-
-filetype plugin on
-filetype indent on
-
-set tabstop=2
-set softtabstop=2
-set expandtab
-set shiftwidth=2
-
-set timeout           " for mappings
-set timeoutlen=300    " default value
-set ttimeout          " for key codes
-set ttimeoutlen=10    " unnoticeable small value
-
-set shell=/bin/bash
-set encoding=utf-8
-set number
-set splitbelow
-set showmatch
-" set incsearch " incsearch.vim used
-set hlsearch
-set colorcolumn=80
-set cmdheight=2
-set signcolumn=yes
-set foldmethod=marker
-set tags=./tags;,tags;$HOME;
-set regexpengine=1
-set backspace=indent,eol,start
-set autoread
-set noshowmode " lightline renders mode already
-set showtabline=2
-set shortmess-=S
-set foldcolumn=2
-set laststatus=2
-set showcmd
-set smartcase
-set hidden
-set tw=79 " word wrap
-
-set noswapfile
-set nobackup
-set nowritebackup
-
-" }}}
-" {{{ undo history
-
-if has('persistent_undo')
-  if has('nvim')
-    let myUndoDir=$HOME . '/.config/nvim/undodir'
-    execute 'silent !mkdir ' . myUndoDir . ' > /dev/null 2>&1'
-    let &undodir=myUndoDir
-  else
-    let myUndoDir=$HOME . '/.vim/undodir'
-    execute 'silent !mkdir ' . myUndoDir . ' > /dev/null 2>&1'
-    let &undodir=myUndoDir
-  endif
-
-  set undofile
-endif
-
-" }}}
-" {{{ autocommands
-
-augroup editing
-  au!
-  au InsertLeave * set nopaste
-  au BufEnter * set number
-  au BufLeave * set nonumber
-augroup END
-
-" hacky fix for syntax highlighting in large files
-autocmd WinEnter,Filetype * syntax sync fromstart
-
-au BufNewFile,BufRead ~/.config/i3/config setf i3config
-
-" disable cursorline in insert mode
-autocmd InsertLeave,WinEnter * set cursorline
-autocmd InsertEnter,WinLeave * set nocursorline
-
-" autosave
-autocmd InsertLeave,TextChanged * update
-
-" Fix for https://github.com/itchyny/lightline.vim/issues/448
-" Called at end of vimrc
-function! FixLightlineStartupRender(timer)
-  execute('resize -1')
-  execute('resize +1')
-endfunction
-
-autocmd VimEnter * call timer_start(600, 'FixLightlineStartupRender')
-
-" }}}
-" {{{ JS block comment indent fix
-
-function! CustomJSIndentExpr()
-  if getline(v:lnum) !~ '^\s*\*'
-    " Do normal indent
-    return GetJsxIndent()
-  else
-    " Don't indent comments
-    return -1
-  endif
-endfunction
-
-autocmd FileType javascript setlocal indentkeys+==* indentexpr=CustomJSIndentExpr()
-
-" }}}
-
-" }}}
-" {{{ 5. GUI
-
-" {{{ font & dynamic size
-
-let g:default_fontsize = 10
-let g:fontsize = g:default_fontsize
-
-" let g:font = 'Iosevka'
-" let g:font_features = ''
-
-" let g:font = 'FuraCode Nerd Font'
-" let g:font_features = 'cali'
-
-" let g:font = 'Input Mono Normal'
-" let g:font = 'Input Mono Narrow'
-" let g:font = 'Input Mono Condensed'
-" let g:font = 'Input Mono Compressed'
-" let g:font_features = ''
-
-let g:font = 'Hasklug Nerd Font Medium'
-let g:font_features = ''
-
-" let g:font = 'Operator Mono'
-" let g:font_features = ''
-
-" let g:font = 'Hermit'
-" let g:font_features = ''
-
-" let g:font = 'Source Code Pro'
-" let g:font_features = ''
-
-" let g:font = 'Hack'
-" let g:font_features = ''
-
-" let g:font = 'JetBrainsMono Nerd Font'
-" let g:font_features = ''
-
-" let g:font = 'BlexMono Nerd Font'
-" let g:font_features = 'liga,  zero, frac'
-
-function! SetFont()
-  if exists('g:GtkGuiLoaded')
-    call rpcnotify(1, 'Gui', 'Font', g:font . ' ' . g:fontsize)
-    call rpcnotify(1, 'Gui', 'FontFeatures', g:font_features)
-  elseif has('gui_running')
-    exec "GuiFont " . g:font . ":h" . g:fontsize
-  endif
-endfunction
-
-call SetFont()
-
-function! AdjustFontSize(delta)
-  let g:fontsize += a:delta
-  call SetFont()
-endfunction
-
-function! ResetFontSize()
-  let g:fontsize = g:default_fontsize
-  call SetFont()
-endfunction
-
-nnoremap <C-=> :call AdjustFontSize(1)<CR>
-nnoremap <C-+> :call AdjustFontSize(1)<CR>
-nnoremap <C--> :call AdjustFontSize(-1)<CR>
-nnoremap <C-0> :call ResetFontSize()<CR>
-
-" }}}
-" {{{ Neovim GTK settings
-
-if exists('g:GtkGuiLoaded')
-  " Paste via shift + insert
-  map <S-Insert> <MiddleMouse>
-  map! <S-Insert> <MiddleMouse>
-
-  call rpcnotify(1, 'Gui', 'Option', 'Popupmenu', 0)
-  call rpcnotify(1, 'Gui', 'Option', 'Tabline', 0)
-  call rpcnotify(1, 'Gui', 'Option', 'Cmdline', 0)
-
-  let g:GuiInternalClipoard = 1
-endif
-
-" }}}
-" {{{ general settings
-
-if has('gui_running')
-  set guioptions-=T " remove toolbar
-  set guioptions-=m " remove menu bar
-  set guioptions-=r " remove right scrollbar
-  set guioptions-=L " remove left scrollbar
-
-  " Toggle menubar w/ CTRL+F1
-  nnoremap <C-F1> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
-
-  " Toggle fullscreen w/ F11
-  map <silent> <F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
-
-  " Paste via shift + insert
-  map <S-Insert> <MiddleMouse>
-  map! <S-Insert> <MiddleMouse>
-endif
-
-" }}}
-
-" }}}
-" {{{ 6. netrw
-
-let g:netrw_banner = 0
-let g:netrw_altv = 1 " split to right
-" let g:netrw_browse_split = 2 " open file in right split
-let g:netrw_sizestyle = "H" " human readable base 1024
-let g:netrw_liststyle = 3
-let g:netrw_winsize = 20
-
-" }}}
-" {{{ 7. Plugin Configuration
+" {{{ configuration
 
 " {{{ ale
 
@@ -740,7 +275,7 @@ let g:ale_linters = {
   \ }
 
 let g:ale_fixers = {
-  \ 'javascript': ['standard', 'eslint'],
+  \ 'javascript': ['eslint'],
   \ 'ruby': ['rubocop'],
   \ }
 
@@ -754,13 +289,6 @@ let g:ale_set_signs = 1
 let g:ale_sign_highlight_linenrs = 1
 let g:ale_virtualtext_cursor = 1
 let g:ale_open_list = 0
-
-" }}}
-" {{{ any-jump
-
-let g:any_jump_search_prefered_engine = 'ag'
-let g:any_jump_references_only_for_current_filetype = 1
-let g:any_jump_disable_default_keybindings = 1
 
 " }}}
 " {{{ coc
@@ -901,6 +429,7 @@ function! LightlineFilename()
   return expand('%')
 endfunction
 
+let g:lightline = {}
 let g:lightline.active = {}
 let g:lightline.active.left = [
   \ [ 'mode', 'paste', 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok'],
@@ -1188,6 +717,11 @@ let g:highlightedyank_highlight_duration = 300
 let g:vim_jsx_pretty_colorful_config = 1
 
 " }}}
+" {{{ vim-markdown
+
+let g:vim_markdown_folding_disabled = 1
+
+" }}}
 " {{{ vim-move
 
 let g:move_key_modifier = 'C'
@@ -1247,13 +781,6 @@ function! s:RunVimTest(cmd)
 endfunction
 
 " }}}
-" {{{ vim-which-key
-
-let g:which_key_use_floating_win = 0
-
-nnoremap <silent> <leader> :<c-u>WhichKey ','<CR>
-
-" }}}
 " {{{ vim-workspace
 
 let g:workspace_create_new_tabs = 0
@@ -1270,100 +797,415 @@ endif
 " {{{ vimwiki
 
 let g:vimwiki_folding = 'expr'
+let g:vimwiki_global_ext = 0
 
 " }}}
 
 " }}}
-" {{{ 8. Color switching
-
-" {{{ Random()
-
-" from https://github.com/posva/Rndm
-let g:rndm_m1 = 32007779 + (localtime() % 100 - 50)
-let g:rndm_m2 = 23717810 + (localtime() / 86400)%100
-let g:rndm_m3 = 52636370 + (localtime() / 3600) % 100
-
-function! Random()
-  let m4 = g:rndm_m1 + g:rndm_m2 + g:rndm_m3
-  if( g:rndm_m2 < 50000000 )
-    let m4 = m4 + 1357
-  endif
-  if( m4 >= 100000000 )
-    let m4 = m4 - 100000000
-    if( m4 >= 100000000 )
-      let m4 = m4 - 100000000
-    endif
-  endif
-  let g:rndm_m1 = g:rndm_m2
-  let g:rndm_m2 = g:rndm_m3
-  let g:rndm_m3 = m4
-  return g:rndm_m3
-endfunction
 
 " }}}
-" {{{ SwitchToLightColors()
+" {{{ 3. Base
 
-function! s:SwitchToLightColors(n)
-  set background=light
+" {{{ general
 
-  if a:n >= 0 && a:n < len(g:colorset_light)
-    let n = a:n
+" Disable background erase for kitty
+let &t_ut=''
+
+syntax enable
+
+filetype plugin on
+filetype indent on
+
+set tabstop=2
+set softtabstop=2
+set expandtab
+set shiftwidth=2
+
+set timeout           " for mappings
+set timeoutlen=300    " default value
+set ttimeout          " for key codes
+set ttimeoutlen=10    " unnoticeable small value
+
+set shell=/bin/bash
+set encoding=utf-8
+set number
+set splitbelow
+set showmatch
+" set incsearch " incsearch.vim used
+set hlsearch
+set colorcolumn=80
+set cmdheight=2
+set signcolumn=yes
+set foldmethod=marker
+set tags=./tags;,tags;$HOME;
+set regexpengine=1
+set backspace=indent,eol,start
+set autoread
+set noshowmode " lightline renders mode already
+set showtabline=2
+set shortmess-=S
+set foldcolumn=2
+set laststatus=2
+set showcmd
+set smartcase
+set hidden
+set tw=79 " word wrap
+set nocompatible
+
+set noswapfile
+set nobackup
+set nowritebackup
+
+" }}}
+" {{{ undo history
+
+if has('persistent_undo')
+  if has('nvim')
+    let myUndoDir=$HOME . '/.config/nvim/undodir'
+    execute 'silent !mkdir ' . myUndoDir . ' > /dev/null 2>&1'
+    let &undodir=myUndoDir
   else
-    let n = Random()%len(g:colorset_light)
- endif
-
-  exec 'colorscheme ' . g:colorset_light[n]
-  echo 'set light color scheme ' . g:colorset_light[n]
-
-  if has_key(g:lightline_colorset_light_mappings, g:colorset_light[n])
-    let g:lightline.colorscheme = g:lightline_colorset_light_mappings[g:colorset_light[n]]
-
-    call lightline#init()
-    call lightline#colorscheme()
-    call lightline#update()
+    let myUndoDir=$HOME . '/.vim/undodir'
+    execute 'silent !mkdir ' . myUndoDir . ' > /dev/null 2>&1'
+    let &undodir=myUndoDir
   endif
-endfunction
+
+  set undofile
+endif
 
 " }}}
-" {{{ SwitchToDarkColors()
+" {{{ autocommands
 
-function! s:SwitchToDarkColors(n)
-  set background=dark
+augroup editing
+  au!
+  au InsertLeave * set nopaste
+  au BufEnter * set number
+  au BufLeave * set nonumber
+augroup END
 
-  if a:n >= 0 && a:n < len(g:colorset_dark)
-    let n = a:n
+" hacky fix for syntax highlighting in large files
+autocmd WinEnter,Filetype * syntax sync fromstart
+
+au BufNewFile,BufRead ~/.config/i3/config setf i3config
+
+" disable cursorline in insert mode
+autocmd InsertLeave,WinEnter * set cursorline
+autocmd InsertEnter,WinLeave * set nocursorline
+
+" autosave
+autocmd InsertLeave,TextChanged * update
+
+" Fix for https://github.com/itchyny/lightline.vim/issues/448
+" Called at end of vimrc
+function! FixLightlineStartupRender(timer)
+  execute('resize -1')
+  execute('resize +1')
+endfunction
+
+autocmd VimEnter * call timer_start(600, 'FixLightlineStartupRender')
+
+" }}}
+" {{{ JS block comment indent fix
+
+function! CustomJSIndentExpr()
+  if getline(v:lnum) !~ '^\s*\*'
+    " Do normal indent
+    return GetJsxIndent()
   else
-    let n = Random()%len(g:colorset_dark)
-  endif
-
-  exec 'colorscheme ' . g:colorset_dark[n]
-  echo 'set light color scheme ' . g:colorset_dark[n]
-
-  if has_key(g:lightline_colorset_dark_mappings, g:colorset_dark[n])
-    let g:lightline.colorscheme = g:lightline_colorset_dark_mappings[g:colorset_dark[n]]
-
-    call lightline#init()
-    call lightline#colorscheme()
-    call lightline#update()
-
-    " Handle special case for wtf
-    if g:lightline.colorscheme == 'wtf'
-      call lightline#colorscheme#wtf#highlight()
-    endif
+    " Don't indent comments
+    return -1
   endif
 endfunction
 
-" }}}
-" {{{ init for wtf
+autocmd FileType javascript setlocal indentkeys+==* indentexpr=CustomJSIndentExpr()
 
-if g:lightline.colorscheme == 'wtf'
-  call lightline#colorscheme#wtf#highlight()
+" }}}
+
+" }}}
+" {{{ 4. Colorscheme
+
+" {{{ reference
+
+" {{{ dark
+
+" jellybeans
+" synthwave84
+" dracula
+" alduin
+" desertink
+" gotham
+" miramare
+" nova
+" zenburn
+" nord
+" tequila-sunrise
+" base16-seti
+" tender
+" selenized_bw
+" sonokai
+
+" }}}
+" {{{ black
+
+" base16-irblack
+" moonfly
+" archman
+" vividchalk
+" darkspace
+
+" }}}
+" {{{ dual
+
+" hemisu
+" gruvbox
+" artesanal
+" ayu
+" gruvbox
+" PaperColor
+
+" }}}
+" {{{ light
+
+" sol
+" mayansmoke
+" flatwhite
+
+" }}}
+
+" }}}
+" {{{ enable 256 colors
+
+set t_Co=256
+
+if (has("termguicolors"))
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
+
+" }}}
+" {{{ configuration
+
+" {{{ COLORSCHEME ayu
+
+" let ayucolor='light'
+" let ayucolor='mirage'
+let ayucolor='dark'
+
+" }}}
+" {{{ COLORSCHEME gruvbox
+
+let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_improved_strings = 0
+let g:gruvbox_improved_warnings = 0
+let g:gruvbox_bold = 1
+let g:gruvbox_italic = 1
+let g:gruvbox_underline = 1
+let g:gruvbox_invert_selection = 0
+
+" }}}
+" {{{ COLORSCHEME gruvbox_material
+
+let g:gruvbox_material_background = 'hard'
+
+" }}}
+" {{{ COLORSCHEME seoul256
+
+" 233 (darkest) - 239 (lightest)
+let g:seoul256_background = 234
+
+" 252 (darkest) - 256 (lightest)
+let g:seoul256_light_background = 252
+
+" }}}
+" {{{ COLORSCHEME solarized
+
+let g:solarized_contrast = 'high'
+
+" }}}
+" {{{ COLORSCHEME sierra
+
+let g:sierra_Twilight = 1
+
+" }}}
+" {{{ COLORSCHEME sonokai
+
+" let g:sonokai_style = 'andromeda'
+let g:sonokai_style = 'shusia'
+" let g:sonokai_style = 'atlantis'
+" let g:sonokai_style = 'maia'
+let g:sonokai_enable_italic = 1
+
+" }}}
+" {{{ COLORSCHEME miramare
+
+let g:miramare_enable_italic = 1
+
+" }}}
+" {{{ COLORSCHEME alduin
+
+" Almost black bg
+let g:alduin_Shout_Dragon_Aspect = 1
+
+" Black bg
+" let g:alduin_Shout_Become_Ethereal = 1
+
+" Deep red for special highlighting groups
+" let g:alduin_Shout_Fire_Breath = 1
+
+" Remove block matchparens & add underline
+" let g:alduin_Shout_Aura_Whisper = 1
+
+" }}}
+" {{{ COLORSCHEME one
+
+let g:one_allow_italics = 1
+
+" }}}
+" {{{ COLORSCHEME sonokai
+
+" shusia, andromeda, atlantis, maia
+let g:sonokai_style = 'maia'
+let g:sonokai_enable_italic = 1
+
+" }}}
+" {{{ COLORSCHEME srcery
+
+let g:srcery_italic = 1
+
+" }}}
+
+" }}}
+
+set background=light
+colorscheme flatwhite
+
+" }}}
+" {{{ 5. GUI
+
+" {{{ font & dynamic size
+
+let g:default_fontsize = 10
+let g:fontsize = g:default_fontsize
+
+" let g:font = 'Iosevka'
+" let g:font_features = ''
+
+" let g:font = 'FuraCode Nerd Font'
+" let g:font_features = 'cali'
+
+" let g:font = 'Input Mono Normal'
+" let g:font = 'Input Mono Narrow'
+" let g:font = 'Input Mono Condensed'
+" let g:font = 'Input Mono Compressed'
+" let g:font_features = ''
+
+let g:font = 'Hasklug Nerd Font Medium'
+let g:font_features = ''
+
+" let g:font = 'Rec Mono Linear'
+" let g:font = 'Rec Mono Duotone'
+" let g:font = 'Rec Mono SemiCasual'
+" let g:font = 'Rec Mono Casual'
+" let g:font_features = ''
+
+" let g:font = 'Victor Mono'
+" let g:font_features = ''
+
+" let g:font = 'Operator Mono'
+" let g:font_features = ''
+
+" let g:font = 'Hermit'
+" let g:font_features = ''
+
+" let g:font = 'Source Code Pro'
+" let g:font_features = ''
+
+" let g:font = 'Hack'
+" let g:font_features = ''
+
+" let g:font = 'JetBrainsMono Nerd Font'
+" let g:font_features = ''
+
+" let g:font = 'BlexMono Nerd Font'
+" let g:font_features = 'liga,  zero, frac'
+
+function! SetFont()
+  if exists('g:GtkGuiLoaded')
+    call rpcnotify(1, 'Gui', 'Font', g:font . ' ' . g:fontsize)
+    call rpcnotify(1, 'Gui', 'FontFeatures', g:font_features)
+  elseif has('gui_running')
+    exec "GuiFont " . g:font . ":h" . g:fontsize
+  endif
+endfunction
+
+call SetFont()
+
+function! AdjustFontSize(delta)
+  let g:fontsize += a:delta
+  call SetFont()
+endfunction
+
+function! ResetFontSize()
+  let g:fontsize = g:default_fontsize
+  call SetFont()
+endfunction
+
+nnoremap <C-=> :call AdjustFontSize(1)<CR>
+nnoremap <C-+> :call AdjustFontSize(1)<CR>
+nnoremap <C--> :call AdjustFontSize(-1)<CR>
+nnoremap <C-0> :call ResetFontSize()<CR>
+
+" }}}
+" {{{ Neovim GTK settings
+
+if has('nvim') && has('gui_running')
+  " Paste via shift + insert
+  map <S-Insert> <MiddleMouse>
+  map! <S-Insert> <MiddleMouse>
+
+  call rpcnotify(1, 'Gui', 'Option', 'Popupmenu', 0)
+  call rpcnotify(1, 'Gui', 'Option', 'Tabline', 0)
+  call rpcnotify(1, 'Gui', 'Option', 'Cmdline', 0)
+
+  let g:GuiInternalClipoard = 1
+endif
+
+" }}}
+" {{{ general settings
+
+if has('gui_running')
+  set guioptions-=T " remove toolbar
+  set guioptions-=m " remove menu bar
+  set guioptions-=e " use terminal tabline
+  set guioptions-=r " remove right scrollbar
+  set guioptions-=L " remove left scrollbar
+
+  " Toggle menubar w/ CTRL+F1
+  nnoremap <C-F1> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
+
+  " Toggle fullscreen w/ F11
+  map <silent> <F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
+
+  " Paste via shift + insert
+  map <S-Insert> <MiddleMouse>
+  map! <S-Insert> <MiddleMouse>
 endif
 
 " }}}
 
 " }}}
-" {{{ 9. Search highlight toggle
+" {{{ 6. netrw
+
+let g:netrw_banner = 0
+let g:netrw_altv = 1 " split to right
+" let g:netrw_browse_split = 2 " open file in right split
+let g:netrw_sizestyle = "H" " human readable base 1024
+let g:netrw_liststyle = 3
+let g:netrw_winsize = 20
+
+" }}}
+" {{{ 7. Search highlight toggle
 
 " Removes the search highlight on insert mode and restores it in normal mode
 function! s:toggle_highlight()
@@ -1383,16 +1225,10 @@ augroup vimrc_search
 augroup END
 
 " }}}
-" {{{ 10. Keybindings
+" {{{ 8. Keybindings
 
 let mapleader = ','
 
-" {{{ vim-which-key start
-
-" dictionary
-let g:which_key_map =  {}
-
-" }}}
 " {{{ fast line movements
 
 nnoremap J 2j
@@ -1405,96 +1241,28 @@ nmap <silent> <leader>aj :ALENext<cr>
 nmap <silent> <leader>ak :ALEPrevious<cr>
 
 " }}}
-" {{{ any-jump
-
-nnoremap <leader>J :AnyJump<CR>
-xnoremap <leader>J :AnyJumpVisual<CR>
-
-" }}}
-" {{{ tab control
-
-nnoremap <leader>N :tabnext<CR>
-nnoremap <leader>P :tabprev<CR>
-
-" }}}
 " {{{ buffer control
 
-" navigation
 nnoremap <leader>n :bnext<CR>
 nnoremap <leader>p :bprev<CR>
-nnoremap <c-q> :bd<CR>
-
-nmap <Leader>1 <Plug>lightline#bufferline#go(1)
-nmap <Leader>2 <Plug>lightline#bufferline#go(2)
-nmap <Leader>3 <Plug>lightline#bufferline#go(3)
-nmap <Leader>4 <Plug>lightline#bufferline#go(4)
-nmap <Leader>5 <Plug>lightline#bufferline#go(5)
-nmap <Leader>6 <Plug>lightline#bufferline#go(6)
-nmap <Leader>7 <Plug>lightline#bufferline#go(7)
-nmap <Leader>8 <Plug>lightline#bufferline#go(8)
-nmap <Leader>9 <Plug>lightline#bufferline#go(9)
-nmap <Leader>0 <Plug>lightline#bufferline#go(10)
-
-" cleanup
 nnoremap <silent> <leader>bo :BufOnly<cr>
-
-let g:which_key_map.b = { 'name': '+buffer control' }
-let g:which_key_map.b.o = ['Bufonly', 'close other buffers']
 
 " }}}
 " {{{ ctrl+backspace delete word
 
 noremap! <C-BS> <C-w>
-noremap! <C-h> <C-w>
 
 " }}}
 " {{{ coc
 
-nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<cr>
-let g:which_key_map.y = ['<C-u>CocList -A --normal yank<cr>', 'yank history']
-
-nmap <leader>d :CocList diagnostics<cr>
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-nnoremap <leader>j :call CocAction('diagnosticNext')<cr>
-nnoremap <leader>k :call CocAction('diagnosticPrevious')<cr>
-nnoremap <C-k> :call CocAction('doHover')<cr>
-
-" }}}
-" {{{ colorscheme switching
-
-nnoremap <leader>Cl :call <SID>SwitchToLightColors(-1)<cr>
-nnoremap <leader>C0l :call <SID>SwitchToLightColors(0)<cr>
-nnoremap <leader>C1l :call <SID>SwitchToLightColors(1)<cr>
-nnoremap <leader>C2l :call <SID>SwitchToLightColors(2)<cr>
-nnoremap <leader>C3l :call <SID>SwitchToLightColors(3)<cr>
-nnoremap <leader>C4l :call <SID>SwitchToLightColors(4)<cr>
-nnoremap <leader>C5l :call <SID>SwitchToLightColors(5)<cr>
-nnoremap <leader>C6l :call <SID>SwitchToLightColors(6)<cr>
-nnoremap <leader>C7l :call <SID>SwitchToLightColors(7)<cr>
-nnoremap <leader>C8l :call <SID>SwitchToLightColors(8)<cr>
-nnoremap <leader>C9l :call <SID>SwitchToLightColors(9)<cr>
-
-nnoremap <leader>Cd :call <SID>SwitchToDarkColors(-1)<cr>
-nnoremap <leader>C0d :call <SID>SwitchToDarkColors(0)<cr>
-nnoremap <leader>C1d :call <SID>SwitchToDarkColors(1)<cr>
-nnoremap <leader>C2d :call <SID>SwitchToDarkColors(2)<cr>
-nnoremap <leader>C3d :call <SID>SwitchToDarkColors(3)<cr>
-nnoremap <leader>C4d :call <SID>SwitchToDarkColors(4)<cr>
-nnoremap <leader>C5d :call <SID>SwitchToDarkColors(5)<cr>
-nnoremap <leader>C6d :call <SID>SwitchToDarkColors(6)<cr>
-nnoremap <leader>C7d :call <SID>SwitchToDarkColors(7)<cr>
-nnoremap <leader>C8d :call <SID>SwitchToDarkColors(8)<cr>
-nnoremap <leader>C9d :call <SID>SwitchToDarkColors(9)<cr>
-
-nnoremap <leader>Cn :NextColorScheme<cr>
-nnoremap <leader>Cp :PrevColorScheme<cr>
-nnoremap <leader>CC :RandomColorScheme<cr>
-nnoremap <leader>Cb :BlacklistAddColorScheme<cr>
-nnoremap <leader>Cw :BlacklistRemColorScheme<cr>
+" nnoremap <leader>j :call CocAction('diagnosticNext')<cr>
+" nnoremap <leader>k :call CocAction('diagnosticPrevious')<cr>
+nnoremap <leader>k :call CocAction('doHover')<cr>
 
 " }}}
 " {{{ easymotion
@@ -1512,8 +1280,6 @@ nnoremap <silent> <leader>Q :q!<cr>
 " {{{ folds
 
 nnoremap <expr> <leader>F &foldlevel ? 'zM' :'zR'
-let g:which_key_map.F = ['&foldlevel ? "zM" : "zR"', 'toggle fold level']
-
 nnoremap <silent> <leader><Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 
 " }}}
@@ -1570,22 +1336,17 @@ command! Tags call s:tags()
 " {{{ goto tag
 
 nnoremap <leader>T :FZFTags<cr>
-let g:which_key_map.T = ['FZFTags<cr>', 'goto tag']
 
 " }}}
 " {{{ goyo
 
 nnoremap <silent> <leader>g :Goyo<cr>
-let g:which_key_map.g = ['Goyo', 'toggle goyo']
 
 " }}}
 " {{{ grepper
 
 nnoremap <silent> <leader>G :Grepper<cr>
 nnoremap <silent> <leader>W :Grepper-cword<cr>
-
-let g:which_key_map.G = ['Grepper', 'do grep']
-let g:which_key_map.W = ['Grepper-cword', 'grep cursor word']
 
 " }}}
 " {{{ incsearch
@@ -1601,32 +1362,17 @@ map z? <Plug>(incsearch-fuzzy-?)
 map zg/ <Plug>(incsearch-fuzzy-stay)
 
 " }}}
-" {{{ search
-
-command! -nargs=? Filter let @a='' | execute 'g/<args>/y A' | new | setlocal bt=nofile | put! a
-
-" }}}
 " {{{ netrw
 
 nnoremap <leader>e :Lexplore<cr>
-
-" }}}
-" {{{ quickhl
-
-nmap <Space>m <Plug>(quickhl-manual-this)
-xmap <Space>m <Plug>(quickhl-manual-this)
-nmap <Space>M <Plug>(quickhl-manual-reset)
-xmap <Space>M <Plug>(quickhl-manual-reset)
 
 " }}}
 " {{{ reload config
 
 if has("nvim")
   nnoremap <silent> <leader>R :source ~/.config/nvim/init.vim<cr>
-  let g:which_key_map.R = ['source ~/.config/nvim/init.vim', 'reload init.vim']
 else
   nnoremap <silent> <leader>R :source ~/.vimrc<cr>
-  let g:which_key_map.R = ['source ~/.vimrc', 'reload vimrc']
 endif
 
 " }}}
@@ -1654,12 +1400,6 @@ command! -nargs=* T split | terminal <args>
 command! -nargs=* VT vsplit | terminal <args>
 
 " }}}
-" {{{ terminal floating
-
-nnoremap   <silent>   <F10>   :FloatermToggle<CR>
-tnoremap   <silent>   <F10>   <C-\><C-n>:FloatermToggle<CR>
-
-" }}}
 " {{{ testing
 
 nnoremap <leader>tf :call <SID>RunVimTest('TestFile')<cr>
@@ -1668,27 +1408,10 @@ nnoremap <leader>ts :call <SID>RunVimTest('TestSuite')<cr>
 nnoremap <leader>tl :call <SID>RunVimTest('TestLast')<cr>
 " nnoremap <leader>tv :call <SID>RunVimTest('TestVisit')<cr>
 
-let g:which_key_map.t = { 'name': '+testing' }
-let g:which_key_map.t.f = ["<SID>RunVimTest('TestFile')<cr>", 'test file']
-let g:which_key_map.t.n = ["<SID>RunVimTest('TestNearest')<cr>", 'test nearest']
-let g:which_key_map.t.s = ["<SID>RunVimTest('TestSuite')<cr>", 'test suite']
-let g:which_key_map.t.l = ["<SID>RunVimTest('TestLast')<cr>", 'test last']
-
 " }}}
 " {{{ trim trailing spaces
 
 nnoremap <leader><leader><leader> :%s/\s\+$//e<cr>
-
-" }}}
-" {{{ vimjsdocsnippets
-
-let g:JSDocSnippetsMapping='<leader>D'
-
-" }}}
-" {{{ vim-which-key end
-
-" register dictionary
-call which_key#register(',', "g:which_key_map")
 
 " }}}
 

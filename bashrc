@@ -55,7 +55,7 @@ alias ls="ls --color=auto"
 alias ll='ls -lah --color=auto'
 alias grep='grep --color'
 alias cat="bat"
-alias vim="nvim"
+# alias vim="nvim"
 
 # NVM initialisation
 export NVM_DIR="$HOME/.nvm"
