@@ -1,28 +1,9 @@
+enabled_layouts grid
+layout grid
+
 cd ~/code/bfx/bfx-hf-ui
 
-enabled_layouts horizontal
-layout horizontal
-
-title bfx-hf-Server
 launch npm run start-api-server
-title bfx-hf-data-server
 launch npm run start-ds-bitfinex
-
-new_tab
-cd ~/code/bfx/bfx-hf-ui
-enabled_layouts horizontal
-layout horizontal
-
-title watch-css
 launch npm run watch-css
-
-title npm start
 launch npm start
-
-new_tab
-cd ~/code/bfx/bfx-hf-ui
-enabled_layouts stack
-layout stack
-
-title Code
-launch vim

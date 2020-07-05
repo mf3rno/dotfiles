@@ -1,5 +1,7 @@
 {
-  "suggest.echodocSupport": true,
+  "suggest.snippetIndicator": "->",
+  "suggest.noselect": false,
+  "suggest.echodocSupport": false,
   "suggest.autoTrigger": "always",
   "suggest.triggerAfterInsertEnter": true,
   "suggest.enablePreview": true,
@@ -33,28 +35,35 @@
     "default": "\uf29c"
   },
 
+  "javascript.suggest.autoImports": true,
   "javascript.referencesCodeLens.enable": false,
-  "typescript.referencesCodeLens.enable": false,
-
-  "codeLens.enable": true,
-  "npm.binPath": "/home/f3rno/.nvm/versions/node/v14.2.0/bin/npm",
-  "tsserver.npm": "/home/f3rno/.nvm/versions/node/v14.2.0/bin/npm",
-
-  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
-  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
-  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis": true,
-  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": true,
-  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
+  "javascript.suggestionActions.enabled": false,
   "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
   "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
   "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis": true,
   "javascript.format.insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": true,
   "javascript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
 
-  // hides missing TS types import warnings on JS files (among other things!)
-  "javascript.suggestionActions.enabled": false,
+  "typescript.suggest.enabled": false,
+  "typescript.validate.enable": false,
+  "typescript.referencesCodeLens.enable": false,
+  "typescript.suggestionActions.enabled": false,
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis": true,
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": true,
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
 
-  "snippets.ultisnips.enable": false,
+  "codeLens.enable": true,
+  "npm.binPath": "/home/f3rno/.n/node/bin/npm",
+  "tsserver.npm": "/home/f3rno/.n/node/bin/npm",
+
+  "suggest.languageSourcePriority": 10,
+
+  "template.email": "me@f3rno.com",
+  "template.username": "f3rno",
+  "template.license": "MIT",
+  "template.templatesDirectory": "/home/f3rno/code/personal/vim-templates/",
 
   "coc.preferences.useQuickfixForLocations": true,
   "coc.preferences.previewAutoClose": false,
@@ -69,16 +78,12 @@
 
   "solargraph.diagnostics": true,
 
-  "diagnostic.enable": true,
+  "diagnostic.enable": false,
   "diagnostic.virtualText": true,
   "diagnostic.refreshOnInsertMode": true,
   "diagnostic.refreshAfterSave": true,
   "diagnostic.virtualTextPrefix": "!",
   "diagnostic.virtualTextLineSeparator": "-",
-  "diagnostic.displayByAle": true,
-
-  "yank.highlight.enable": true,
-  "yank.highlight.duration": 300,
-  "yank.enableCompletion": true
+  "diagnostic.displayByAle": true
 }
 

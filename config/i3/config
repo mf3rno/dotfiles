@@ -4,14 +4,14 @@ for_window [class=".*"] border pixel 1
 for_window [class="Gvim"] fullscreen enable
 for_window [class="NeovimGtk"] fullscreen enable
 
-hide_edge_borders none
+hide_edge_borders smart
 
 assign [class="Firefox"] 1
 assign [class="Telegram"] 6
 assign [class="Slack"] 9
 
-gaps inner 16
-# gaps inner 0
+# gaps inner 32
+gaps inner 0
 
 font pango:FiraCode Nerd Font 9
 
@@ -31,6 +31,7 @@ bindsym $mod+Shift+p exec rofi -show run
 bindsym $mod+m exec rofi-mpd -a
 bindsym $mod+Shift+s exec flameshot gui -p ~/Pictures/Screenshots
 bindsym $mod+Shift+c exec ~/bin/dev-sessions/open-project
+bindsym $mod+Shift+w exec ~/bin/open-vimwiki
 # bindsym Ctrl+grave exec /home/f3rno/code/i3-quickterm/i3-quickterm shell
 
 bindsym $mod+g gaps inner all set 16, border pixel
@@ -202,7 +203,8 @@ bar {
   status_command i3blocks
   tray_output none
   output eDP1
-  mode hide
+  mode dock
+  # mode hide
   colors {
     background $bg
     statusline $white
