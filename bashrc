@@ -1,41 +1,99 @@
+# {{{
+
 # If not running interactively, don't do anything
 if [[ $- != *i* ]]; then return; fi
 
+# }}}
+# {{{ env vars
+
+# {{{ base
+
+export USER=$USER
+export HOME=/home/$USER
 export EDITOR=nvim
 export SHELL=bash
-export N_PREFIX=~/.n/node
+
+# }}}
+# {{{ fzf
+
+# {{{ FZF ag (disabled)
 
 # export FZF_DEFAULT_COMMAND='ag --hidden --ignore-dir={.git,.undodir,docs/dist,node_modules,bower_components,dist} -g ""'
+
+# }}}
+# {{{ FZF fd
+
 export FZF_DEFAULT_COMMAND='fd --type f'
+
+# }}}
+
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_BIN=$HOME/.fzf/bin
 
-export GEM_HOME=~/.rvm/gem/ruby-2.7.0
+# }}}
+# {{{ tooling
 
-export GEM_PATH=~/.rvm/gem/ruby-2.7.0/bin
-export GOPATH=~/go
-export GOPATH_BIN=~/go/bin
-export GH_CLI_PATH=~/code/vendor/cli-apps/gh-cli
-export N_BIN_PATH=~/.n/bin
-export N_NODE_BIN_PATH=~$N_PREFIX/bin
+# {{{ rvm/ruby
+
+export RVM_BIN=$HOME/.rvm/bin
+export GEM_HOME=$HOME/.rvm/gem/ruby-2.7.0
+export GEM_PATH=$GEM_HOME/bin
+
+# }}}
+# {{{ go
+
+export GOPATH=$HOME/go
+export GOPATH_BIN=$HOME/go/bin
+
+# }}}
+# {{{ node/yarn
+
+export N_BIN_PATH=$HOME/.n/bin
+export N_PREFIX=$HOME/.n/node
+export N_NODE_BIN_PATH=$N_PREFIX/bin
+export YARN_BIN=$HOME/.yarn/bin
+
+# }}}
+# {{{ rust
+
+export CARGO_PATH=$HOME/.cargo/bin
+
+# }}}
+
+# }}}
+# {{{ snap
+
 export SNAP_PATH=/snap/bin
-export PRIVATE_BIN=~/bin
-export PRIVATE_CDG_BIN=~/bin
-export LOCAL_BIN=~/.local/bin
-export RVM_BIN=~/.rvm/bin
+
+# }}}
+# {{{ bin
+
 export USR_BIN=/usr/local/bin
-export DEV_BIN=~/bin/dev-sessions
-export YARN_BIN=~/.yarn/.bin
-export FZF_BIN=~/.fzf/bin
-export NVIM_SUPERMAN_PATH=~/.nvim-plugins/vim-superman/bin
+export PRIVATE_BIN=$HOME/bin/exec
+export LOCAL_BIN=$HOME/.local/bin
+export DEV_BIN=$HOME/bin/dev-sessions
+export FF_DEV_PATH=$HOME/bin/firefox-dev
 
-export PATH="$N_BIN_PATH:$N_NODE_BIN_PATH:$GEM_PATH:$GOPATH_BIN:$SNAP_PATH:$PRIVATE_BIN:$PRIVATE_CDG_BIN:$LOCAL_BIN:$RVN_BIN:$USER_BIN:$DEV_BIN:$YARN_BIN:$FZF_BIN:$NVIM:$SUPERMAN_PATH:$PATH"
+# }}}
+# {{{ TERM
 
-# export TERM=xterm-256color
+export TERM=xterm-256color
 
-# git shortcuts
+# }}}
+
+# }}}
+# {{{ shortcuts
+
 gs() {
   git status
+}
 
+gc() {
+  git clone $@
+}
+
+gcs() {
+  git clone --depth=1 $@
 }
 
 gp() {
@@ -67,6 +125,17 @@ gg() {
   env HUSKY_SKIP_HOOKS=1 git commit
 }
 
+sdi() {
+  sudo dnf install -y $@
+}
+
+ds() {
+  dnf search $@
+}
+
+# }}}
+# {{{ aliases
+
 # convenience
 # lsd disabled due to poor visiblity on white bg, no color scheme support
 # alias ls="lsd"
@@ -77,9 +146,11 @@ alias ll='ls -lah --color=auto'
 alias grep='grep --color'
 alias cat="bat"
 alias vim="nvim"
+alias dtrx="decompress $@ --out-dir $@"
 
-# cdg (fzf bookmark cd via ~/.cdg_paths)
-# https://dmitryfrank.com/articles/shell_shortcuts
+# }}}
+# {{{ bookmarks: https://dmitryfrank.com/articles/shell_shortcuts
+# cdg (fzf bookmark cd via $HOME/.cdg_paths)
 unalias cdg 2> /dev/null
 
 cdg() {
@@ -94,30 +165,57 @@ export -f cdg > /dev/null
 set -o noclobber # prevent redirect overwriting existing files
 shopt -s autocd # cd by entering path with no prefix
 
-# plugins
-source /usr/share/doc/pkgfile/command-not-found.bash # suggests package providing command
-source /etc/profile.d/autojump.bash # cd w/ history
-source ~/.bash-powerline.sh # prompt
+# }}}
+# {{{ plugins/autocomplete
+
+source /etc/profile.d/autojump.sh # cd w/ history
+source $HOME/.bash-powerline.sh # prompt
 source <(kitty + complete setup bash)
-source ~/code/vendor/node/util/npm-completion-fast/npm-completion-fast.bash
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+source $HOME/.npm-completion-fast/npm-completion-fast.bash
+[ -f $HOME/.fzf.bash ] && source $HOME/.fzf.bash
 
 # Via https://github.com/jez/vim-superman
 complete -o default -o nospace -F _man vman
 
-source ~/code/vendor/ui-apps/wakatime/bash-wakatime/bash-wakatime.sh
-source ~/.node_bash_completion
+# source $HOME/code/github/irondoge/bash-wakatime/bash-wakatime.sh
+# source $HOME/.node_bash_completion
 
-# ssh-agent setup
-if [ -f ~/.ssh/agent.env ] ; then
-    . ~/.ssh/agent.env > /dev/null
-    if ! kill -0 $SSH_AGENT_PID > /dev/null 2>&1; then
-        echo "Stale agent file found. Spawning a new agent. "
-        eval `ssh-agent | tee ~/.ssh/agent.env`
-        ssh-add
-    fi
-else
-    echo "Starting ssh-agent"
-    eval `ssh-agent | tee ~/.ssh/agent.env`
-    ssh-add
-fi
+# }}}
+# {{{ ssh-agent setup
+
+# TODO: Extract
+
+# if [ -f $HOME/.ssh/agent.env ] ; then
+#     . $HOME/.ssh/agent.env > /dev/null
+#     if ! kill -0 $SSH_AGENT_PID > /dev/null 2>&1; then
+#         echo "Stale agent file found. Spawning a new agent. "
+#         eval `ssh-agent | tee $HOME/.ssh/agent.env`
+#         ssh-add
+#     fi
+# else
+#     echo "Starting ssh-agent"
+#     eval `ssh-agent | tee $HOME/.ssh/agent.env`
+#     ssh-add
+# fi
+
+# }}}
+# {{{ path
+
+PATH_MEMBERS=( \
+  $RVM_BIN \
+  $GOPATH_BIN \
+  $YARN_BIN \
+  $CARGO_PATH \
+  $N_BIN_PATH \
+  $N_NODE_BIN_PATH \
+  $PRIVATE_BIN \
+  $LOCAL_BIN \
+  $DEV_BIN \
+  $FZF_BIN \
+  $SNAP_PATH \
+  $FF_DEV_PATH \
+)
+
+export PATH="$(printf "%s:" "${PATH_MEMBERS[@]}"):$PATH"
+
+# }}}
