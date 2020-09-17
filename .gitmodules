@@ -16,3 +16,9 @@
 [submodule "config/kitty/iterm2-color-schemes"]
 	path = config/kitty/iterm2-color-schemes
 	url = https://github.com/mbadolato/iTerm2-Color-Schemes.git
+[submodule "bash-powerline"]
+	path = bash-powerline
+	url = http://github.com/riobard/bash-powerline
+[submodule "npm-completion-fast"]
+	path = npm-completion-fast
+	url = http://github.com/seavan/npm-completion-fast
