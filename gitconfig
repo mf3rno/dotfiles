@@ -21,21 +21,27 @@
 	added = yellow
 	changed = green bold
 	untracked = blue bold
+
 [alias]
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
 
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
+
 [core]
 	autocrlf = false
 	filemode = false
 	editor = nvim
+
 [branch]
 	autosetuprebase = always
 
-[url "git@github.com:"]
-	insteadOf = https://github.com/
+# [url "git@github.com:"]
+# 	insteadOf = http://github.com/
+
+# [url "git@github.com:"]
+# 	insteadOf = https://github.com/
 
 [filter "lfs"]
 	smudge = git-lfs smudge -- %f
