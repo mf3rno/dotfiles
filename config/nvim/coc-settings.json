@@ -63,7 +63,7 @@
   "template.email": "me@f3rno.com",
   "template.username": "f3rno",
   "template.license": "MIT",
-  "template.templatesDirectory": "/home/f3rno/code/personal/vim-templates/",
+  "template.templatesDirectory": "/home/f3rno/github/f3rno/vim-templates/",
 
   "coc.preferences.useQuickfixForLocations": true,
   "coc.preferences.previewAutoClose": false,
