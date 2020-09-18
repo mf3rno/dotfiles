@@ -8,7 +8,7 @@ if [[ $- != *i* ]]; then return; fi
 
 # {{{ base
 
-export USER=$USER
+export USER=f3rno
 export HOME=/home/$USER
 export EDITOR=nvim
 export SHELL=bash
@@ -73,6 +73,11 @@ export PRIVATE_BIN=$HOME/bin/exec
 export LOCAL_BIN=$HOME/.local/bin
 export DEV_BIN=$HOME/bin/dev-sessions
 export FF_DEV_PATH=$HOME/bin/firefox-dev
+
+# }}}
+# {{{ pass
+
+source ~/.password-store/.env
 
 # }}}
 # {{{ TERM

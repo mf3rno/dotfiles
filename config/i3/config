@@ -11,7 +11,7 @@ assign [class="Telegram"] 6
 assign [class="Slack"] 9
 
 # gaps inner 32
-gaps inner 0
+# gaps inner 0
 
 font pango:FiraCode Nerd Font 9
 
@@ -30,8 +30,8 @@ bindsym $mod+p exec rofi -show drun
 bindsym $mod+Shift+p exec rofi -show run
 bindsym $mod+m exec rofi-mpd -a
 bindsym $mod+Shift+s exec flameshot gui -p ~/Pictures/Screenshots
-bindsym $mod+Shift+c exec ~/bin/dev-sessions/open-project
-bindsym $mod+Shift+w exec ~/bin/open-vimwiki
+# bindsym $mod+Shift+c exec ~/bin/dev-sessions/open-project
+# bindsym $mod+Shift+w exec ~/bin/open-vimwiki
 # bindsym Ctrl+grave exec /home/f3rno/code/i3-quickterm/i3-quickterm shell
 
 bindsym $mod+g gaps inner all set 16, border pixel
