@@ -18,12 +18,12 @@ export SHELL=bash
 
 # {{{ FZF ag (disabled)
 
-# export FZF_DEFAULT_COMMAND='ag --hidden --ignore-dir={.git,.undodir,docs/dist,node_modules,bower_components,dist} -g ""'
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore-dir={.git,.undodir,docs/dist,node_modules,bower_components,dist} -g ""'
 
 # }}}
 # {{{ FZF fd
 
-export FZF_DEFAULT_COMMAND='fd --type f'
+# export FZF_DEFAULT_COMMAND='fd --type f'
 
 # }}}
 
@@ -77,7 +77,7 @@ export FF_DEV_PATH=$HOME/bin/firefox-dev
 # }}}
 # {{{ pass
 
-source ~/.password-store/.env
+# source ~/.password-store/.env
 
 # }}}
 # {{{ TERM
@@ -176,7 +176,7 @@ shopt -s autocd # cd by entering path with no prefix
 source /etc/profile.d/autojump.sh # cd w/ history
 source $HOME/.bash-powerline.sh # prompt
 source <(kitty + complete setup bash)
-source $HOME/.npm-completion-fast/npm-completion-fast.bash
+# source $HOME/.npm-completion-fast/npm-completion-fast.bash
 [ -f $HOME/.fzf.bash ] && source $HOME/.fzf.bash
 
 # Via https://github.com/jez/vim-superman
@@ -184,24 +184,6 @@ complete -o default -o nospace -F _man vman
 
 # source $HOME/code/github/irondoge/bash-wakatime/bash-wakatime.sh
 # source $HOME/.node_bash_completion
-
-# }}}
-# {{{ ssh-agent setup
-
-# TODO: Extract
-
-# if [ -f $HOME/.ssh/agent.env ] ; then
-#     . $HOME/.ssh/agent.env > /dev/null
-#     if ! kill -0 $SSH_AGENT_PID > /dev/null 2>&1; then
-#         echo "Stale agent file found. Spawning a new agent. "
-#         eval `ssh-agent | tee $HOME/.ssh/agent.env`
-#         ssh-add
-#     fi
-# else
-#     echo "Starting ssh-agent"
-#     eval `ssh-agent | tee $HOME/.ssh/agent.env`
-#     ssh-add
-# fi
 
 # }}}
 # {{{ path
@@ -224,3 +206,7 @@ PATH_MEMBERS=( \
 export PATH="$(printf "%s:" "${PATH_MEMBERS[@]}"):$PATH"
 
 # }}}
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
