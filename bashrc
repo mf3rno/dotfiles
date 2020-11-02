@@ -89,6 +89,30 @@ export TERM=xterm-256color
 # }}}
 # {{{ shortcuts
 
+# {{{ system
+
+shutdn() {
+  shutdown -h -P now
+}
+
+kk() {
+  killall $@ -9
+}
+
+# }}}
+# {{{ shell
+
+x() {
+  exit
+}
+
+c() {
+  clear
+}
+
+# }}}
+# {{{ git
+
 gs() {
   git status
 }
@@ -113,22 +137,24 @@ gcam() {
   git commit -am "$@"
 }
 
+gcm() {
+  git commit -m "$@"
+}
+
 gl() {
   git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s%Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 }
 
 ga() {
-  git add -p
+  git add -p $@
 }
 
 gd() {
-  git diff
+  git diff $@
 }
 
-# Hehe, GG
-gg() {
-  env HUSKY_SKIP_HOOKS=1 git commit
-}
+# }}}
+# {{{ dnf
 
 sdi() {
   sudo dnf install -y $@
@@ -137,6 +163,19 @@ sdi() {
 ds() {
   dnf search $@
 }
+
+# }}}
+# {{{ tmux
+
+tmn() {
+  tmux new -s main
+}
+
+tma() {
+  tmux attach -t main
+}
+
+# }}}
 
 # }}}
 # {{{ aliases
