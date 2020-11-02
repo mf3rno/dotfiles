@@ -122,6 +122,11 @@ gc() {
   git clone $@
 }
 
+gcgh() {
+  mkdir -p ~/src/github/$@
+  git clone https://github.com/$@ ~/src/github/$@
+}
+
 gcs() {
   git clone --depth=1 $@
 }

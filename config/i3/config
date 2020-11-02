@@ -15,20 +15,20 @@ assign [class="Slack"] 9
 
 font pango:FiraCode Nerd Font 9
 
-exec_always ~/bin/gnome-keyring.sh
+# exec_always ~/bin/gnome-keyring.sh
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nitrogen --restore
 exec --no-startup-id dunst --config ~/.config/dunst/config
-exec --no-startup-id offlineimap
+# exec --no-startup-id offlineimap
 # exec --no-startup-id picom --experimental-backends -b
 
 bindsym $mod+Ctrl+Shift+l exec i3lock -c 000000
 bindsym $mod+p exec rofi -show drun
 bindsym $mod+Shift+p exec rofi -show run
-bindsym $mod+m exec rofi-mpd -a
+# bindsym $mod+m exec rofi-mpd -a
 bindsym $mod+Shift+s exec flameshot gui -p ~/Pictures/Screenshots
 # bindsym $mod+Shift+c exec ~/bin/dev-sessions/open-project
 # bindsym $mod+Shift+w exec ~/bin/open-vimwiki
