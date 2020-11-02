@@ -37,11 +37,11 @@
 [branch]
 	autosetuprebase = always
 
-# [url "git@github.com:"]
-# 	insteadOf = http://github.com/
+[url "git@github.com:"]
+  insteadOf = http://github.com/
 
-# [url "git@github.com:"]
-# 	insteadOf = https://github.com/
+[url "git@github.com:"]
+  insteadOf = https://github.com/
 
 [filter "lfs"]
 	smudge = git-lfs smudge -- %f

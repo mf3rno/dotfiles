@@ -168,11 +168,11 @@ ds() {
 # {{{ tmux
 
 tmn() {
-  tmux new -s main
+  tmux new -s T
 }
 
 tma() {
-  tmux attach -t main
+  tmux attach -t T
 }
 
 # }}}

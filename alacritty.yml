@@ -3,14 +3,16 @@ key_bindings:
 - { key: F8, action: SpawnNewInstance }
 
 font:
-  normal:
-    #    family: Hack Nerd Font
-    family: Hasklug Nerd Font
-    #    family: CaskaydiaCove Nerd Font
   size: 12
+  normal:
+    family: Hasklug Nerd Font
 
 window:
   decorations: none
+  startup_mode: Fullscreen
+
+selection:
+  save_to_clipboard: true
 
 cursor:
   style: Underline

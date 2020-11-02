@@ -827,9 +827,9 @@ let g:vimwiki_folding='expr'
 let g:vimwiki_valid_html_tags = 'b,i,s,u,sub,sup,kbd,br,hr,pre,script'
 let g:vimwiki_hl_cb_checked = 2
 let g:vimwiki_filetypes = ['vimwiki']
-let g:vimwiki_ext2syntax = {
-\ '.wiki': 'vimwiki',
-\ }
+" let g:vimwiki_ext2syntax = {
+" \ '.wiki': 'vimwiki',
+" \ }
 
 " }}}
 
@@ -1281,7 +1281,7 @@ let g:srcery_italic = 1
 
 " }}}
 
-set background=dark
+set background=light
 " colorscheme moonfly
 " colorscheme vibrantink
 " colorscheme jellybeans
@@ -1291,7 +1291,7 @@ set background=dark
 " colorscheme oceanic_material
 " colorscheme base16-irblack
 " colorscheme base16-github
-colorscheme base16-irblack
+colorscheme paper
 
 " }}}
 " {{{ 5. GUI
