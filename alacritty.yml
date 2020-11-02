@@ -5,9 +5,9 @@ key_bindings:
 font:
   normal:
     #    family: Hack Nerd Font
-    family: BlexMono Nerd Font
+    family: Hasklug Nerd Font
     #    family: CaskaydiaCove Nerd Font
-  size: 9
+  size: 12
 
 window:
   decorations: none
@@ -138,4 +138,4 @@ schemes:
       cyan:    '#4fb8cc'
       white:   '#f1f1f1'
 
-colors: *gruvbox_dark
+colors: *ayu_dark
