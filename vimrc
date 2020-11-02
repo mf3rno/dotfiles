@@ -161,7 +161,7 @@ Plug 'ternjs/tern_for_vim', { 'do': 'npm i' }
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'ryanoasis/vim-devicons'
 Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)'] }
-Plug 'ludovicchabant/vim-gutentags' " auto tag regen
+" Plug 'ludovicchabant/vim-gutentags' " auto tag regen
 Plug 'michaeljsmith/vim-indent-object' " indent-level text object
 Plug 'gcmt/wildfire.vim' " select text objects
 Plug 'mtth/scratch.vim'
@@ -206,12 +206,12 @@ Plug 'powerman/vim-plugin-AnsiEsc', { 'on': 'AnsiEsc' }
 
 " xarthurx is a maintained fork
 " Plug 'blindFS/vim-taskwarrior'
-Plug 'xarthurx/taskwarrior.vim', { 'on': 'TW' }
+" Plug 'xarthurx/taskwarrior.vim', { 'on': 'TW' }
 Plug 'rbgrouleff/bclose.vim'
 Plug 'mattn/calendar-vim'
 Plug 'vimwiki/vimwiki', { 'branch': 'dev' }
 Plug 'f3rno/vimwiki-footnotes'
-Plug 'tbabej/taskwiki'
+" Plug 'tbabej/taskwiki'
 
 " Plug 'LarsEKrueger/pandoc-vimwiki'
 " Plug 'michal-h21/vim-zettel'
@@ -355,7 +355,7 @@ endfunction
 let g:coc_snippet_next = '<c-j>'
 let g:coc_snippet_prev = '<c-k>'
 
-let g:coc_node_path = '/home/f3rno/.n/node/bin/node'
+let g:coc_node_path = '/home/f3rno/.nvm/versions/node/v15.0.1/bin/node'
 let g:coc_node_args = ['--max-old-space-size=16384', '--no-warnings']
 
 autocmd BufNewFile .gitignore CocCommand template.templateTop
@@ -759,16 +759,13 @@ autocmd FileType vimwiki :syntax sync fromstart
 autocmd FileType vimwiki setlocal foldlevel=20
 
 " }}}
-" {{{ `personal_wiki definition`
+" {{{ personal_wiki definition
 
 let g:vimwiki_list = [{
 \ 'name': 'personal_wiki',
 \ 'path': '/home/f3rno/.vimwiki/src',
-\ 'path_html': '/home/f3rno/.vimwiki/html',
-\ 'template_path': '/home/f3rno/.vimwiki/template',
-\ 'template_default': 'dark-vimwiki-template',
-\ 'template_ext': '.tpl',
 \ 'bullet_types': ['-', '•', '→'],
+\ 'path_html': '/home/f3rno/.vimwiki/html',
 \ 'ext': '.wiki',
 \ 'syntax': 'markdown',
 \ 'auto_toc': 1,
@@ -782,8 +779,8 @@ let g:vimwiki_list = [{
 \ 'auto_export': 1,
 \ 'auto_diary_index': 1,
 \ 'auto_generate_links': 1,
-\ 'auto_generate_tags': 1,
-\ 'html_filename_parameterization': 1,
+\ 'auto_generate_tags': 0,
+\ 'html_filename_parameterization': 0,
 \ 'maxhi': 1,
 \ 'nested_syntaxes': {
 \ 'ruby': 'ruby',
@@ -829,10 +826,10 @@ let g:vimwiki_folding='expr'
 " let g:vimwiki_fold_lists = 0
 let g:vimwiki_valid_html_tags = 'b,i,s,u,sub,sup,kbd,br,hr,pre,script'
 let g:vimwiki_hl_cb_checked = 2
-" let g:vimwiki_filetypes = ['markdown']
-" let g:vimwiki_ext2syntax = {
-" \ '.wiki': 'mdvimwiki',
-" \ }
+let g:vimwiki_filetypes = ['vimwiki']
+let g:vimwiki_ext2syntax = {
+\ '.wiki': 'vimwiki',
+\ }
 
 " }}}
 
@@ -1292,9 +1289,9 @@ set background=dark
 " colorscheme paper
 " colorscheme gotham
 " colorscheme oceanic_material
-" colorscheme base16-ir-black
+" colorscheme base16-irblack
 " colorscheme base16-github
-colorscheme ayu
+colorscheme base16-irblack
 
 " }}}
 " {{{ 5. GUI
@@ -1698,7 +1695,7 @@ nnoremap <leader>tl :call <SID>RunVimTest('TestLast')<cr>
 
 " {{{ TEMPORARY: vimiwki project snippet mass-generator
 
-let g:vimwiki_gen_projects_base_path = $HOME . '/code'
+let g:vimwiki_gen_projects_base_path = $HOME . '/.vimwiki'
 
 function! GetPathIfExists(path) abort
   return maktba#ensure#pathExists(a:path)
@@ -1813,7 +1810,7 @@ endfunction
 " }}}
 
 nnoremap <silent> <leader>S :call UltiSnips#RefreshSnippets()<cr>:echo 'ultisnips refreshed'<cr>
-nnoremap <silent> <leader>vwp :call GenVimWikiProjectTemplate()
+" nnoremap <silent> <leader>vwp :call GenVimWikiProjectTemplate()
 
 " }}}
 " {{{ trim trailing spaces
