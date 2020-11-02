@@ -78,6 +78,7 @@ export FF_DEV_PATH=$HOME/bin/firefox-dev
 # {{{ pass
 
 # source ~/.password-store/.env
+export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 
 # }}}
 # {{{ TERM
