@@ -1,4 +1,4 @@
 [dotfiles]
-repository = /home/f3rno/src/github/f3rno/dotfiles
+repository = /home/f3rno/src/github/optipan/dotfiles
 ignore = ['.git', '.gitignore', 'id_rsa*', '*_history', 'fishd*']
 packages = ['config', 'ssh', 'weechat']
