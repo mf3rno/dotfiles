@@ -355,7 +355,7 @@ endfunction
 let g:coc_snippet_next = '<c-j>'
 let g:coc_snippet_prev = '<c-k>'
 
-let g:coc_node_path = '/home/f3rno/.nvm/versions/node/v15.0.1/bin/node'
+let g:coc_node_path = '/home/f3rno/.nvm/versions/node/v15.3.0/bin/node'
 let g:coc_node_args = ['--max-old-space-size=16384', '--no-warnings']
 
 autocmd BufNewFile .gitignore CocCommand template.templateTop
@@ -1281,7 +1281,7 @@ let g:srcery_italic = 1
 
 " }}}
 
-set background=light
+set background=dark
 " colorscheme moonfly
 " colorscheme vibrantink
 " colorscheme jellybeans
@@ -1291,7 +1291,7 @@ set background=light
 " colorscheme oceanic_material
 " colorscheme base16-irblack
 " colorscheme base16-github
-colorscheme paper
+colorscheme jellybeans
 
 " }}}
 " {{{ 5. GUI

@@ -12,6 +12,16 @@ export USER=f3rno
 export HOME=/home/$USER
 export EDITOR=nvim
 export SHELL=bash
+export PASSWORD_STORE=$HOME/.password-store
+
+# }}}
+# {{{ gh-cli
+
+export GIT_EDITOR=nvim
+export GH_EDITOR=nvim
+export BROWSER=firefox-developer-edition
+export GH_PAGER=slit
+export GLAMOUR_STYLE=dark
 
 # }}}
 # {{{ fzf
@@ -33,6 +43,8 @@ export FZF_BIN=$HOME/.fzf/bin
 # }}}
 # {{{ tooling
 
+export GH_CLI_BIN=$HOME/src/github/cli/cli/bin
+
 # {{{ rvm/ruby
 
 export RVM_BIN=$HOME/.rvm/bin
@@ -48,9 +60,7 @@ export GOPATH_BIN=$HOME/go/bin
 # }}}
 # {{{ node/yarn
 
-export N_BIN_PATH=$HOME/.n/bin
-export N_PREFIX=$HOME/.n/node
-export N_NODE_BIN_PATH=$N_PREFIX/bin
+export NVM_BIN_PATH=$HOME/.nvm/versions/node/v15.3.0/bin
 export YARN_BIN=$HOME/.yarn/bin
 
 # }}}
@@ -100,6 +110,14 @@ kk() {
   killall $@ -9
 }
 
+mnt() {
+  sudo mount /dev/$@ /mnt
+}
+
+umnt() {
+  sudo unmount /mnt
+}
+
 # }}}
 # {{{ shell
 
@@ -125,6 +143,7 @@ gc() {
 gcgh() {
   mkdir -p ~/src/github/$@
   git clone https://github.com/$@ ~/src/github/$@
+  cd ~/src/github/$@
 }
 
 gcs() {
@@ -160,14 +179,104 @@ gd() {
 }
 
 # }}}
-# {{{ dnf
+# {{{ pass
+# TODO: Extract into helper
 
-sdi() {
-  sudo dnf install -y $@
+pcp() {
+  pass -c $@
 }
 
-ds() {
-  dnf search $@
+pass-new() {
+  pass generate $@
+  clear
+  pass -c $@
+  pushd .
+  cd $PASSWORD_STORE
+  gp
+  popd
+}
+
+pass-gg() {
+  pass otp g/google/otp
+  pass -c g/google
+}
+
+pass-pmail() {
+  pass otp c/protonmail/otp
+  pass -c c/protonmail
+}
+
+pass-gh() {
+  pass otp c/github/otp
+  pass -c c/github
+}
+
+pass-ff() {
+  pass otp g/firefox/otp
+  pass -c g/firefox
+}
+
+pass-twitter() {
+  pass otp s/twitter/otp
+  pass -c s/twitter
+}
+
+# }}}
+# {{{ system services
+
+jctl() {
+  sudo journalctl -u $@
+}
+
+jctlf() {
+  sudo journalctl -u $@ -f
+}
+
+sysup() {
+  sudo systemctl start $@
+}
+
+sysdn() {
+  sudo systemctl stop $@
+}
+
+sysst() {
+  sudo systemctl status $@
+}
+
+syson() {
+  sudo systemctl enable $@
+}
+
+sysoff() {
+  sudo systemctl disable $@
+}
+
+gdmup() {
+  sudo systemctl start gdm
+}
+
+gdmdn() {
+  sudo systemctl stop gdm
+}
+
+# }}}
+# {{{ system packages
+
+pkgi() {
+  sudo pacman -S $@
+}
+
+pkgd() {
+  sudo pacman -R $@
+}
+
+pkgs() {
+  sudo pacman -Ss $@
+}
+
+pkgu() {
+  sudo pacman -Syyyuuu $@
 }
 
 # }}}
@@ -197,6 +306,7 @@ alias grep='grep --color'
 alias cat="bat"
 alias vim="nvim"
 alias dtrx="decompress $@ --out-dir $@"
+alias vimbrc="vim ~/.bashrc"
 
 # }}}
 # {{{ bookmarks: https://dmitryfrank.com/articles/shell_shortcuts
@@ -218,7 +328,8 @@ shopt -s autocd # cd by entering path with no prefix
 # }}}
 # {{{ plugins/autocomplete
 
-source /etc/profile.d/autojump.sh # cd w/ history
+source $HOME/src/github/alacritty/alacritty/extra/completions/alacritty.bash
+source $HOME/.autojump/share/autojump/autojump.bash # cd w/ history
 source $HOME/.bash-powerline.sh # prompt
 source <(kitty + complete setup bash)
 # source $HOME/.npm-completion-fast/npm-completion-fast.bash
@@ -238,14 +349,14 @@ PATH_MEMBERS=( \
   $GOPATH_BIN \
   $YARN_BIN \
   $CARGO_PATH \
-  $N_BIN_PATH \
-  $N_NODE_BIN_PATH \
+  $NVM_BIN_PATH \
   $PRIVATE_BIN \
   $LOCAL_BIN \
   $DEV_BIN \
   $FZF_BIN \
   $SNAP_PATH \
   $FF_DEV_PATH \
+  $GH_CLI_BIN \
 )
 
 export PATH="$(printf "%s:" "${PATH_MEMBERS[@]}"):$PATH"
@@ -255,3 +366,6 @@ export PATH="$(printf "%s:" "${PATH_MEMBERS[@]}"):$PATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"

@@ -29,7 +29,7 @@ bindsym $mod+Ctrl+Shift+l exec i3lock -c 000000
 bindsym $mod+p exec rofi -show drun
 bindsym $mod+Shift+p exec rofi -show run
 # bindsym $mod+m exec rofi-mpd -a
-bindsym $mod+Shift+s exec flameshot gui -p ~/Pictures/Screenshots
+bindsym $mod+Shift+s exec flameshot gui
 # bindsym $mod+Shift+c exec ~/bin/dev-sessions/open-project
 # bindsym $mod+Shift+w exec ~/bin/open-vimwiki
 # bindsym Ctrl+grave exec /home/f3rno/code/i3-quickterm/i3-quickterm shell
@@ -52,8 +52,8 @@ bindsym XF86MonBrightnessDown exec "sudo brillo -U 10"
 floating_modifier $mod
 
 # start a terminal
-# bindsym $mod+Return exec alacritty
-bindsym $mod+Return exec kitty
+bindsym $mod+Return exec alacritty
+# bindsym $mod+Return exec kitty
 
 # neovim shortcut
 bindsym $mod+shift+v exec nvim-gtk
@@ -200,45 +200,11 @@ set $white #ffffff
 
 bar {
   position bottom
-  status_command i3blocks
+  status_command i3status
   tray_output none
-  output eDP1
+  output eDP-1
   mode dock
   # mode hide
-  colors {
-    background $bg
-    statusline $white
-#                            border  backgr. text
-    focused_workspace    $bg $bg $white
-    inactive_workspace   $bg $bg $gray
-    active_workspace     $bg $bg $white
-    urgent_workspace     $red $red $bg
-  }
-}
-
-bar {
-  position bottom
-  output DP1
-  tray_output none
-  mode hide
-
-  colors {
-    background $bg
-    statusline $white
-#                            border  backgr. text
-    focused_workspace    $bg $bg $white
-    inactive_workspace   $bg $bg $gray
-    active_workspace     $bg $bg $white
-    urgent_workspace     $red $red $bg
-  }
-}
-
-bar {
-  position bottom
-  output DP2
-  tray_output none
-  mode hide
-
   colors {
     background $bg
     statusline $white
