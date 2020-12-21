@@ -1,1 +1,1 @@
-/home/f3rno/.vimrc
+/home/xf3rno/.vimrc

@@ -1,6 +1,6 @@
 [user]
-	name = optinull
-	email = f3rno.doi@pm.me
+	name = Cris Mihalache
+	email = xf3rno@pm.me
 
 [color]
 	ui = auto
@@ -33,6 +33,7 @@
 	autocrlf = false
 	filemode = false
 	editor = nvim
+	sshCommand = ssh -i ~/.ssh/id_rsa_github -F /dev/null
 
 [branch]
 	autosetuprebase = always

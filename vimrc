@@ -184,7 +184,7 @@ Plug 'danilamihailov/vim-tips-wiki'
 Plug 'wellle/visual-split.vim'
 Plug 'wellle/targets.vim'
 Plug 'valloric/MatchTagAlways'
-" Plug 'wakatime/vim-wakatime'
+Plug 'wakatime/vim-wakatime'
 " Plug 'raghur/vim-ghost', { 'do': ':GhostInstall' }
 
 " requires set compatible
@@ -355,7 +355,7 @@ endfunction
 let g:coc_snippet_next = '<c-j>'
 let g:coc_snippet_prev = '<c-k>'
 
-let g:coc_node_path = '/home/f3rno/.nvm/versions/node/v15.3.0/bin/node'
+let g:coc_node_path = '/home/xf3rno/.nvm/versions/node/v15.4.0/bin/node'
 let g:coc_node_args = ['--max-old-space-size=16384', '--no-warnings']
 
 autocmd BufNewFile .gitignore CocCommand template.templateTop
@@ -370,7 +370,7 @@ let g:echodoc#type = 'virtual'
 " {{{ fzf
 
 set rtp+=/usr/bin/fzf
-set rtp+=/home/f3rno/.cargo/bin
+set rtp+=/home/xf3rno/.cargo/bin
 
 let g:fzf_command_prefix = 'FZF'
 let g:fzf_buffers_jump = 1
@@ -519,9 +519,9 @@ let g:startify_custom_header = [
 " autocmd FileType js,javascript UltiSnipsAddFiletypes javascript-jsdoc
 
 let g:UltiSnipsEnableSnipMate = 0
-let g:UltiSnipsSnippetDirectories = [
-\ '/home/f3rno/code/personal/vim-snippets/UltiSnips',
-\ ]
+" let g:UltiSnipsSnippetDirectories = [
+" \ '/home/xf3rno/.src/github/xf3rno/vim-snippets/UltiSnips',
+" \ ]
 
 let g:UltiSnipsExpandTrigger = '<c-space>'
 let g:UltiSnipsListSnippets = '<nop>'
@@ -763,9 +763,9 @@ autocmd FileType vimwiki setlocal foldlevel=20
 
 let g:vimwiki_list = [{
 \ 'name': 'personal_wiki',
-\ 'path': '/home/f3rno/.vimwiki/src',
+\ 'path': '/home/xf3rno/.vimwiki/src',
 \ 'bullet_types': ['-', '•', '→'],
-\ 'path_html': '/home/f3rno/.vimwiki/html',
+\ 'path_html': '/home/xf3rno/.vimwiki/html',
 \ 'ext': '.wiki',
 \ 'syntax': 'markdown',
 \ 'auto_toc': 1,
@@ -907,7 +907,7 @@ autocmd FileType vimwiki,taskwarrior :AnsiEsc
 " }}}
 " {{{ wakatime
 
-let g:wakatime_OverrideCommandPrefix = '/home/f3rno/.local/bin/wakatime'
+let g:wakatime_OverrideCommandPrefix = '/home/xf3rno/.local/bin/wakatime'
 
 " }}}
 
@@ -1291,7 +1291,7 @@ set background=dark
 " colorscheme oceanic_material
 " colorscheme base16-irblack
 " colorscheme base16-github
-colorscheme jellybeans
+colorscheme seoul256
 
 " }}}
 " {{{ 5. GUI

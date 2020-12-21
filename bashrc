@@ -8,7 +8,7 @@ if [[ $- != *i* ]]; then return; fi
 
 # {{{ base
 
-export USER=f3rno
+export USER=xf3rno
 export HOME=/home/$USER
 export EDITOR=nvim
 export SHELL=bash
@@ -19,9 +19,12 @@ export PASSWORD_STORE=$HOME/.password-store
 
 export GIT_EDITOR=nvim
 export GH_EDITOR=nvim
-export BROWSER=firefox-developer-edition
 export GH_PAGER=slit
+export BROWSER=firefox
 export GLAMOUR_STYLE=dark
+export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
+
+source $HOME/.config/gh/env.sh
 
 # }}}
 # {{{ fzf
@@ -87,7 +90,7 @@ export FF_DEV_PATH=$HOME/bin/firefox-dev
 # }}}
 # {{{ pass
 
-# source ~/.password-store/.env
+source ~/.password-store/.env
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 
 # }}}
@@ -141,9 +144,23 @@ gc() {
 }
 
 gcgh() {
-  mkdir -p ~/src/github/$@
-  git clone https://github.com/$@ ~/src/github/$@
-  cd ~/src/github/$@
+  DEST=~/.src/github/$@
+
+  if [[ -f $DEST ]]; then
+    echo "$DEST already exists"
+  else
+    mkdir -p $DEST
+
+    if [[ $@ == *$USER* ]]; then
+      REPO_URL=git@github.com:$@
+    else
+      REPO_URL=https://github.com/$@
+    fi
+
+    git clone $REPO_URL $DEST
+  fi
+
+  cd $DEST
 }
 
 gcs() {
@@ -252,31 +269,19 @@ sysoff() {
   sudo systemctl disable $@
 }
 
-gdmup() {
-  sudo systemctl start gdm
-}
-
-gdmdn() {
-  sudo systemctl stop gdm
-}
-
 # }}}
 # {{{ system packages
 
 pkgi() {
-  sudo pacman -S $@
-}
-
-pkgd() {
-  sudo pacman -R $@
+  sudo dnf install -y $@
 }
 
 pkgs() {
-  sudo pacman -Ss $@
+  sudo dnf search $@
 }
 
 pkgu() {
-  sudo pacman -Syyyuuu $@
+  sudo dnf update -y
 }
 
 # }}}
@@ -288,6 +293,14 @@ tmn() {
 
 tma() {
   tmux attach -t T
+}
+
+# }}}
+# {{{ pulseaudio
+
+reboot-pa() {
+  pulseaudio -k
+  pulseaudio --start
 }
 
 # }}}
@@ -328,7 +341,7 @@ shopt -s autocd # cd by entering path with no prefix
 # }}}
 # {{{ plugins/autocomplete
 
-source $HOME/src/github/alacritty/alacritty/extra/completions/alacritty.bash
+source $HOME/.src/github/alacritty/alacritty/extra/completions/alacritty.bash
 source $HOME/.autojump/share/autojump/autojump.bash # cd w/ history
 source $HOME/.bash-powerline.sh # prompt
 source <(kitty + complete setup bash)
@@ -338,7 +351,7 @@ source <(kitty + complete setup bash)
 # Via https://github.com/jez/vim-superman
 complete -o default -o nospace -F _man vman
 
-# source $HOME/code/github/irondoge/bash-wakatime/bash-wakatime.sh
+source $HOME/.src/github/gjsheep/bash-wakatime/bash-wakatime.sh
 # source $HOME/.node_bash_completion
 
 # }}}

@@ -55,15 +55,15 @@
   "typescript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
 
   "codeLens.enable": true,
-  "npm.binPath": "/home/f3rno/.nvm/versions/node/v15.3.0/bin/npm",
-  "tsserver.npm": "/home/f3rno/.nvm/versions/node/v15.3.0/bin/npm",
+  "npm.binPath": "/home/xf3rno/.nvm/versions/node/v15.4.0/bin/npm",
+  "tsserver.npm": "/home/xf3rno/.nvm/versions/node/v15.4.0/bin/npm",
 
   "suggest.languageSourcePriority": 10,
 
-  "template.email": "f3rno.doi@pm.me",
-  "template.username": "optinull",
+  "template.email": "xf3rno@pm.me",
+  "template.username": "xf3rno",
   "template.license": "MIT",
-  "template.templatesDirectory": "/home/f3rno/src/github/optinull/vim-templates/",
+  "template.templatesDirectory": "/home/xf3rno/.src/github/xf3rno/vim-templates/",
 
   "coc.preferences.useQuickfixForLocations": true,
   "coc.preferences.previewAutoClose": false,

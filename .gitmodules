@@ -22,3 +22,6 @@
 [submodule "npm-completion-fast"]
 	path = npm-completion-fast
 	url = http://github.com/seavan/npm-completion-fast
+[submodule "config/kitty/themes/papercolor-kitty"]
+	path = config/kitty/themes/papercolor-kitty
+	url = https://github.com/craffate/papercolor-kitty

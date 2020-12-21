@@ -1,9 +1,8 @@
 key_bindings:
   - { key: F11, action: ToggleFullscreen }
-  - { key: F8, action: SpawnNewInstance }
 
 font:
-  size: 8
+  size: 9
   normal:
     family: Hasklug Nerd Font
 
@@ -144,34 +143,4 @@ schemes:
       cyan: '#4fb8cc'
       white: '#f1f1f1'
 
-colors:
-  # Default colors
-  primary:
-    background: '#000000'
-    foreground: '#ffffff'
-
-  cursor:
-    text: '#ffffff'
-    cursor: '#ffffff'
-
-  # Normal colors
-  normal:
-    black: '#4e4e4e'
-    red: '#ff6c60'
-    green: '#a8ff60'
-    yellow: '#ffffb6'
-    blue: '#96cbfe'
-    magenta: '#ff73fd'
-    cyan: '#c6c5fe'
-    white: '#eeeeee'
-
-  # Bright colors
-  bright:
-    black: '#7c7c7c'
-    red: '#ffb6b0'
-    green: '#ceffab'
-    yellow: '#ffffcb'
-    blue: '#b5dcfe'
-    magenta: '#ff9cfe'
-    cyan: '#dfdffe'
-    white: '#ffffff'
+colors: *ayu_dark
