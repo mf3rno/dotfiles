@@ -32,7 +32,7 @@ for_window [class="Cawbird"] floating enable
 assign [class="Firefox"] 1
 assign [class="Telegram"] 6
 assign [class="Slack"] 9
-assign [class="Cawbird"] 10
+assign [class="Cawbird"] 8
 
 font pango:Hasklug Nerd Font 9
 
@@ -46,6 +46,7 @@ exec --no-startup-id nitrogen --restore
 exec --no-startup-id dunst --config ~/.config/dunst/config
 
 bindsym $mod+p exec rofi -show drun
+bindsym $mod+m exec ~/.exec/rofi/applets/mpd.sh
 bindsym $mod+Shift+p exec rofi -show run
 bindsym $mod+Shift+s exec flameshot gui
 bindsym $mod+Ctrl+Shift+l exec i3lock -c 000000

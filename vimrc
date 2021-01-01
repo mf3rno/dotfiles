@@ -80,6 +80,7 @@ Plug 'andyk/vim-liquid'
 Plug 'digitaltoad/vim-pug'
 Plug 'Glench/Vim-Jinja2-Syntax'
 Plug 'vim-python/python-syntax'
+Plug 'udalov/kotlin-vim'
 
 " {{{ pandoc
 
@@ -1291,7 +1292,7 @@ set background=dark
 " colorscheme oceanic_material
 " colorscheme base16-irblack
 " colorscheme base16-github
-colorscheme seoul256
+colorscheme oceanic_material
 
 " }}}
 " {{{ 5. GUI

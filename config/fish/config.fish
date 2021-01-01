@@ -11,6 +11,6 @@ set -g pure_symbol_prompt " >"
 alias ls="lsd"
 alias cat="bat"
 
-nvm use 13.11.0
+# nvm use 13.11.0
 
-zoxide init fish | source
+# zoxide init fish | source

@@ -9,9 +9,11 @@ if [[ $- != *i* ]]; then return; fi
 # {{{ base
 
 export USER=xf3rno
-export HOME=/home/$USER
-export EDITOR=nvim
 export SHELL=bash
+export EDITOR=nvim
+export HOME=/home/$USER
+export PERSONAL_BIN=$HOME/bin
+export PERSONAL_BASH_LIB=$PERSONAL_BIN/bash
 export PASSWORD_STORE=$HOME/.password-store
 
 # }}}
@@ -45,8 +47,6 @@ export FZF_BIN=$HOME/.fzf/bin
 
 # }}}
 # {{{ tooling
-
-export GH_CLI_BIN=$HOME/src/github/cli/cli/bin
 
 # {{{ rvm/ruby
 
@@ -82,10 +82,8 @@ export SNAP_PATH=/snap/bin
 # {{{ bin
 
 export USR_BIN=/usr/local/bin
-export PRIVATE_BIN=$HOME/bin/exec
 export LOCAL_BIN=$HOME/.local/bin
-export DEV_BIN=$HOME/bin/dev-sessions
-export FF_DEV_PATH=$HOME/bin/firefox-dev
+export ANDROID_STUDIO_BIN=$HOME/bin/android-studio/bin
 
 # }}}
 # {{{ pass
@@ -110,7 +108,7 @@ shutdn() {
 }
 
 kk() {
-  killall $@ -9
+  sudo killall $@ -9
 }
 
 mnt() {
@@ -130,6 +128,13 @@ x() {
 
 c() {
   clear
+}
+
+# }}}
+# {{{ ssh
+
+outpost() {
+  ssh outpost
 }
 
 # }}}
@@ -203,7 +208,24 @@ pcp() {
   pass -c $@
 }
 
-pass-new() {
+# TODO
+# pass-gen-otp() {
+#   read -p "Enter Seed: " OTP_SECRET
+#   read -p "Enter Label: " OTP_LABEL
+
+#   OTP_URL=otpauth://totp/$OTP_LABEL?secret=$OTP_SECRET
+
+#   read -p "Confirm $OTP_URL for $@ (Y/N): " confirm && \
+#     [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
+
+#   echo $OTP_URL > pass otp insert $@
+
+#   OTP_CODE=$(pass otp $@)
+
+#   echo "Setup $@: $OTP_CODE"
+# }
+
+pass-gen() {
   pass generate $@
   clear
   pass -c $@
@@ -213,24 +235,19 @@ pass-new() {
   popd
 }
 
-pass-gg() {
-  pass otp g/google/otp
+pass-google() {
+  # pass otp g/google/otp
   pass -c g/google
 }
 
-pass-pmail() {
-  pass otp c/protonmail/otp
-  pass -c c/protonmail
+pass-proton() {
+  pass otp s/protonmail/otp
+  pass -c s/protonmail
 }
 
-pass-gh() {
-  pass otp c/github/otp
-  pass -c c/github
-}
-
-pass-ff() {
-  pass otp g/firefox/otp
-  pass -c g/firefox
+pass-github() {
+  pass otp g/github/otp
+  pass -c g/github
 }
 
 pass-twitter() {
@@ -304,6 +321,13 @@ reboot-pa() {
 }
 
 # }}}
+# {{{ utilities
+
+mkexec() {
+  chmod +x $@
+}
+
+# }}}
 
 # }}}
 # {{{ aliases
@@ -318,8 +342,8 @@ alias ll='ls -lah --color=auto'
 alias grep='grep --color'
 alias cat="bat"
 alias vim="nvim"
-alias dtrx="decompress $@ --out-dir $@"
 alias vimbrc="vim ~/.bashrc"
+alias xf3rno="ssh xf3rno"
 
 # }}}
 # {{{ bookmarks: https://dmitryfrank.com/articles/shell_shortcuts
@@ -363,18 +387,17 @@ PATH_MEMBERS=( \
   $YARN_BIN \
   $CARGO_PATH \
   $NVM_BIN_PATH \
-  $PRIVATE_BIN \
+  $PERSONAL_BIN \
   $LOCAL_BIN \
-  $DEV_BIN \
   $FZF_BIN \
   $SNAP_PATH \
-  $FF_DEV_PATH \
-  $GH_CLI_BIN \
+  $ANDROID_STUDIO_BIN \
 )
 
 export PATH="$(printf "%s:" "${PATH_MEMBERS[@]}"):$PATH"
 
 # }}}
+# {{{ nvm
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -382,3 +405,8 @@ export NVM_DIR="$HOME/.nvm"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+
+# }}}
+# {{{ personal bash lib
+
+# source $PERSONAL_BASH_LIB/lib.sh
