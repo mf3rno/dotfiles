@@ -1,4 +1,4 @@
-" {{{ 2. terminal
+" {{{ 1. terminal
 
 " {{{ reference
 
@@ -1283,16 +1283,19 @@ let g:srcery_italic = 1
 " }}}
 
 set background=dark
-" colorscheme moonfly
-" colorscheme vibrantink
-" colorscheme jellybeans
-" colorscheme hemisu
-" colorscheme paper
-" colorscheme gotham
-" colorscheme oceanic_material
-" colorscheme base16-irblack
-" colorscheme base16-github
-colorscheme oceanic_material
+
+" moonfly
+" vibrantink
+" farout
+" hemisu
+" paper
+" gotham
+" desertink
+" nova
+" oceanic_material
+" base16-irblack
+" base16-github
+colorscheme base16-seti
 
 " }}}
 " {{{ 5. GUI
