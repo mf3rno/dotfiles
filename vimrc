@@ -1,3 +1,12 @@
+" F3rno's vim/neovim config.
+" Put together with love over time.
+" Eventually it will be split up harmoniously
+" If anything, I found enough solid color schemes to last decades.
+"
+" TODO: Update intro.
+"
+" https://github.com/xf3rno/dotfiles/vimrc
+
 " {{{ 1. terminal setup
 
 " {{{ reference
@@ -35,6 +44,7 @@ else
   let g:xf3rno_plugin_root = '/.vim-plugins'
 end
 
+" let g:xf3rno_plugin_path = '~/' . g:xf3rno_plugin_root
 let g:xf3rno_plugin_path = $HOME . g:xf3rno_plugin_root
 
 call plug#begin(g:xf3rno_plugin_path)
@@ -368,7 +378,9 @@ func! s:xf3rno_coc_tab_handler() abort
     return "\<TAB>"
   endif
 
-  call coc#refresh()
+  " call coc#refresh()
+
+  return ''
 endfunc
 
 func! s:xf3rno_util_used_backspace() abort
@@ -439,20 +451,25 @@ let g:fzf#buffers#jump = 1
 let g:fzf#tags#command = 'ctags -R'
 let g:fzf#layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 
+" TODO: Refactor out of command, or consider moving more logic to commands
+command! -bang -nargs=? -complete=dir FZFShowFileExplorer :call <SID>xf3rno_fzf_find_files(<q-args>, <bang>0)
+
+func! s:xf3rno_fzf_find_files(q_args, bang) abort
+  let s:preview_path = g:xf3rno_plugin_path . '/fzf.vim/bin/preview.sh {}'
+  let s:q_args = a:q_args || ''
+  let s:bang = a:bang || ''
+
+  call fzf#vim#files(s:q_args, {
+    \   'options': [
+    \     '--reverse',
+    \     '--info=inline',
+    \     '--preview',
+    \     s:preview_path
+    \   ]}, s:bang)
+endfunc
+
 " TODO: Check for/extract fzf.vim path
 " TOOD: Explode final preview script path
-func! s:xf3rno_fzf_find_files() abort
-  let s:preview_path = g:xf3rno_plugin_path . '/fzf.vim/bin/preview.sh {}'
-
-  exec fzf#run(({
-      \   'options': [
-      \     '--reverse',
-      \     '--info=inline',
-      \     '--preview',
-      \     s:preview_path
-      \   ],
-      \ }))
-endfunc
 
 " }}}
 " {{{ gitgutter
@@ -727,21 +744,24 @@ endfunc
 
 " }}}
 " {{{ vim-test
+" TODO: Refactor this; fugly handling of state (killing kitty)
 
-" {{{ MochaStrategyTransform()
+" {{{ functions
 
-func! MochaStrategyTransform(cmd) abort
+" {{{ s:xf3rno_test_mocha_transform()
+
+func! s:xf3rno_test_mocha_transform(cmd) abort
   if g:test#strategy == 'kitty'
-    call SetKittySocketPathEnvVar()
+    call <SID>xf3rno_test_kitty_set_env_vars()
   endif
 
   return 'NODE_PATH=lib NODE_ENV=test MOCHA=1 ' . a:cmd
 endfunc
 
 " }}}
-" {{{ SetKittySocketPathEnvVar()
+" {{{ s:xf3rno_test_kitty_set_env_vars()
 
-func! SetKittySocketPathEnvVar() abort
+func! s:xf3rno_test_kitty_set_env_vars() abort
   let s:kitty_socket = 'unix:'
   let s:kitty_socket .= expand('/tmp/kitty_socket*')
 
@@ -749,10 +769,10 @@ func! SetKittySocketPathEnvVar() abort
 endfunc
 
 " }}}
-" {{{ AutoSetTestStrategy()
+" {{{ s:xf3rno_test_init_strategy()
 
-func! AutoSetTestStrategy() abort
-  call SetKittySocketPathEnvVar()
+func! s:xf3rno_test_init_strategy() abort
+  call <SID>xf3rno_test_kitty_set_env_vars()
 
   if strlen($KITTY_LISTEN_ON) > 0
     let g:test#strategy = 'kitty'
@@ -767,24 +787,20 @@ func! AutoSetTestStrategy() abort
 endfunc
 
 " }}}
-" {{{ strategy selection commands
-
-command! TestViaNVIM call SetTestStrategyNVIM()
-command! TestViaKitty call SetTestStrategyKitty()
-
-" }}}
-" {{{ detect project root
+" {{{ s:xf3rno_test_run(cmd)
 " https://github.com/janko/vim-test/issues/272_issuecomment-515749091
 
-func! s:RunVimTest(cmd) abort
+func! s:xf3rno_test_run(cmd) abort
   for marker in g:root#markers
     let marker_file = findfile(marker, expand('%:p:h') . ';')
+    echomsg marker_file
     if strlen(marker_file) > 0
       let g:test#project#root = fnamemodify(marker_file, ":p:h")
       break
     endif
 
     let marker_dir = finddir(marker, expand('%:p:h') . ';')
+    echomsg marker_dir
 
     if strlen(marker_dir) > 0
       let g:test#project#root = fnamemodify(marker_dir, ":p:h")
@@ -797,26 +813,22 @@ endfunc
 
 " }}}
 
-call AutoSetTestStrategy()
+" }}}
+" {{{ variables
 
-let g:root#markers = ['package.json', 'yarn.lock', '.git/']
-
+let g:root#markers = ['.git', 'README.md', 'LICENSE.md']
+let test#strategy = 'neovim'
+let g:test#preserve_screen = 1
 let g:test#javascript#mocha#options = '--verbose'
 let g:test#transformation = 'mocha'
 let g:test#custom#transformations = {
-\ 'mocha': function('MochaStrategyTransform'),
-\ }
+  \   'javascript': function('<SID>xf3rno_test_mocha_transform'),
+  \   'mocha': function('<SID>xf3rno_test_mocha_transform'),
+  \ }
 
-" " let test_strategy = {
-" "       'nearest': 'neovim',
-" "       'file': 'kitty',
-" "       'suite': 'kitty',
-" "       }
+" }}}
 
-" augroup test
-" autocmd!
-" autocmd BufWrite * if test_exists() | TestFile | endif
-" augroup END
+call <SID>xf3rno_test_init_strategy()
 
 " }}}
 " {{{ vimwiki
@@ -2058,9 +2070,9 @@ nnoremap <silent> fff :call <SID>xf3rno_folds_toggle()<cr>
 " }}}
 " {{{ fzf
 
-nnoremap <C-p> call <SID>xf3rno_fzf_find_files()<cr>
-nnoremap <leader>ZC :FZFCommands<cr>
-nnoremap <leader>ZB :FZFBTags<cr>
+nnoremap <silent> <c-p> :FZFShowFileExplorer<cr>
+nnoremap <silent> <leader>ZC :FZFCommands<cr>
+nnoremap <silent> <leader>ZB :FZFBTags<cr>
 
 " {{{ search open buffers
 func! s:xf3rno_buff_list() abort
@@ -2210,11 +2222,11 @@ command! -nargs=* VT vsplit | terminal <args>
 " }}}
 " {{{ testing
 
-nnoremap <leader>tf :call <SID>RunVimTest('TestFile')<cr>
-nnoremap <leader>tn :call <SID>RunVimTest('TestNearest')<cr>
-nnoremap <leader>ts :call <SID>RunVimTest('TestSuite')<cr>
-nnoremap <leader>tl :call <SID>RunVimTest('TestLast')<cr>
-" nnoremap <leader>tv :call <SID>RunVimTest('TestVisit')<cr>
+nnoremap <leader>tf :call <SID>xf3rno_test_run('TestFile')<cr>
+nnoremap <leader>tn :call <SID>xf3rno_test_run('TestNearest')<cr>
+nnoremap <leader>ts :call <SID>xf3rno_test_run('TestSuite')<cr>
+nnoremap <leader>tl :call <SID>xf3rno_test_run('TestLast')<cr>
+nnoremap <leader>tv :call <SID>xf3rno_test_run('TestVisit')<cr>
 
 " }}}
 " {{{ vimwiki

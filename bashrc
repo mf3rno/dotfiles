@@ -396,6 +396,3 @@ export NVM_DIR="$HOME/.nvm"
 export PATH="$PATH:$HOME/.rvm/bin"
 
 # }}}
-# {{{ personal bash lib
-
-# source $PERSONAL_BASH_LIB/lib.sh
