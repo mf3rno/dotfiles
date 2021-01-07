@@ -2,7 +2,7 @@ key_bindings:
   - { key: F11, action: ToggleFullscreen }
 
 font:
-  size: 10
+  size: 8
   normal:
     # Anonymice
     # Fira Code
@@ -15,7 +15,8 @@ font:
     # Jet Brains Mono
     # Sauce Code Pro
     # Literation Mono
-    family: Fira Code Nerd Font
+    # family: Fira Code Nerd Font
+    family: Jet Brains Mono Nerd Font
 
 window:
   decorations: none
@@ -450,4 +451,4 @@ schemes:
       cyan:    '0x73cef4'
       white:   '0xfeffff'
 
-colors: *tender
+colors: *ayu_dark

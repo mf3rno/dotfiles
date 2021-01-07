@@ -202,57 +202,41 @@ gd() {
 
 # }}}
 # {{{ pass
-# TODO: Extract into helper
-
-pcp() {
-  pass -c $@
-}
-
-# TODO
-# pass-gen-otp() {
-#   read -p "Enter Seed: " OTP_SECRET
-#   read -p "Enter Label: " OTP_LABEL
-
-#   OTP_URL=otpauth://totp/$OTP_LABEL?secret=$OTP_SECRET
-
-#   read -p "Confirm $OTP_URL for $@ (Y/N): " confirm && \
-#     [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
-
-#   echo $OTP_URL > pass otp insert $@
-
-#   OTP_CODE=$(pass otp $@)
-
-#   echo "Setup $@: $OTP_CODE"
-# }
 
 pass-gen() {
   pass generate $@
-  clear
   pass -c $@
-  pushd .
-  cd $PASSWORD_STORE
-  gp
-  popd
+  clear
 }
 
-pass-google() {
-  # pass otp g/google/otp
+pass-gg() {
   pass -c g/google
+  # pass otp g/google/otp
 }
 
-pass-proton() {
-  pass otp s/protonmail/otp
+pass-npm() {
+  pass -c g/npm
+  pass otp g/npm/otp
+}
+
+pass-pm() {
   pass -c s/protonmail
+  pass otp s/protonmail/otp
 }
 
-pass-github() {
-  pass otp g/github/otp
+pass-gh() {
   pass -c g/github
+  pass otp g/github/otp
 }
 
-pass-twitter() {
-  pass otp s/twitter/otp
+pass-bfx() {
+  pass -c crypto/bitfinex
+  pass otp crypto/bitfinex/otp
+}
+
+pass-tw() {
   pass -c s/twitter
+  pass otp s/twitter/otp
 }
 
 # }}}
