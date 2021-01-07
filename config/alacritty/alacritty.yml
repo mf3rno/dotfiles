@@ -2,7 +2,7 @@ key_bindings:
   - { key: F11, action: ToggleFullscreen }
 
 font:
-  size: 8
+  size: 6
   normal:
     # Anonymice
     # Fira Code

@@ -219,6 +219,11 @@ pass-npm() {
   pass otp g/npm/otp
 }
 
+pass-fb() {
+  pass -c s/facebook
+  pass otp s/facebook/otp
+}
+
 pass-pm() {
   pass -c s/protonmail
   pass otp s/protonmail/otp

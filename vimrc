@@ -2058,7 +2058,7 @@ nnoremap <silent> fff :call <SID>xf3rno_folds_toggle()<cr>
 " }}}
 " {{{ fzf
 
-nnoremap <C-p> :call <SID>xf3rno_fzf_find_files()<cr>
+nnoremap <C-p> call <SID>xf3rno_fzf_find_files()<cr>
 nnoremap <leader>ZC :FZFCommands<cr>
 nnoremap <leader>ZB :FZFBTags<cr>
 
