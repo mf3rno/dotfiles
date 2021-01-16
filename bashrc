@@ -156,49 +156,49 @@ gd() {
 # {{{ system services
 
 jctl() {
-  sudo journalctl -u $@
+sudo journalctl -u $@
 }
 
 jctlf() {
-  sudo journalctl -u $@ -f
+sudo journalctl -u $@ -f
 }
 
 sysup() {
-  sudo systemctl start $@
+sudo systemctl start $@
 }
 
 sysdn() {
-  sudo systemctl stop $@
+sudo systemctl stop $@
 }
 
 sysst() {
-  sudo systemctl status $@
+sudo systemctl status $@
 }
 
 syson() {
-  sudo systemctl enable $@
+sudo systemctl enable $@
 }
 
 sysoff() {
-  sudo systemctl disable $@
+sudo systemctl disable $@
 }
 
 # }}}
 # {{{ tmux
 
 tmn() {
-  tmux new -s T
+tmux new -s T
 }
 
 tma() {
-  tmux attach -t T
+tmux attach -t T
 }
 
 # }}}
 # {{{ utilities
 
 mkexec() {
-  chmod +x $@
+chmod +x $@
 }
 
 # }}}
@@ -206,7 +206,7 @@ mkexec() {
 # }}}
 # {{{ aliases
 
- alias lah="lsd -lah"
+alias lah="lsd -lah"
 alias ls="ls --color=auto"
 alias ll='ls -lah --color=auto'
 alias grep='grep --color'
@@ -215,7 +215,7 @@ alias vim="vi"
 # }}}
 # {{{ powerline
 
-export PROMPT_COMMAND='echo -n "[$USER@$HOSTNAME] "'
+export PROMPT_COMMAND='echo -n "[$USER@$HOSTNAME] $(pwd) "'
 
 source $HOME/.bash-powerline.sh
 
