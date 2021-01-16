@@ -3,13 +3,9 @@
 !   Dark version with Mirage as colors 8-15
 !
 
-! Options
-
-urxvt.url-launcher:       /usr/bin/firefox
-
 ! Appearance
 
-urxvt*font:                     xft:CaskaydiaCove Nerd Font:style=Regular:pixelsize=12:antialias=true:hinting=true
+urxvt*font:                     xft:Jet Brains Mono Nerd Font:style=Regular:pixelsize=12:antialias=true:hinting=true
 urxvt*termName:                 rxvt-256color
 urxvt*scrollBar:                false
 urxvt*depth:                    32

@@ -44,7 +44,6 @@ else
   let g:xf3rno_plugin_root = '/.vim-plugins'
 end
 
-" let g:xf3rno_plugin_path = '~/' . g:xf3rno_plugin_root
 let g:xf3rno_plugin_path = $HOME . g:xf3rno_plugin_root
 
 call plug#begin(g:xf3rno_plugin_path)
@@ -1796,7 +1795,7 @@ set background=dark
 " base16-irblack
 " base16-github
 " colorscheme ayu
-colorscheme desertink
+colorscheme ayu
 
 " }}}
 " {{{ 5. gui
@@ -2421,5 +2420,42 @@ nnoremap <buffer> <space>wl s:xf3rno_wiki_links_generate()
 " }}}
 
 " }}}
+
+" {{{ not that bored A: move j/k by line indent
+
+func! s:xf3rno_util_get_line_indent(line) abort
+  let l:line = maktba#ensure#isString(a:line)
+
+  return len(substitue(l:line, '/^\(\s*\)\(\w\)\(.*\)', '\1'))
+endfunc
+
+" TODO: Validation
+func! s:xf3rno_util_mv_indent() abort
+  let l:line_count = getbufinfo(bufname()).linecount
+  let l:cursor_src = getcurpos()
+  let l:start = v:true
+
+  let l:src_col = l:cursor_src[2]
+  let l:src_ln = l:cursor_src[1]
+  let l:src_buff = l:cursor_src[0]
+
+  let l:src = getbufline(l:src_buff, l:src_ln, '$')
+  let l:src_indent = <SID>xf3rno_util_get_line_indent(l:src)
+
+  while l:start || (l:tgt_indent != l:src_indent && l:tgt_ln <= l:line_count)
+    let l:start = v:false
+
+    let l:tgt_ln = l:src_ln + 1
+    let l:tgt = getbufline(bufname(), l:tgt_ln, '$')
+    let l:tgt_indent = <SID>xf3rno_util_get_line_indent(l:tgt)
+  endwhile
+
+  " TODO: Move to nearest indent level instead?
+  if l:tgt_ln > l:line_count || l:tgt_indent !== l:src_indent
+    return
+  endif
+
+  cursor(l:tgt_ln, l:src_col)
+endfunc
 
 " }}}

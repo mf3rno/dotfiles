@@ -203,6 +203,10 @@ gd() {
 # }}}
 # {{{ pass
 
+pass-xf() {
+  pass ssh/xf3rno/xf3rno
+}
+
 pass-gen() {
   pass generate $@
   pass -c $@
@@ -352,11 +356,17 @@ set -o noclobber # prevent redirect overwriting existing files
 shopt -s autocd # cd by entering path with no prefix
 
 # }}}
+# {{{ powerline
+
+export PROMPT_COMMAND='echo -n "[$USER@$HOSTNAME] $(pwd) "'
+
+source $HOME/.bash-powerline.sh
+
+# }}}
 # {{{ plugins/autocomplete
 
 source $HOME/.src/github/alacritty/alacritty/extra/completions/alacritty.bash
 source $HOME/.autojump/share/autojump/autojump.bash # cd w/ history
-source $HOME/.bash-powerline.sh # prompt
 source <(kitty + complete setup bash)
 # source $HOME/.npm-completion-fast/npm-completion-fast.bash
 [ -f $HOME/.fzf.bash ] && source $HOME/.fzf.bash
