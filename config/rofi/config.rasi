@@ -1,8 +1,0 @@
-configuration {
-  font: "Hasklug Nerd Font Bold 11";
-  show-icons: true;
-  modi: "window,run,drun";
-  matching: "fuzzy";
-}
-
-@import "style"

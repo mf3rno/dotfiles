@@ -1,9 +1,0 @@
-enabled_layouts grid
-layout grid
-
-cd ~/code/bfx/bfx-hf-ui
-
-launch npm run start-api-server
-launch npm run start-ds-bitfinex
-launch npm run watch-css
-launch npm start
