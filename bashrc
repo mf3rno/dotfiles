@@ -358,7 +358,7 @@ shopt -s autocd # cd by entering path with no prefix
 # }}}
 # {{{ powerline
 
-export PROMPT_COMMAND='echo -n "[$USER@$HOSTNAME] $(pwd) "'
+export PROMPT_COMMAND='echo -n "[$USER@$HOSTNAME] "'
 
 source $HOME/.bash-powerline.sh
 
