@@ -1,7 +1,9 @@
 fish_history
 bash_history
 zsh_history
-weechat/weechat.conf
+weechat/weechat.log
+weechat/weechat_fifo
+weechat/xfer
 weechat/logs
 ncmpcpp/error.log
 config/fish/fishd*
