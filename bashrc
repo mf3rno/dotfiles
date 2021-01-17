@@ -211,6 +211,7 @@ alias ls="ls --color=auto"
 alias ll='ls -lah --color=auto'
 alias grep='grep --color'
 alias vim="vi"
+alias weechat-docker="docker container start weechat && docker container attach weechat"
 
 # }}}
 # {{{ powerline
