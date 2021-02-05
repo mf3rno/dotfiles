@@ -1798,7 +1798,7 @@ set background=dark
 " base16-irblack
 " base16-github
 " colorscheme ayu
-colorscheme ayu
+colorscheme desertink
 
 " }}}
 " {{{ 5. gui
