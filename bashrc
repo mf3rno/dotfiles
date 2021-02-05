@@ -13,6 +13,7 @@ export SHELL=bash
 export EDITOR=nvim
 export HOME=/home/$USER
 export PERSONAL_BIN=$HOME/bin
+export FF_NIGHTLY_PATH=$PERSONAL_BIN/firefox
 export PERSONAL_BASH_LIB=$PERSONAL_BIN/bash
 export PASSWORD_STORE=$HOME/.password-store
 
@@ -144,6 +145,19 @@ gs() {
   git status
 }
 
+gsinit() {
+  git submodule init
+}
+
+gsup() {
+  git submodule update
+}
+
+gsinitup() {
+  gsinit
+  gsup
+}
+
 gc() {
   git clone $@
 }
@@ -166,6 +180,8 @@ gcgh() {
   fi
 
   cd $DEST
+
+  gsinitup
 }
 
 gcs() {
@@ -294,6 +310,10 @@ pkgu() {
   sudo dnf update -y
 }
 
+pkgd() {
+  sudo dnf remove -y $@
+}
+
 # }}}
 # {{{ tmux
 
@@ -391,6 +411,7 @@ PATH_MEMBERS=( \
   $FZF_BIN \
   $SNAP_PATH \
   $ANDROID_STUDIO_BIN \
+  $FF_NIGHTLY_PATH \
 )
 
 export PATH="$(printf "%s:" "${PATH_MEMBERS[@]}"):$PATH"

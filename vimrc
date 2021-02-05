@@ -365,7 +365,7 @@ let g:ale#open#list = 0
 let g:coc#snippet#next = '<c-j>'
 let g:coc#snippet#prev = '<c-k>'
 
-let g:coc#node#path = '/home/xf3rno/.nvm/versions/node/v15.4.0/bin/node'
+let g:coc#node#path = '/home/xf3rno/.nvm/versions/node/v15.8.0/bin/node'
 let g:coc#node#args = ['--max-old-space-size=16384', '--no-warnings']
 
 func! s:xf3rno_coc_tab_handler() abort
@@ -1473,6 +1473,9 @@ set nobackup
 set nowritebackup
 set concealcursor=nc
 set conceallevel=3
+
+" Disable python2 check
+let g:loaded_python_provider=0
 
 " }}}
 " {{{ folding

@@ -149,7 +149,7 @@ bar {
   position bottom
   status_command i3status
   tray_output none
-  output LVDS-1
+  output eDP-1
   mode dock
 
   colors {

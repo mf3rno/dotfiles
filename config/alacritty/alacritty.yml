@@ -1,8 +1,9 @@
 key_bindings:
+  - { key: V, mods: Control, action: Paste }
   - { key: F12, action: ToggleFullscreen }
 
 font:
-  size: 7
+  size: 8
   normal:
     # Anonymice
     # Fira Code

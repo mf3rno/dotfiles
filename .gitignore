@@ -27,3 +27,6 @@ nvim-plugins/*
 
 !nvim-plugins/.keep
 !vim-plugins/.keep
+
+/yarn
+/notes.sh

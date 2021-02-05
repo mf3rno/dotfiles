@@ -55,8 +55,8 @@
   "typescript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
 
   "codeLens.enable": true,
-  "npm.binPath": "/home/xf3rno/.nvm/versions/node/v15.4.0/bin/npm",
-  "tsserver.npm": "/home/xf3rno/.nvm/versions/node/v15.4.0/bin/npm",
+  "npm.binPath": "/home/xf3rno/.nvm/versions/node/v15.8.0/bin/npm",
+  "tsserver.npm": "/home/xf3rno/.nvm/versions/node/v15.8.0/bin/npm",
 
   "suggest.languageSourcePriority": 10,
 
