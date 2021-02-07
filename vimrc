@@ -329,6 +329,7 @@ call plug#end()
 let g:ale#enabled = 1
 
 let g:ale#linters = {
+\ 'sh': ['shellcheck'],
 \ 'javascript': ['eslint'],
 \ 'typescript': ['eslint'],
 \ 'json': ['eslint'],
@@ -1798,7 +1799,7 @@ set background=dark
 " base16-irblack
 " base16-github
 " colorscheme ayu
-colorscheme desertink
+colorscheme tequila-sunrise
 
 " }}}
 " {{{ 5. gui
@@ -1847,7 +1848,7 @@ nnoremap <C--> :call AdjustFontSize(-1)<cr>
 
 " }}}
 
-let g:font#name = 'Hasklug Nerd Font Medium'
+let g:font#name = 'Jet Brains Mono Nerd Font'
 let g:font#features = ''
 let g:font#size = 10
 

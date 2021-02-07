@@ -64,8 +64,7 @@ export GOPATH_BIN=$HOME/go/bin
 # }}}
 # {{{ node/yarn
 
-export NVM_BIN_PATH=$HOME/.nvm/versions/node/v15.3.0/bin
-export YARN_BIN=$HOME/.yarn/bin
+export NVM_BIN_PATH=$HOME/.nvm/versions/node/v15.8.0/bin
 
 # }}}
 # {{{ rust
@@ -96,6 +95,11 @@ export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 # {{{ TERM
 
 export TERM=xterm-256color
+
+# }}}
+# {{{ yarn
+
+export YARN_RC_FILENAME=.yarnrc.yml
 
 # }}}
 
@@ -231,7 +235,7 @@ pass-gen() {
 
 pass-gg() {
   pass -c g/google
-  # pass otp g/google/otp
+  pass otp g/google/otp
 }
 
 pass-npm() {
@@ -340,6 +344,37 @@ mkexec() {
   chmod +x $@
 }
 
+man() {
+  nvim -c "Man $*" -c "silent! only"
+}
+
+# }}}
+# {{{ yarn/npm
+
+ypi() {
+  yarn plugin import "$@"
+}
+
+ypl() {
+  yarn plugin list
+}
+
+y() {
+  yarn
+}
+
+yinit() {
+  yarn init
+}
+
+yr() {
+  yarn "$@"
+}
+
+ycl() {
+  yarn config list -v --why
+}
+
 # }}}
 
 # }}}
@@ -395,7 +430,13 @@ source <(kitty + complete setup bash)
 complete -o default -o nospace -F _man vman
 
 source $HOME/.src/github/gjsheep/bash-wakatime/bash-wakatime.sh
-# source $HOME/.node_bash_completion
+source $HOME/.node_bash_completion
+
+# }}}
+# {{{ nvm
+
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 # }}}
 # {{{ path
@@ -403,27 +444,17 @@ source $HOME/.src/github/gjsheep/bash-wakatime/bash-wakatime.sh
 PATH_MEMBERS=( \
   $RVM_BIN \
   $GOPATH_BIN \
-  $YARN_BIN \
   $CARGO_PATH \
-  $NVM_BIN_PATH \
+  $RVM_BIN \
   $PERSONAL_BIN \
   $LOCAL_BIN \
   $FZF_BIN \
   $SNAP_PATH \
   $ANDROID_STUDIO_BIN \
   $FF_NIGHTLY_PATH \
+  $NVM_BIN_PATH \
 )
 
 export PATH="$(printf "%s:" "${PATH_MEMBERS[@]}"):$PATH"
-
-# }}}
-# {{{ nvm
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
 
 # }}}
