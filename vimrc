@@ -341,6 +341,7 @@ let g:ale#linters = {
 \ }
 
 let g:ale#fixers = {
+\ 'sh': ['shfmt'],
 \ 'javascript': ['eslint'],
 \ 'json': ['fixjson'],
 \ 'ruby': ['rubocop'],
@@ -1800,7 +1801,8 @@ set background=dark
 " base16-github
 " ayu
 " tequila-sunrise
-colorscheme base16-irblack
+" colorscheme ayu
+colorscheme ayu
 
 " }}}
 " {{{ 5. gui

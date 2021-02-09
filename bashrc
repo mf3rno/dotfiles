@@ -1,107 +1,46 @@
-# {{{
+#!/usr/bin/env bash
 
-# If not running interactively, don't do anything
+# {{{ interactive check
+
 if [[ $- != *i* ]]; then return; fi
 
 # }}}
-# {{{ env vars
+# {{{ bash options
 
-# {{{ base
+shopt -s autocd
 
-export USER=xf3rno
+# }}}
+# {{{ resolve home and load/init xf-bash-lib
+
+RESOLVED_USER="$(whoami)"
+RESOLVED_HOSTNAME="$(hostname)"
+RESOLVED_HOME="$(userdbctl user "$RESOLVED_USER" | grep Directory | sed 's/.*: \(.*\)/\1/')"
+
 export SHELL=bash
-export EDITOR=nvim
-export HOME=/home/$USER
-export PERSONAL_BIN=$HOME/bin
-export FF_NIGHTLY_PATH=$PERSONAL_BIN/firefox
-export PERSONAL_BASH_LIB=$PERSONAL_BIN/bash
-export PASSWORD_STORE=$HOME/.password-store
-
-# }}}
-# {{{ gh-cli
-
-export GIT_EDITOR=nvim
-export GH_EDITOR=nvim
-export GH_PAGER=slit
-export BROWSER=firefox
-export GLAMOUR_STYLE=dark
-export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-
-source $HOME/.config/gh/env.sh
-
-# }}}
-# {{{ fzf
-
-# {{{ FZF ag (disabled)
-
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore-dir={.git,.undodir,docs/dist,node_modules,bower_components,dist} -g ""'
-
-# }}}
-# {{{ FZF fd
-
-# export FZF_DEFAULT_COMMAND='fd --type f'
-
-# }}}
-
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_BIN=$HOME/.fzf/bin
-
-# }}}
-# {{{ tooling
-
-# {{{ rvm/ruby
-
-export RVM_BIN=$HOME/.rvm/bin
-export GEM_HOME=$HOME/.rvm/gem/ruby-2.7.0
-export GEM_PATH=$GEM_HOME/bin
-
-# }}}
-# {{{ go
-
-export GOPATH=$HOME/go
-export GOPATH_BIN=$HOME/go/bin
-
-# }}}
-# {{{ node/yarn
-
-export NVM_BIN_PATH=$HOME/.nvm/versions/node/v15.8.0/bin
-
-# }}}
-# {{{ rust
-
-export CARGO_PATH=$HOME/.cargo/bin
-
-# }}}
-
-# }}}
-# {{{ snap
-
-export SNAP_PATH=/snap/bin
-
-# }}}
-# {{{ bin
-
-export USR_BIN=/usr/local/bin
-export LOCAL_BIN=$HOME/.local/bin
-export ANDROID_STUDIO_BIN=$HOME/bin/android-studio/bin
-
-# }}}
-# {{{ pass
-
-source ~/.password-store/.env
-export PASSWORD_STORE_ENABLE_EXTENSIONS=true
-
-# }}}
-# {{{ TERM
-
 export TERM=xterm-256color
+export USER=$RESOLVED_USER
+export HOME=$RESOLVED_HOME
+export HOSTNAME=$RESOLVED_HOSTNAME
+export NVM_PATH="$HOME/.nvm"
+export XF_BASH_LIB_PATH="$HOME/.xf-bash-lib"
+
+# shellcheck disable=1090
+source "$XF_BASH_LIB_PATH/xf_bash_lib.sh"
 
 # }}}
-# {{{ yarn
+# {{{ remaining env setup w/ xf-lib
 
-export YARN_RC_FILENAME=.yarnrc.yml
+RESOLVED_EDITOR="$(xf_resolve_editor)"
+RESOLVED_HOME_SRC_DIR="$(xf_ensure_home_subdir '.src')"
 
-# }}}
+export EDITOR="$RESOLVED_EDITOR"
+export HOME_SRC_DIR="$RESOLVED_HOME_SRC_DIR"
+
+HOME_BIN_DIR="$(xf_ensure_home_subdir 'bin')"
+HOME_LOCAL_BIN_DIR="$(xf_ensure_home_subdir '.local/bin')"
+
+xf_safe_add_dir_to_path "$HOME_BIN_DIR"
+xf_safe_add_dir_to_path "$HOME_LOCAL_BIN_DIR"
 
 # }}}
 # {{{ shortcuts
@@ -113,11 +52,11 @@ shutdn() {
 }
 
 kk() {
-  sudo killall $@ -9
+  sudo killall "$1" -9
 }
 
 mnt() {
-  sudo mount /dev/$@ /mnt
+  sudo mount "/dev/$1" /mnt
 }
 
 umnt() {
@@ -136,325 +75,129 @@ c() {
 }
 
 # }}}
-# {{{ ssh
-
-outpost() {
-  ssh outpost
-}
-
-# }}}
-# {{{ git
-
-gs() {
-  git status
-}
-
-gsinit() {
-  git submodule init
-}
-
-gsup() {
-  git submodule update
-}
-
-gsinitup() {
-  gsinit
-  gsup
-}
-
-gc() {
-  git clone $@
-}
-
-gcgh() {
-  DEST=~/.src/github/$@
-
-  if [[ -f $DEST ]]; then
-    echo "$DEST already exists"
-  else
-    mkdir -p $DEST
-
-    if [[ $@ == *$USER* ]]; then
-      REPO_URL=git@github.com:$@
-    else
-      REPO_URL=https://github.com/$@
-    fi
-
-    git clone $REPO_URL $DEST
-  fi
-
-  cd $DEST
-
-  gsinitup
-}
-
-gcs() {
-  git clone --depth=1 $@
-}
-
-gp() {
-  git push -u origin HEAD
-}
-
-gpf() {
-  git push -u origin HEAD --force
-}
-
-gcam() {
-  git commit -am "$@"
-}
-
-gcm() {
-  git commit -m "$@"
-}
-
-gl() {
-  git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s%Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-}
-
-ga() {
-  git add -p $@
-}
-
-gd() {
-  git diff $@
-}
-
-# }}}
-# {{{ pass
-
-pass-xf() {
-  pass ssh/xf3rno/xf3rno
-}
-
-pass-gen() {
-  pass generate $@
-  pass -c $@
-  clear
-}
-
-pass-gg() {
-  pass -c g/google
-  pass otp g/google/otp
-}
-
-pass-npm() {
-  pass -c g/npm
-  pass otp g/npm/otp
-}
-
-pass-fb() {
-  pass -c s/facebook
-  pass otp s/facebook/otp
-}
-
-pass-pm() {
-  pass -c s/protonmail
-  pass otp s/protonmail/otp
-}
-
-pass-gh() {
-  pass -c g/github
-  pass otp g/github/otp
-}
-
-pass-bfx() {
-  pass -c crypto/bitfinex
-  pass otp crypto/bitfinex/otp
-}
-
-pass-tw() {
-  pass -c s/twitter
-  pass otp s/twitter/otp
-}
-
-# }}}
 # {{{ system services
 
 jctl() {
-  sudo journalctl -u $@
+  sudo journalctl -u "$@"
 }
 
 jctlf() {
-  sudo journalctl -u $@ -f
+  sudo journalctl -u "$@" -f
 }
 
 sysup() {
-  sudo systemctl start $@
+  sudo systemctl start "$@"
 }
 
 sysdn() {
-  sudo systemctl stop $@
+  sudo systemctl stop "$@"
 }
 
 sysst() {
-  sudo systemctl status $@
+  sudo systemctl status "$@"
 }
 
 syson() {
-  sudo systemctl enable $@
+  sudo systemctl enable "$@"
 }
 
 sysoff() {
-  sudo systemctl disable $@
+  sudo systemctl disable "$@"
 }
 
 # }}}
 # {{{ system packages
+# TODO: Refactor, copy/paste for now pending utility funcs
 
-pkgi() {
-  sudo dnf install -y $@
-}
+if [[ -z $(xf_has_cmd 'dnf') ]]; then
+  PKG_INSTALL_CMD='sudo dnf install -y'
+  PKG_UPDATE_CMD='sudo dnf update -y'
+  PKG_SEARCH_CMD='dnf search'
+  PKG_REMOVE_CMD='sudo dnf remove -y'
+elif [[ -z $(xf_has_cmd 'pacman') ]]; then
+  PKG_INSTALL_CMD='sudo pacman -S'
+  PKG_UPDATE_CMD='sudo pacman -Syyuu'
+  PKG_SEARCH_CMD='sudo pacman -Q'
+  PKG_REMOVE_CMD='sudo pacman -R'
+elif [[ -z $(xf_has_cmd 'apt') ]]; then
+  PKG_INSTALL_CMD='sudo apt install'
+  PKG_UPDATE_CMD='sudo apt update && apt upgrade'
+  PKG_SEARCH_CMD='apt search'
+  PKG_REMOVE_CMD='sudo apt remove'
+elif [[ -z $(xf_has_cmd 'pkg') ]]; then # termux..
+  PKG_INSTALL_CMD='pkg install'
+  PKG_UPDATE_CMD='pkg update && pkg upgrade'
+  PKG_SEARCH_CMD='pkg search'
+  PKG_REMOVE_CMD='pkg remove'
+else
+  PKG_MGMT_DISABLED=1
+fi
 
-pkgs() {
-  sudo dnf search $@
-}
+if [[ $PKG_MGMT_DISABLED != 1 ]]; then
+  pkgi() {
+    bash -c "$PKG_INSTALL_CMD $1"
+  }
 
-pkgu() {
-  sudo dnf update -y
-}
+  pkgs() {
+    bash -c "$PKG_SEARCH_CMD $1"
+  }
 
-pkgd() {
-  sudo dnf remove -y $@
-}
+  pkgu() {
+    sudo dnf update -y
+    bash -c "$PKG_UPDATE_CMD"
+  }
+
+  pkgd() {
+    sudo dnf remove -y "$1"
+    bash -c "$PKG_REMOVE_CMD $1"
+  }
+fi
 
 # }}}
 # {{{ tmux
 
 tmn() {
+  # export ACTIVE_TMUX_SESSION_NAME=${$1:-T}
+
   tmux new -s T
 }
 
 tma() {
+  # SESSIONS="$(tmux list-sessions -F '{#session_name}')"
+  # SESSION_NAME_OR_INDEX="${$1:-0}"
+
   tmux attach -t T
-}
-
-# }}}
-# {{{ pulseaudio
-
-reboot-pa() {
-  pulseaudio -k
-  pulseaudio --start
 }
 
 # }}}
 # {{{ utilities
 
-mkexec() {
-  chmod +x $@
-}
-
 man() {
-  nvim -c "Man $*" -c "silent! only"
+  "$EDITOR" -c "Man $*" -c 'only'
 }
-
-# }}}
-# {{{ yarn/npm
-
-ypi() {
-  yarn plugin import "$@"
-}
-
-ypl() {
-  yarn plugin list
-}
-
-y() {
-  yarn
-}
-
-yinit() {
-  yarn init
-}
-
-yr() {
-  yarn "$@"
-}
-
-ycl() {
-  yarn config list -v --why
-}
-
-# }}}
 
 # }}}
 # {{{ aliases
 
-# convenience
-# lsd disabled due to poor visiblity on white bg, no color scheme support
-# alias ls="lsd"
-# alias ll="lsd -lh"
-# alias lah="lsd -lah"
-alias ls="ls --color=auto"
-alias ll='ls -lah --color=auto'
 alias grep='grep --color'
 alias cat="bat"
 alias vim="nvim"
-alias vimbrc="vim ~/.bashrc"
-alias xf3rno="ssh xf3rno"
-
-# }}}
-# {{{ bookmarks: https://dmitryfrank.com/articles/shell_shortcuts
-# cdg (fzf bookmark cd via $HOME/.cdg_paths)
-unalias cdg 2> /dev/null
-
-cdg() {
-  local dest_dir=$(cdscuts_glob_echo | fzf )
-
-  if [[ $dest_dir != '' ]]; then
-    cd "$dest_dir"
-  fi
-}
-
-export -f cdg > /dev/null
-set -o noclobber # prevent redirect overwriting existing files
-shopt -s autocd # cd by entering path with no prefix
-
-# }}}
-# {{{ powerline
-
-export PROMPT_COMMAND='echo -n "[$USER@$HOSTNAME] "'
-
-source $HOME/.bash-powerline.sh
+alias ls="ls --color=auto -h"
+alias ll="ls --color=auto -alh"
+alias lt="ls --color=auto -alht"
 
 # }}}
 # {{{ plugins/autocomplete
 
-source $HOME/.src/github/alacritty/alacritty/extra/completions/alacritty.bash
-source $HOME/.autojump/share/autojump/autojump.bash # cd w/ history
-source <(kitty + complete setup bash)
-# source $HOME/.npm-completion-fast/npm-completion-fast.bash
-[ -f $HOME/.fzf.bash ] && source $HOME/.fzf.bash
+xf_safe_source "$HOME/.autojump/share/autojump/autojump.bash"
+xf_safe_source "$(xf_git_repo_path 'alacritty')/extra/completions/alacritty.bash"
+xf_safe_source "$(xf_git_repo_path 'gjsheep' 'bash-wakatime')/bash-wakatime.sh"
 
-# Via https://github.com/jez/vim-superman
-complete -o default -o nospace -F _man vman
+BASH_POWERLINE_SH_PATH="$HOME/.bash-powerline.sh"
 
-source $HOME/.src/github/gjsheep/bash-wakatime/bash-wakatime.sh
-source $HOME/.node_bash_completion
-
-# }}}
-# {{{ nvm
-
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-
-# }}}
-# {{{ path
-
-PATH_MEMBERS=( \
-  $RVM_BIN \
-  $GOPATH_BIN \
-  $CARGO_PATH \
-  $RVM_BIN \
-  $PERSONAL_BIN \
-  $LOCAL_BIN \
-  $FZF_BIN \
-  $SNAP_PATH \
-  $ANDROID_STUDIO_BIN \
-  $FF_NIGHTLY_PATH \
-  $NVM_BIN_PATH \
-)
-
-export PATH="$(printf "%s:" "${PATH_MEMBERS[@]}"):$PATH"
+if [[ -f "$BASH_POWERLINE_SH_PATH" ]]; then
+  export PROMPT_COMMAND='echo -n "[$USER@$HOSTNAME] "'
+  xf_safe_source "$BASH_POWERLINE_SH_PATH"
+fi
 
 # }}}

@@ -25,3 +25,6 @@
 [submodule "config/kitty/themes/papercolor-kitty"]
 	path = config/kitty/themes/papercolor-kitty
 	url = https://github.com/craffate/papercolor-kitty
+[submodule "xf-bash-lib"]
+	path = xf-bash-lib
+	url = http://github.com/xf3rno/xf-bash-lib
