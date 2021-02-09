@@ -1798,8 +1798,9 @@ set background=dark
 " oceanic_material
 " base16-irblack
 " base16-github
-" colorscheme ayu
-colorscheme tequila-sunrise
+" ayu
+" tequila-sunrise
+colorscheme base16-irblack
 
 " }}}
 " {{{ 5. gui
