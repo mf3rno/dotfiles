@@ -1205,27 +1205,26 @@ endfunc
 " }}}
 " {{{   - configuration
 
-let g:vimwiki#path = $HOME . '/.src/github/xf3rno/vim-wiki'
-let g:vimwiki#gen#projects#base#path = g:vimwiki#path
+au BufEnter *.wiki :syntax sync fromstart
 
-" {{{   - personal
-
-let g:vimwiki#list = [{
-  \ 'name': 'vimwiki',
-  \ 'path': g:vimwiki#path . '/src',
-  \ 'path_html': g:vimwiki#path . '/html',
+let g:vimwiki_list = [{
+  \ 'name': 'Personal Wiki',
+  \ 'path': $HOME . '/.src/github/xf3rno/vim-wiki/src',
+  \ 'path_html': $HOME . '/.src/github/xf3rno/vim-wiki/html',
   \ 'ext': '.wiki',
   \ 'auto_toc': 1,
   \ 'links_space_char': '_',
+  \ 'cycle_bullets': 1,
   \ 'diary_rel_path': 'journal/',
   \ 'diary_index': 'index',
   \ 'diary_header': 'Journal',
   \ 'diary_caption_level': 1,
   \ 'list_margin': 0,
+  \ 'index': 'index',
   \ 'auto_tags': 1,
   \ 'auto_export': 1,
   \ 'auto_diary_index': 1,
-  \ 'auto_gen_links': 1,
+  \ 'auto_generate_links': 1,
   \ 'auto_generate_tags': 1,
   \ 'html_filename_parameterization': 0,
   \ 'maxhi': 1,
@@ -1242,50 +1241,40 @@ let g:vimwiki#list = [{
   \   'racket': 'racket',
   \ }}]
 
-" \ 'bullet_types': ['-', '•', '→'],
-" \ 'syntax': 'markdown',
-
-" }}}
-" {{{   - global
-
-let g:vimwiki#table#auto#fmt = 0
-let g:vimwiki#create#link = 1
-let g:vimwiki#markdown#link#ext = 0
-let g:vimwiki#dir#link = 'index'
-let g:vimwiki#table#mappings = 1
-let g:vimwiki#auto#chdir = 0
-let g:vimwiki#autowriteall = 1
-let g:vimwiki#listsyms = ' SD'
-let g:vimwiki#listsym#rejected = 'X'
-let g:vimwiki#conceallevel = 2
-let g:vimwiki#conceal#pre = 1
-let g:vimwiki#conceal#onechar#markers = 1
-let g:vimwiki#global#ext = 0
-let g:vimwiki#auto#header = 1
-let g:vimwiki#toc#header = 'Index'
-let g:vimwiki#links#header = 'Links'
-let g:vimwiki#tags#header = 'Tags'
-let g:vimwiki#markdown#header#style = 1
-let g:vimwiki#toc#header#level = 1
-let g:vimwiki#links#header#level = 1
-let g:vimwiki#tags#header#level = 1
-let g:vimwiki#hl#headers = 1
-let g:vimwiki#toc#link#format = 1
-let g:vimwiki#folding='expr'
+let g:vimwiki_auto_chdir = 0
+let g:vimwiki_listsyms = '.oOX'
+let g:vimwiki_listsym_rejected = '-'
+let g:vimwiki_auto_header = 1
+let g:vimwiki_toc_link_format = 0
+let g:vimwiki_hl_headers = 0
+let g:vimwiki_hl_cb_checked = 2
+let g:vimwiki_dir_link = 'index'
+let g:vimwiki_global_ext = 0
+let g:vimwiki_create_link = 1
+let g:vimwiki_markdown_link_ext = 1
+let g:vimwiki_table_auto_fmt = 1
+let g:vimwiki_conceallevel = 2
+let g:vimwiki_conceal_pre = 1
+let g:vimwiki_conceal_onechar_markers = 1
+let g:vimwiki_emoji_enable = 3
+let g:vimwiki_toc_header = 'Contents'
+let g:vimwiki_links_header = 'Links'
+let g:vimwiki_tags_header = 'Tags'
+let g:vimwiki_links_header_level = 2
+let g:vimwiki_tags_header_level = 2
+let g:vimwiki_toc_header_level = 2
+let g:vimwiki_folding='expr'
+let g:vimwiki_markdown_header_style = 1
+let g:vimwiki_valid_html_tags = 'b,i,s,u,sub,sup,kbd,br,hr,pre,script'
 " let g:vimwiki_folding='expr:quick'
 " let g:vimwiki_fold_lists = 0
-let g:vimwiki#valid#html#tags = 'b,i,s,u,sub,sup,kbd,br,hr,pre,script'
-let g:vimwiki#hl#cb#checked = 2
-let g:vimwiki#filetypes = ['vimwiki']
-" let g:vimwiki_ext2syntax = {
-"       \ '.wiki': 'vimwiki',
-"       \ }
+" let g:vimwiki_filetypes = ['vimwiki']
 
 " }}}
-" }}}
+
 " {{{ - autocmd init
 
-autocmd FileType vimwiki UltiSnipsAddFiletypes <SID>xf3rno_init()
+" autocmd FileType vimwiki UltiSnipsAddFiletypes <SID>xf3rno_init()
 
 " }}}
 

@@ -1,5 +1,7 @@
 bstatePath: .yarn/build-state.yml
 
+enableInlineHunks: true
+
 networkConcurrency: 8
 
 enableTransparentWorkspaces: false
