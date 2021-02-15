@@ -2370,8 +2370,8 @@ nnoremap <silent><leader>ic <Plug>(JsFixImport)
 " {{{ vimrc
 
 if has("nvim")
-  nnoremap <silent> <leader>R :source ~/.config/nvim/init.vim<cr>
-  nnoremap <silent> <leader>rr :e ~/.config/nvim/init.vim<cr>
+  nnoremap <silent> <leader>R :source ~/.vimrc<cr>
+  nnoremap <silent> <leader>rr :e ~/.vimrc<cr>
 else
   nnoremap <silent> <leader>R :source ~/.vimrc<cr>
   nnoremap <silent> <leader>rr :e ~/.vimrc<cr>
