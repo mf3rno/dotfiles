@@ -40,9 +40,11 @@ export EDITOR="$RESOLVED_EDITOR"
 export HOME_SRC_DIR="$RESOLVED_HOME_SRC_DIR"
 
 HOME_BIN_DIR="$(xf_ensure_home_subdir 'bin')"
+HOME_DOTFILES_BIN_DIR="$(xf_ensure_home_subdir '.bin')"
 HOME_LOCAL_BIN_DIR="$(xf_ensure_home_subdir '.local/bin')"
 
 xf_safe_add_dir_to_path "$HOME_BIN_DIR"
+xf_safe_add_dir_to_path "$HOME_DOTFILES_BIN_DIR"
 xf_safe_add_dir_to_path "$HOME_LOCAL_BIN_DIR"
 
 # }}}

@@ -13,13 +13,7 @@ vim/.netrwhist
 tags
 Session.vim
 vim/plugged
-./vim/sessions/default.vim
 vim/sessions
-vim/plugins-neovim
-vim/plugins-vim
-config/nvim/.netrwhist
-config/nvim/sessions
-config/nvim/undodir
 vim/undodir
 
 vim-plugins/*
@@ -28,10 +22,15 @@ nvim-plugins/*
 !nvim-plugins/.keep
 !vim-plugins/.keep
 
-local/*
-!local/share/nvim/site/autoload/plug.vim
+local/bin
+local/lib
+local/include
+local/share/fonts
+local/share/applications
+local/share/TabNine
+local/share/nvim/shada
+local/share/nvim/swap
 
-/yarn
-/notes.sh
 config/nvim/undodir
 config/nvim/.netrwhist
+config/nvim/sessions
