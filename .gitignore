@@ -28,5 +28,10 @@ nvim-plugins/*
 !nvim-plugins/.keep
 !vim-plugins/.keep
 
+local/*
+!local/share/nvim/site/autoload/plug.vim
+
 /yarn
 /notes.sh
+config/nvim/undodir
+config/nvim/.netrwhist

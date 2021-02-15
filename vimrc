@@ -39,14 +39,14 @@ endif
 " {{{
 
 if has('nvim')
-  let g:xf3rno_plugin_root = '/.nvim-plugins'
+  let g:xf_plugin_root = '/.nvim-plugins'
 else
-  let g:xf3rno_plugin_root = '/.vim-plugins'
+  let g:xf_plugin_root = '/.vim-plugins'
 end
 
-let g:xf3rno_plugin_path = $HOME . g:xf3rno_plugin_root
+let g:xf_plugin_path = $HOME . g:xf_plugin_root
 
-call plug#begin(g:xf3rno_plugin_path)
+call plug#begin(g:xf_plugin_path)
 
 " }}}
 " {{{ script libraries
@@ -163,7 +163,7 @@ Plug 'google/vroom'
 
 Plug 'Shougo/neco-vim'
 Plug 'neoclide/coc-neco'
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', { 'branch': 'release', 'do': 'yarn set version 1.22.10 && yarn install --frozen-lockfile'}
 Plug 'dense-analysis/ale'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'vim-scripts/ZoomWin'
@@ -326,9 +326,9 @@ call plug#end()
 
 " {{{ ale
 
-let g:ale#enabled = 1
+let g:ale_enabled = 1
 
-let g:ale#linters = {
+let g:ale_linters = {
 \ 'sh': ['shellcheck'],
 \ 'javascript': ['eslint'],
 \ 'typescript': ['eslint'],
@@ -340,7 +340,7 @@ let g:ale#linters = {
 \ 'vim': ['vint'],
 \ }
 
-let g:ale#fixers = {
+let g:ale_fixers = {
 \ 'sh': ['shfmt'],
 \ 'javascript': ['eslint'],
 \ 'json': ['fixjson'],
@@ -350,16 +350,16 @@ let g:ale#fixers = {
 \ 'vim': ['vint'],
 \ }
 
-let g:ale#lint#on#insert#leave = 1
-let g:ale#lint#on#enter = 1
-let g:ale#lint#on#save = 1
-let g:ale#set#loclist = 1
-let g:ale#set#quickfix = 0
-let g:ale#set#highlights = 1
-let g:ale#set#signs = 1
-let g:ale#sign#highlight#linenrs = 1
-let g:ale#virtualtext#cursor = 1
-let g:ale#open#list = 0
+let g:ale_lint_on_insert_leave = 1
+let g:ale_lint_on_enter = 1
+let g:ale_lint_on_save = 1
+let g:ale_set_loclist = 1
+let g:ale_set_quickfix = 0
+let g:ale_set_highlights = 1
+let g:ale_set_signs = 1
+let g:ale_sign_highlight_linenrs = 1
+let g:ale_virtualtext_cursor = 1
+let g:ale_open_list = 0
 
 " }}}
 " {{{ coc/ultisnips integration (coc as the driver, ultisnips for expansion)
@@ -370,12 +370,12 @@ let g:coc#snippet#prev = '<c-k>'
 let g:coc#node#path = '/home/xf3rno/.nvm/versions/node/v15.8.0/bin/node'
 let g:coc#node#args = ['--max-old-space-size=16384', '--no-warnings']
 
-func! s:xf3rno_coc_tab_handler() abort
+func! s:xf_coc_tab_handler() abort
   if pumvisible()
     call coc#_select_confirm()
   elseif coc#expandableOrJumpable()
     call coc#rpc#request('doKeymap', ['snippets-expand-jump',''])
-  elseif <SID>xf3rno_util_used_backspace()
+  elseif <SID>xf_util_used_backspace()
     return "\<TAB>"
   endif
 
@@ -384,49 +384,49 @@ func! s:xf3rno_coc_tab_handler() abort
   return ''
 endfunc
 
-func! s:xf3rno_util_used_backspace() abort
+func! s:xf_util_used_backspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunc
 
-inoremap <silent><expr> <tab> <SID>xf3rno_coc_tab_handler()
+inoremap <silent><expr> <tab> <SID>xf_coc_tab_handler()
 
-" {{{   - s:xf3rno_ultisnips_log
+" {{{   - s:xf_ultisnips_log
 
-let g:xf3rno#ulitisnips#log = maktaba#log#Logger('ultisnips')
+let g:xf#ulitisnips#log = maktaba#log#Logger('ultisnips')
 
-" {{{     - s:xf3rno_ultisnips_log_debug(...)
+" {{{     - s:xf_ultisnips_log_debug(...)
 
-func! s:xf3rno_ultisnips_log_debug(...) abort
-  call g:xf3rno#ultisnips#log.LogDebug(a:000)
+func! s:xf_ultisnips_log_debug(...) abort
+  call g:xf#ultisnips#log.LogDebug(a:000)
 endfunc
 
 " }}}
-" {{{     - s:xf3rno_ultisnips_log_info(...)
+" {{{     - s:xf_ultisnips_log_info(...)
 
-func! s:xf3rno_ultisnips_log_info(...) abort
-  call g:xf3rno#ultisnips#log.LogInfo(a:000)
+func! s:xf_ultisnips_log_info(...) abort
+  call g:xf#ultisnips#log.LogInfo(a:000)
 endfunc
 
 " }}}
-" {{{     - s:xf3rno_ultisnips_log_warn(...)
+" {{{     - s:xf_ultisnips_log_warn(...)
 
-func! s:xf3rno_ultisnips_log_warn(...) abort
-  call g:xf3rno#ultisnips#log.LogWarn(a:000)
+func! s:xf_ultisnips_log_warn(...) abort
+  call g:xf#ultisnips#log.LogWarn(a:000)
 endfunc
 
 " }}}
-" {{{     - s:xf3rno_ultisnips_log_error(...)
+" {{{     - s:xf_ultisnips_log_error(...)
 
-func! s:xf3rno_ultisnips_log_error(message, ...) abort
-  call g:xf3rno#ultisnips#log.LogError(a:000)
+func! s:xf_ultisnips_log_error(message, ...) abort
+  call g:xf#ultisnips#log.LogError(a:000)
 endfunc
 
 " }}}
-" {{{     - s:xf3rno_ultisnips_log_severe(...)
+" {{{     - s:xf_ultisnips_log_severe(...)
 
-func! s:xf3rno_ultisnips_log_severe(...) abort
-  call g:xf3rno#ultisnips#log.LogSevere(a:000)
+func! s:xf_ultisnips_log_severe(...) abort
+  call g:xf#ultisnips#log.LogSevere(a:000)
 endfunc
 
 " }}}
@@ -453,10 +453,10 @@ let g:fzf#tags#command = 'ctags -R'
 let g:fzf#layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 
 " TODO: Refactor out of command, or consider moving more logic to commands
-command! -bang -nargs=? -complete=dir FZFShowFileExplorer :call <SID>xf3rno_fzf_find_files(<q-args>, <bang>0)
+command! -bang -nargs=? -complete=dir FZFShowFileExplorer :call <SID>xf_fzf_find_files(<q-args>, <bang>0)
 
-func! s:xf3rno_fzf_find_files(q_args, bang) abort
-  let s:preview_path = g:xf3rno_plugin_path . '/fzf.vim/bin/preview.sh {}'
+func! s:xf_fzf_find_files(q_args, bang) abort
+  let s:preview_path = g:xf_plugin_path . '/fzf.vim/bin/preview.sh {}'
   let s:q_args = a:q_args || ''
   let s:bang = a:bang || ''
 
@@ -749,20 +749,20 @@ endfunc
 
 " {{{ functions
 
-" {{{ s:xf3rno_test_mocha_transform()
+" {{{ s:xf_test_mocha_transform()
 
-func! s:xf3rno_test_mocha_transform(cmd) abort
+func! s:xf_test_mocha_transform(cmd) abort
   if g:test#strategy == 'kitty'
-    call <SID>xf3rno_test_kitty_set_env_vars()
+    call <SID>xf_test_kitty_set_env_vars()
   endif
 
   return 'NODE_PATH=lib NODE_ENV=test MOCHA=1 ' . a:cmd
 endfunc
 
 " }}}
-" {{{ s:xf3rno_test_kitty_set_env_vars()
+" {{{ s:xf_test_kitty_set_env_vars()
 
-func! s:xf3rno_test_kitty_set_env_vars() abort
+func! s:xf_test_kitty_set_env_vars() abort
   let s:kitty_socket = 'unix:'
   let s:kitty_socket .= expand('/tmp/kitty_socket*')
 
@@ -770,10 +770,10 @@ func! s:xf3rno_test_kitty_set_env_vars() abort
 endfunc
 
 " }}}
-" {{{ s:xf3rno_test_init_strategy()
+" {{{ s:xf_test_init_strategy()
 
-func! s:xf3rno_test_init_strategy() abort
-  call <SID>xf3rno_test_kitty_set_env_vars()
+func! s:xf_test_init_strategy() abort
+  call <SID>xf_test_kitty_set_env_vars()
 
   if strlen($KITTY_LISTEN_ON) > 0
     let g:test#strategy = 'kitty'
@@ -788,10 +788,10 @@ func! s:xf3rno_test_init_strategy() abort
 endfunc
 
 " }}}
-" {{{ s:xf3rno_test_run(cmd)
+" {{{ s:xf_test_run(cmd)
 " https://github.com/janko/vim-test/issues/272_issuecomment-515749091
 
-func! s:xf3rno_test_run(cmd) abort
+func! s:xf_test_run(cmd) abort
   for marker in g:root#markers
     let marker_file = findfile(marker, expand('%:p:h') . ';')
     echomsg marker_file
@@ -823,13 +823,13 @@ let g:test#preserve_screen = 1
 let g:test#javascript#mocha#options = '--verbose'
 let g:test#transformation = 'mocha'
 let g:test#custom#transformations = {
-  \   'javascript': function('<SID>xf3rno_test_mocha_transform'),
-  \   'mocha': function('<SID>xf3rno_test_mocha_transform'),
+  \   'javascript': function('<SID>xf_test_mocha_transform'),
+  \   'mocha': function('<SID>xf_test_mocha_transform'),
   \ }
 
 " }}}
 
-call <SID>xf3rno_test_init_strategy()
+call <SID>xf_test_init_strategy()
 
 " }}}
 " {{{ vimwiki
@@ -851,54 +851,54 @@ let g:x#wiki#state#fold = v:null
 " }}}
 " {{{ - functions
 
-" {{{ - s:xf3rno_wiki_init
+" {{{ - s:xf_wiki_init
 
-" {{{   - s:xf3rno_wiki_init()
+" {{{   - s:xf_wiki_init()
 
-func! s:xf3rno_wiki_init() abort
-  call <SID>xf3rno_wiki_state_fold_init()
+func! s:xf_wiki_init() abort
+  call <SID>xf_wiki_state_fold_init()
 
-  call <SID>xf3rno_wiki_init_mappings()
-  call <SID>xf3rno_wiki_init_folding()
-  call <SID>xf3rno_wiki_init_syntax_sync()
+  call <SID>xf_wiki_init_mappings()
+  call <SID>xf_wiki_init_folding()
+  call <SID>xf_wiki_init_syntax_sync()
 
-  call <SID>xf3rno_wiki_log_info('custom wiki init complete')
+  call <SID>xf_wiki_log_info('custom wiki init complete')
 endfunc
 
 " }}}
-" {{{     - s:xf3rno_wiki_init_syntax_sync()
+" {{{     - s:xf_wiki_init_syntax_sync()
 " Useful to fix highlighting in large files
 
-func! s:xf3rno_wiki_init_syntax_sync() abort
+func! s:xf_wiki_init_syntax_sync() abort
   setlocal syntax sync fromstart
 endfunc
 
 " }}}
-" {{{     - s:xf3rno_wiki_init_mappings()
+" {{{     - s:xf_wiki_init_mappings()
 
-func! s:xf3rno_wiki_init_mappings() abort
-  noremap <buffer> <silent> <space>wl <SID>xf3rno_wiki_links_generate()
-  noremap <buffer> <expr> <silent> fff <SID>xf3rno_wiki_folds_toggle()
+func! s:xf_wiki_init_mappings() abort
+  noremap <buffer> <silent> <space>wl <SID>xf_wiki_links_generate()
+  noremap <buffer> <expr> <silent> fff <SID>xf_wiki_folds_toggle()
 endfunc
 
 " }}}
-" {{{     - s:xf3rno_wiki_init_folding()
+" {{{     - s:xf_wiki_init_folding()
 
-func! s:xf3rno_wiki_init_folding() abort
+func! s:xf_wiki_init_folding() abort
   setlocal foldenable
   setlocal foldlevel=20
   setlocal foldmethod=expr
-  setlocal foldexpr=s:xf3rno_wiki_folds_expr
+  setlocal foldexpr=s:xf_wiki_folds_expr
 endfunc
 
 " }}}
 
 " }}}
-" {{{     - s:xf3rno_wiki_links
+" {{{     - s:xf_wiki_links
 
-" {{{       - s:xf3rno_wiki_links_validate_paths(path, def_path)
+" {{{       - s:xf_wiki_links_validate_paths(path, def_path)
 
-func! s:xf3rno_wiki_links_validate_paths(paths) abort
+func! s:xf_wiki_links_validate_paths(paths) abort
   let s:paths = maktaba#ensure#IsList(a:paths)
 
   for s:path in s:paths
@@ -909,29 +909,29 @@ func! s:xf3rno_wiki_links_validate_paths(paths) abort
 endfunc
 
 " }}}
-" {{{       - s:xf3rno_wiki_links_prepare_paths(path, def_path)
+" {{{       - s:xf_wiki_links_prepare_paths(path, def_path)
 
-func! s:xf3rno_wiki_links_prepare_paths(path, def_path) abort
+func! s:xf_wiki_links_prepare_paths(path, def_path) abort
   let s:arg_path = maktaba#ensure#IsString(a:path)
   let s:def_path = maktaba#ensure#IsString(a:def_path)
   let s:path = empty(s:arg_path) ? s:def_path || s:arg_path
 
-  call <SID>xf3rno_wiki_links_validate_paths([ s:path ])
+  call <SID>xf_wiki_links_validate_paths([ s:path ])
 
   return s:path
 endfunc
 
 " }}}
-" {{{       - s:xf3rno_wiki_links_generate(params)
+" {{{       - s:xf_wiki_links_generate(params)
 
 " TODO: Consider refactoring
-func! s:xf3rno_wiki_links_generate(params) abort
+func! s:xf_wiki_links_generate(params) abort
   let s:params = maktaba#ensure#isDictionary(a:params)
   let s:write = maktaba#ensure#isBool(s:params.write || 1)
   let s:header = maktaba#ensure#isBool(s:params.header || 1)
   let s:arg_path = maktaba#ensure#IsString(s:params.path)
   let s:def_path = maktaba#ensure#isString(fnamemodify(@%, ':h'))
-  let s:path = s:xf3rno_wiki_links_prepare_paths(s:arg_path, s:def_path)
+  let s:path = s:xf_wiki_links_prepare_paths(s:arg_path, s:def_path)
 
   if s:header == 1
     let s:header_text = s:params.header_label || g:vimwiki#toc#header
@@ -951,12 +951,12 @@ func! s:xf3rno_wiki_links_generate(params) abort
   if s:write
     call appendbufline(bufname('%'), line('.'), s:rel_file_paths)
 
-    call <SID>xf3rno_wiki_log_info('wrote %d links', s:rel_file_count)
+    call <SID>xf_wiki_log_info('wrote %d links', s:rel_file_count)
   else
-    call <SID>xf3rno_wiki_log_info('found %d links', s:rel_file_count)
+    call <SID>xf_wiki_log_info('found %d links', s:rel_file_count)
 
     for s:file_path, s:i in s:rel_file_paths
-      call <SID>xf3rno_wiki_log_success(' -> (%d/%d) %s', s:i + 1, s:rel_file_count, s:file_path)
+      call <SID>xf_wiki_log_success(' -> (%d/%d) %s', s:i + 1, s:rel_file_count, s:file_path)
     endfor
   endif
 endfunc
@@ -964,11 +964,11 @@ endfunc
 " }}}
 
 " }}}
-" {{{     - s:xf3rno_wiki_util
+" {{{     - s:xf_wiki_util
 
-" {{{        - s:xf3rno_wiki_util_match_header_line(line)
+" {{{        - s:xf_wiki_util_match_header_line(line)
 
-func! s:xf3rno_wiki_util_match_header_line(line) abort
+func! s:xf_wiki_util_match_header_line(line) abort
   let s:regex = g:x#wiki#regex#header_depth
   let s:line = maktaba#ensure#IsString(a:line)
 
@@ -976,9 +976,9 @@ func! s:xf3rno_wiki_util_match_header_line(line) abort
 endfunc
 
 " }}}
-" {{{        - s:xf3rno_wiki_util_match_blank_line(line)
+" {{{        - s:xf_wiki_util_match_blank_line(line)
 
-func! s:xf3rno_wiki_util_match_blank_line(line) abort
+func! s:xf_wiki_util_match_blank_line(line) abort
   let s:regex = g:x#wiki#regex#blank_line
   let s:line = maktaba#ensure#IsString(a:line)
 
@@ -986,19 +986,19 @@ func! s:xf3rno_wiki_util_match_blank_line(line) abort
 endfunc
 
 " }}}
-" {{{        - s:xf3rno_wiki_util_get_header_depth(line)
+" {{{        - s:xf_wiki_util_get_header_depth(line)
 
-func! s:xf3rno_wiki_util_get_header_depth(line) abort
+func! s:xf_wiki_util_get_header_depth(line) abort
   let s:regex = g:x#wiki#fold#header_depth_regex
   let s:line = maktaba#ensure#IsString(a:line)
 
-  return strlen(s:xf3rno_wiki_util_match_header_line(s:line))
+  return strlen(s:xf_wiki_util_match_header_line(s:line))
 endfunc
 
 " }}}
-" {{{        - s:xf3rno_wiki_util_is_line_blank(line)
+" {{{        - s:xf_wiki_util_is_line_blank(line)
 
-func! s:xf3rno_wiki_util_is_line_blank(line) abort
+func! s:xf_wiki_util_is_line_blank(line) abort
   let s:line = maktaba#ensure#IsString(a:line)
   let s:regex = g:x#wiki#fold#header_depth_regex
 
@@ -1008,43 +1008,43 @@ endfunc
 " }}}
 
 " }}}
-" {{{   - s:xf3rno_wiki_state
+" {{{   - s:xf_wiki_state
 
-" {{{   - s:xf3rno_wiki_state_fold
+" {{{   - s:xf_wiki_state_fold
 
-" {{{     - s:xf3rno_wiki_state_fold(state)
+" {{{     - s:xf_wiki_state_fold(state)
 
-func! s:xf3rno_wiki_state_fold(state) abort
+func! s:xf_wiki_state_fold(state) abort
   if empty(a:state)
-    return s:xf3rno_wiki_state_fold
+    return s:xf_wiki_state_fold
   endif
 
   let l:state = maktaba#ensure#IsString(a:state)
   let l:current_state = g:x#wiki#state#fold
 
   if maktaba#value#IsEqual(l:state, l:current_state)
-    call <SID>xf3rno_wiki_log_debug('fold state unchaged')
+    call <SID>xf_wiki_log_debug('fold state unchaged')
     return
   endif
 
-  let s:xf3rno_wiki_state_fold = X_wiki_state_fold_verify(l:state)
+  let s:xf_wiki_state_fold = X_wiki_state_fold_verify(l:state)
 
-  call <SID>xf3rno_wiki_log_debug('wiki fold state now %s', X_wiki_state_fold)
+  call <SID>xf_wiki_log_debug('wiki fold state now %s', X_wiki_state_fold)
 
   return X#wiki#state#fold
 endfunc
 
 " }}}
-" {{{     - s:xf3rno_wiki_state_fold_init()
+" {{{     - s:xf_wiki_state_fold_init()
 
-func! s:xf3rno_wiki_state_fold_init() abort
+func! s:xf_wiki_state_fold_init() abort
   let g:x#wiki#state#fold = g:x#wiki#state#fold#default
 endfunc
 
 " }}}
-" {{{     - s:xf3rno_wiki_state_fold_verify(state)
+" {{{     - s:xf_wiki_state_fold_verify(state)
 
-func! s:xf3rno_wiki_state_fold_verify(state) abort
+func! s:xf_wiki_state_fold_verify(state) abort
   let l:state = maktaba#ensure#IsString(a:state)
   let l:valid_states = g:x#wiki#state#fold#valid.Values()
 
@@ -1056,107 +1056,107 @@ endfunc
 " }}}
 
 " }}}
-" {{{   - s:xf3rno_wiki_log
+" {{{   - s:xf_wiki_log
 
-const g:xf3rno#wiki#log = maktaba#log#Logger('wiki')
+const g:xf#wiki#log = maktaba#log#Logger('wiki')
 
-" {{{     - s:xf3rno_wiki_log_debug(...)
+" {{{     - s:xf_wiki_log_debug(...)
 
-func! s:xf3rno_wiki_log_debug(...) abort
-  call g:xf3rno#wiki#log.LogDebug(a:000)
+func! s:xf_wiki_log_debug(...) abort
+  call g:xf#wiki#log.LogDebug(a:000)
 endfunc
 
 " }}}
-" {{{     - s:xf3rno_wiki_log_info(...)
+" {{{     - s:xf_wiki_log_info(...)
 
-func! s:xf3rno_wiki_log_info(...) abort
-  call g:xf3rno#wiki#log.LogInfo(a:000)
+func! s:xf_wiki_log_info(...) abort
+  call g:xf#wiki#log.LogInfo(a:000)
 endfunc
 
 " }}}
-" {{{     - s:xf3rno_wiki_log_warn(...)
+" {{{     - s:xf_wiki_log_warn(...)
 
-func! s:xf3rno_wiki_log_warn(...) abort
-  call g:xf3rno#wiki#log.LogWarn(a:000)
+func! s:xf_wiki_log_warn(...) abort
+  call g:xf#wiki#log.LogWarn(a:000)
 endfunc
 
 " }}}
-" {{{     - s:xf3rno_wiki_log_error(...)
+" {{{     - s:xf_wiki_log_error(...)
 
-func! s:xf3rno_wiki_log_error(message, ...) abort
-  call g:xf3rno#wiki#log.LogError(a:000)
+func! s:xf_wiki_log_error(message, ...) abort
+  call g:xf#wiki#log.LogError(a:000)
 endfunc
 
 " }}}
-" {{{     - s:xf3rno_wiki_log_severe(...)
+" {{{     - s:xf_wiki_log_severe(...)
 
-func! s:xf3rno_wiki_log_severe(...) abort
-  call g:xf3rno#wiki#log.LogSevere(a:000)
+func! s:xf_wiki_log_severe(...) abort
+  call g:xf#wiki#log.LogSevere(a:000)
 endfunc
 
 " }}}
 
 " }}}
-" {{{   - s:xf3rno_wiki_folds
+" {{{   - s:xf_wiki_folds
 
-" {{{     - s:xf3rno_wiki_folds_toggle()
+" {{{     - s:xf_wiki_folds_toggle()
 
-func! s:xf3rno_wiki_folds_toggle() abort
+func! s:xf_wiki_folds_toggle() abort
   let l:state_id = g:x#wiki#state#fold
   let l:state_name = g:x#wiki#state#fold#valid.Name(a:state_name)
 
-  call <SID>xf3rno_wiki_state_fold_verify(l:state_name)
+  call <SID>xf_wiki_state_fold_verify(l:state_name)
 
   if l:state_name == g:x#wiki#state#fold#valid.INITIAL
-    call <SID>xf3rno_wiki_folds_initial()
+    call <SID>xf_wiki_folds_initial()
   elseif l:state_name == g:x#wiki#state#fold#valid.EXPANDED
-    call <SID>xf3rno_wiki_folds_expanded()
+    call <SID>xf_wiki_folds_expanded()
   elseif l:state_name == g:x#wiki#state#fold#valid.COLLAPSED
-    call <SID>xf3rno_wiki_folds_collapsed()
+    call <SID>xf_wiki_folds_collapsed()
   elseif l:state_name == g:x#wiki#state#fold#valid.DIRTY
-    call <SID>xf3rno_wiki_folds_dirty()
+    call <SID>xf_wiki_folds_dirty()
   endif
 endfunc
 
 " }}}
-" {{{     - s:xf3rno_wiki_folds_initial()
+" {{{     - s:xf_wiki_folds_initial()
 
-func! s:xf3rno_wiki_folds_initial() abort
-  call <SID>xf3rno_folds_expand()
-  call <SID>xf3rno_wiki_state_fold(g:x_wiki_state_fold_valid.EXPANDED)
+func! s:xf_wiki_folds_initial() abort
+  call <SID>xf_folds_expand()
+  call <SID>xf_wiki_state_fold(g:x_wiki_state_fold_valid.EXPANDED)
 endfunc
 
 " }}}
-" {{{     - s:xf3rno_wiki_folds_expanded()
+" {{{     - s:xf_wiki_folds_expanded()
 
-func! s:xf3rno_wiki_folds_expanded() abort
-  call <SID>xf3rno_folds_collapse()
-  call <SID>xf3rno_wiki_state_fold(g:x_wiki_state_fold_valid.COLLAPSED)
+func! s:xf_wiki_folds_expanded() abort
+  call <SID>xf_folds_collapse()
+  call <SID>xf_wiki_state_fold(g:x_wiki_state_fold_valid.COLLAPSED)
 endfunc
 
 " }}}
-" {{{     - s:xf3rno_wiki_folds_collapsed()
+" {{{     - s:xf_wiki_folds_collapsed()
 
-func! s:xf3rno_wiki_folds_collapsed() abort
-  call <SID>xf3rno_folds_expand()
-  call <SID>xf3rno_wiki_state_fold(g:x_wiki_state_fold_valid.EXPANDED)
+func! s:xf_wiki_folds_collapsed() abort
+  call <SID>xf_folds_expand()
+  call <SID>xf_wiki_state_fold(g:x_wiki_state_fold_valid.EXPANDED)
 endfunc
 
 " }}}
-" {{{     - s:xf3rno_wiki_folds_dirty()
+" {{{     - s:xf_wiki_folds_dirty()
 
-func! s:xf3rno_wiki_folds_dirty() abort
-  call <SID>xf3rno_folds_collapse()
-  call <SID>xf3rno_folds_expand()
-  call <SID>xf3rno_wiki_state_fold(g:x_wiki_state_fold_valid.INIT)
+func! s:xf_wiki_folds_dirty() abort
+  call <SID>xf_folds_collapse()
+  call <SID>xf_folds_expand()
+  call <SID>xf_wiki_state_fold(g:x_wiki_state_fold_valid.INIT)
 endfunc
 
 " }}}
-" {{{     - s:xf3rno_wiki_folds_expr(lnum)
+" {{{     - s:xf_wiki_folds_expr(lnum)
 
 " TODO: Add validation to check incoming line number
 " TODO: Change returned strings to constants/an enum
-func! s:xf3rno_wiki_folds_expr(line_n) abort
+func! s:xf_wiki_folds_expr(line_n) abort
   let s:line_n = maktaba#ensure#IsNumber(a:line_n)
   let s:line = maktaba#ensure#IsString(trim(getline(s:line_n)))
 
@@ -1164,8 +1164,8 @@ func! s:xf3rno_wiki_folds_expr(line_n) abort
     return '='
   endif
 
-  if s:xf3rno_wiki_util_match_header_line(s:line)
-    let s:indent_depth = s:xf3rno_wiki_util_get_header_depth(s:line)
+  if s:xf_wiki_util_match_header_line(s:line)
+    let s:indent_depth = s:xf_wiki_util_get_header_depth(s:line)
 
     if s:indent_depth > 0
       return '>' . s:indent_depth
@@ -1174,7 +1174,7 @@ func! s:xf3rno_wiki_folds_expr(line_n) abort
     return '='
   endif
 
-  let s:is_blank_line = s:xf3rno_wiki_util_match_blank_line(s:line)
+  let s:is_blank_line = s:xf_wiki_util_match_blank_line(s:line)
 
   if not s:is_blank_line
     return
@@ -1189,7 +1189,7 @@ func! s:xf3rno_wiki_folds_expr(line_n) abort
 
   " Check if blank line follows header
   let s:next_line = getline(s:next_line_n)
-  let s:next_line_is_header = s:xf3rno_wiki_util_match_header_line(s:next_line)
+  let s:next_line_is_header = s:xf_wiki_util_match_header_line(s:next_line)
 
   if s:next_line_n <= s:line_count && s:next_line_is_header
     return -1
@@ -1205,14 +1205,16 @@ endfunc
 " }}}
 " {{{   - configuration
 
-au BufEnter *.wiki :syntax sync fromstart
+augroup xf_vimwiki
+  au BufEnter *.wiki :syntax sync fromstart
+  au BufEnter *.wiki :e!
+augroup END
 
 let g:vimwiki_list = [{
   \ 'name': 'Personal Wiki',
   \ 'path': $HOME . '/.src/github/xf3rno/vim-wiki/src',
   \ 'path_html': $HOME . '/.src/github/xf3rno/vim-wiki/html',
   \ 'ext': '.wiki',
-  \ 'auto_toc': 1,
   \ 'links_space_char': '_',
   \ 'cycle_bullets': 1,
   \ 'diary_rel_path': 'journal/',
@@ -1221,6 +1223,7 @@ let g:vimwiki_list = [{
   \ 'diary_caption_level': 1,
   \ 'list_margin': 0,
   \ 'index': 'index',
+  \ 'auto_toc': 1,
   \ 'auto_tags': 1,
   \ 'auto_export': 1,
   \ 'auto_diary_index': 1,
@@ -1274,7 +1277,7 @@ let g:vimwiki_valid_html_tags = 'b,i,s,u,sub,sup,kbd,br,hr,pre,script'
 
 " {{{ - autocmd init
 
-" autocmd FileType vimwiki UltiSnipsAddFiletypes <SID>xf3rno_init()
+" autocmd FileType vimwiki UltiSnipsAddFiletypes <SID>xf_init()
 
 " }}}
 
@@ -1365,41 +1368,31 @@ let g:wakatime#OverrideCommandPrefix = '/home/xf3rno/.local/bin/wakatime'
 
 " {{{ 3.b xf3rno function library
 
-" {{{ - constants
-
-let g:xf3rno#folds#levels#collapsed = 0
-let g:xf3rno#folds#levels#expanded = 99
-
-" }}}
 " {{{ - functions
 
-" {{{ - s:xf3rno_folds
+" {{{   - s:xf_folds_toggle()
 
-" {{{   - s:xf3rno_folds_toggle()
-
-func! s:xf3rno_folds_toggle() abort
+func! s:xf_folds_toggle() abort
   if &foldlevel > 0
-    call <SID>xf3rno_folds_collapse()
+    call <SID>xf_folds_collapse()
   else
-    call <SID>xf3rno_folds_expand()
+    call <SID>xf_folds_expand()
   endif
 endfunc
 
 " }}}
-" {{{   - s:xf3rno_folds_collapse()
+" {{{   - s:xf_folds_collapse()
 
-func! s:xf3rno_folds_collapse() abort
-  let &foldlevel = g:xf3rno#folds#levels#collapsed
+func! s:xf_folds_collapse() abort
+  let &foldlevel = 0
 endfunc
 
 " }}}
-" {{{   - s:xf3rno_folds_expand()
+" {{{   - s:xf_folds_expand()
 
-func! s:xf3rno_folds_expand() abort
-  let &foldlevel = g:xf3rno#folds#levels#expanded
+func! s:xf_folds_expand() abort
+  let &foldlevel = 99
 endfunc
-
-" }}}
 
 " }}}
 
@@ -1412,13 +1405,6 @@ endfunc
 
 " Disable background erase for kitty
 let &t_ut=''
-
-" if has('nvim')
-"   set rtp^='~/.nvim-plugins'
-" else
-"   set rtp^='~/.vim-plugins'
-" endif
-
 
 syntax enable
 
@@ -1791,7 +1777,7 @@ set background=dark
 " ayu
 " tequila-sunrise
 " colorscheme ayu
-colorscheme ayu
+colorscheme desertink
 
 " }}}
 " {{{ 5. gui
@@ -1842,9 +1828,14 @@ nnoremap <C--> :call AdjustFontSize(-1)<cr>
 
 let g:font#name = 'Jet Brains Mono Nerd Font'
 let g:font#features = ''
-let g:font#size = 10
+let g:font#size = 9
 
 call SetFont()
+
+" }}}
+" {{{ terminal
+
+tnoremap <Esc> <C-\><C-n>
 
 " }}}
 " {{{ Neovim-GTK
@@ -1909,16 +1900,16 @@ let g:netrw#browsex#viewer = 'xdg-open'
 
 " {{{ 7.a functions
 
-" {{{ - s:xf3rno_hlsearch_enable()
+" {{{ - s:xf_hlsearch_enable()
 
-func! s:xf3rno_hlsearch_enable()
+func! s:xf_hlsearch_enable()
   setlocal hlsearch
 endfunc
 
 " }}}
-" {{{ - s:xf3rno_hlsearch_disable()
+" {{{ - s:xf_hlsearch_disable()
 
-func! s:xf3rno_hlsearch_disable()
+func! s:xf_hlsearch_disable()
   setlocal nohlsearch
 endfunc
 
@@ -1929,8 +1920,8 @@ endfunc
 
 augroup xf3rno_dynamic_search_hl
   autocmd!
-  autocmd InsertEnter * call <SID>xf3rno_hlsearch_disable()
-  autocmd InsertLeave * call <SID>xf3rno_hlsearch_enable()
+  autocmd InsertEnter * call <SID>xf_hlsearch_disable()
+  autocmd InsertLeave * call <SID>xf_hlsearch_enable()
 augroup END
 
 " }}}
@@ -2060,7 +2051,7 @@ nnoremap <silent><expr> <leader>wf <SID>FoldBlockByIndent()
 nnoremap <silent> <leader><Space> @=(foldlevel('.')?'za':"\<Space>")<cr>
 
 " Toggle all folds
-nnoremap <silent> fff :call <SID>xf3rno_folds_toggle()<cr>
+nnoremap <silent> fff :call <SID>xf_folds_toggle()<cr>
 
 " }}}
 " {{{ fzf
@@ -2070,7 +2061,7 @@ nnoremap <silent> <leader>ZC :FZFCommands<cr>
 nnoremap <silent> <leader>ZB :FZFBTags<cr>
 
 " {{{ search open buffers
-func! s:xf3rno_buff_list() abort
+func! s:xf_buff_list() abort
   let l:str = ''
 
   redir => l:str
@@ -2080,23 +2071,23 @@ func! s:xf3rno_buff_list() abort
   return split(l:str, '\n')
 endfunc
 
-func! s:xf3rno_buff_open_by_index(i) abort
+func! s:xf_buff_open_by_index(i) abort
   let l:i = marktab#ensure#IsNumber(a:i)
   let l:id = matchstr(l:i, '^[ 0-9]*')
 
   exec 'buffer ' . trim(l:id)
 endfunc
 
-func! s:xf3rno_fzf_open_buff_list() abort
+func! s:xf_fzf_open_buff_list() abort
   exec fzf#run({
-    \   'source':  reverse(<SID>xf3rno_buff_list()),
-    \   'sink':    function(<SID>xf3rno_buff_open_by_index),
-    \   'down':    len(<SID>xf3rno_buff_list()) + 2,
+    \   'source':  reverse(<SID>xf_buff_list()),
+    \   'sink':    function(<SID>xf_buff_open_by_index),
+    \   'down':    len(<SID>xf_buff_list()) + 2,
     \   'options': '+m'
     \ })
 endfunc
 
-nnoremap <silent> <Leader><Enter> <SID>xf3rno_fzf_open_buff_list()
+nnoremap <silent> <Leader><Enter> <SID>xf_fzf_open_buff_list()
 
 " }}}
 " {{{ search tags
@@ -2154,13 +2145,13 @@ map zg/ <Plug>(incsearch-fuzzy-stay)
 " }}}
 " {{{ js eslint (disabled)
 
-" func! s:xf3rno_eslint_init() abort
+" func! s:xf_eslint_init() abort
 "   setlocal makeprg=npm\ run\ lint\ --\ --quiet\ --no-color\ -f\ unix
 "   nnoremap <buffer><silent> <leader>lf :make --fix <cr>:cwindow<cr>:redraw!<cr>
 "   nnoremap <buffer><silent> <leader>l :make <cr>:cwindow<cr>:redraw!<cr>
 " endfunc
 
-" autocmd FileType javascript s:xf3rno_eslint_init()
+" autocmd FileType javascript s:xf_eslint_init()
 
 " }}}
 " {{{ mkdx (markdown)
@@ -2217,11 +2208,11 @@ command! -nargs=* VT vsplit | terminal <args>
 " }}}
 " {{{ testing
 
-nnoremap <leader>tf :call <SID>xf3rno_test_run('TestFile')<cr>
-nnoremap <leader>tn :call <SID>xf3rno_test_run('TestNearest')<cr>
-nnoremap <leader>ts :call <SID>xf3rno_test_run('TestSuite')<cr>
-nnoremap <leader>tl :call <SID>xf3rno_test_run('TestLast')<cr>
-nnoremap <leader>tv :call <SID>xf3rno_test_run('TestVisit')<cr>
+nnoremap <leader>tf :call <SID>xf_test_run('TestFile')<cr>
+nnoremap <leader>tn :call <SID>xf_test_run('TestNearest')<cr>
+nnoremap <leader>ts :call <SID>xf_test_run('TestSuite')<cr>
+nnoremap <leader>tl :call <SID>xf_test_run('TestLast')<cr>
+nnoremap <leader>tv :call <SID>xf_test_run('TestVisit')<cr>
 
 " }}}
 " {{{ vimwiki
@@ -2411,22 +2402,22 @@ nnoremap <space><space> <Plug>VimwikiToggleListItem
 nnoremap <space>wti <Plug>VimwikiIncrementListItem
 nnoremap <space>wtd <Plug>VimwikiDecrementListItem
 nnoremap <space>wtr <Plug>VimwikiToggleRejectedListItem
-nnoremap <buffer> <space>wl s:xf3rno_wiki_links_generate()
+nnoremap <buffer> <space>wl s:xf_wiki_links_generate()
 
 " }}}
 
 " }}}
 
-" {{{ not that bored A: move j/k by line indent
+" {{{
 
-func! s:xf3rno_util_get_line_indent(line) abort
+func! s:xf_util_get_line_indent(line) abort
   let l:line = maktba#ensure#isString(a:line)
 
   return len(substitue(l:line, '/^\(\s*\)\(\w\)\(.*\)', '\1'))
 endfunc
 
 " TODO: Validation
-func! s:xf3rno_util_mv_indent() abort
+func! s:xf_util_mv_indent() abort
   let l:line_count = getbufinfo(bufname()).linecount
   let l:cursor_src = getcurpos()
   let l:start = v:true
@@ -2436,14 +2427,14 @@ func! s:xf3rno_util_mv_indent() abort
   let l:src_buff = l:cursor_src[0]
 
   let l:src = getbufline(l:src_buff, l:src_ln, '$')
-  let l:src_indent = <SID>xf3rno_util_get_line_indent(l:src)
+  let l:src_indent = <SID>xf_util_get_line_indent(l:src)
 
   while l:start || (l:tgt_indent != l:src_indent && l:tgt_ln <= l:line_count)
     let l:start = v:false
 
     let l:tgt_ln = l:src_ln + 1
     let l:tgt = getbufline(bufname(), l:tgt_ln, '$')
-    let l:tgt_indent = <SID>xf3rno_util_get_line_indent(l:tgt)
+    let l:tgt_indent = <SID>xf_util_get_line_indent(l:tgt)
   endwhile
 
   " TODO: Move to nearest indent level instead?

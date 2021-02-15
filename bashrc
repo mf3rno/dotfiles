@@ -14,13 +14,16 @@ shopt -s autocd
 
 RESOLVED_USER="$(whoami)"
 RESOLVED_HOSTNAME="$(hostname)"
-RESOLVED_HOME="$(userdbctl user "$RESOLVED_USER" | grep Directory | sed 's/.*: \(.*\)/\1/')"
+
+if [[ ! -v HOME ]]; then
+  RESOLVED_HOME="$(userdbctl user "$RESOLVED_USER" | grep Directory | sed 's/.*: \(.*\)/\1/')"
+  export HOME=$RESOLVED_HOME
+fi
 
 export SHELL=bash
 export TERM=xterm-256color
-export USER=$RESOLVED_USER
-export HOME=$RESOLVED_HOME
-export HOSTNAME=$RESOLVED_HOSTNAME
+export USER="$RESOLVED_USER"
+export HOSTNAME="$RESOLVED_HOSTNAME"
 export NVM_PATH="$HOME/.nvm"
 export XF_BASH_LIB_PATH="$HOME/.xf-bash-lib"
 
@@ -43,8 +46,6 @@ xf_safe_add_dir_to_path "$HOME_BIN_DIR"
 xf_safe_add_dir_to_path "$HOME_LOCAL_BIN_DIR"
 
 # }}}
-# {{{ shortcuts
-
 # {{{ system
 
 shutdn() {
@@ -109,47 +110,45 @@ sysoff() {
 # {{{ system packages
 # TODO: Refactor, copy/paste for now pending utility funcs
 
-if [[ -z $(xf_has_cmd 'dnf') ]]; then
+if [[ -z "$(xf_has_cmd 'dnf')" ]]; then
   PKG_INSTALL_CMD='sudo dnf install -y'
   PKG_UPDATE_CMD='sudo dnf update -y'
   PKG_SEARCH_CMD='dnf search'
   PKG_REMOVE_CMD='sudo dnf remove -y'
-elif [[ -z $(xf_has_cmd 'pacman') ]]; then
+elif [[ -z "$(xf_has_cmd 'pacman')" ]]; then
   PKG_INSTALL_CMD='sudo pacman -S'
   PKG_UPDATE_CMD='sudo pacman -Syyuu'
   PKG_SEARCH_CMD='sudo pacman -Q'
   PKG_REMOVE_CMD='sudo pacman -R'
-elif [[ -z $(xf_has_cmd 'apt') ]]; then
+elif [[ -z "$(xf_has_cmd 'apt')" ]]; then
   PKG_INSTALL_CMD='sudo apt install'
   PKG_UPDATE_CMD='sudo apt update && apt upgrade'
   PKG_SEARCH_CMD='apt search'
   PKG_REMOVE_CMD='sudo apt remove'
-elif [[ -z $(xf_has_cmd 'pkg') ]]; then # termux..
-  PKG_INSTALL_CMD='pkg install'
-  PKG_UPDATE_CMD='pkg update && pkg upgrade'
+elif [[ -z "$(xf_has_cmd 'pkg')" ]]; then
+  PKG_INSTALL_CMD='pkg install -y'
+  PKG_UPDATE_CMD='pkg update -y && pkg upgrade -y'
   PKG_SEARCH_CMD='pkg search'
-  PKG_REMOVE_CMD='pkg remove'
+  PKG_REMOVE_CMD='pkg remove -y'
 else
   PKG_MGMT_DISABLED=1
 fi
 
-if [[ $PKG_MGMT_DISABLED != 1 ]]; then
+if [[ -n "$PKG_MGMT_DISABLED" ]]; then
   pkgi() {
-    bash -c "$PKG_INSTALL_CMD $1"
+    bash -c "$PKG_INSTALL_CMD $*"
   }
 
   pkgs() {
-    bash -c "$PKG_SEARCH_CMD $1"
+    bash -c "$PKG_SEARCH_CMD $*"
   }
 
   pkgu() {
-    sudo dnf update -y
-    bash -c "$PKG_UPDATE_CMD"
+    bash -c "$PKG_UPDATE_CMD $*"
   }
 
   pkgd() {
-    sudo dnf remove -y "$1"
-    bash -c "$PKG_REMOVE_CMD $1"
+    bash -c "$PKG_REMOVE_CMD $*"
   }
 fi
 
@@ -181,7 +180,8 @@ man() {
 
 alias grep='grep --color'
 alias cat="bat"
-alias vim="nvim"
+alias vim="nvim -u ~/.vimrc"
+alias nvim="nvim -u ~/.vimrc"
 alias ls="ls --color=auto -h"
 alias ll="ls --color=auto -alh"
 alias lt="ls --color=auto -alht"

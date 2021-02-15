@@ -1,24 +1,33 @@
+# {{{ keybindings
+
 key_bindings:
   - { key: V, mods: Control, action: Paste }
   - { key: F12, action: ToggleFullscreen }
 
+# }}}
+# {{{ fonts
+
 font:
-  size: 8
+  size: 7
   normal:
-    # Anonymice
-    # Fira Code
-    # Blex Mono
-    # Fura Code
-    # Hack
-    # Hasklug
-    # Hurmit
-    # Inconsolata
-    # Jet Brains Mono
-    # Sauce Code Pro
-    # Literation Mono
+    # family: Anonymice Nerd Font
+    # family: Fira Code Nerd Font
+    # family: Blex Mono Nerd Font
+    # family: Fura Code Nerd Font
+    # family: Hack Nerd Font
+    # family: Hasklug Nerd Font
+    # family: Hurmit Nerd Font
+    # family: Inconsolata Nerd Font
+    # family: Jet Brains Mono Nerd Font
+    # family: Sauce Code Pro Nerd Font
+    # family: Literation Mono Nerd Font
     # family: Fira Code Nerd Font
     family: Jet Brains Mono Nerd Font
 
+# }}}
+# {{{ general
+
+live_config_reload: true
 window:
   decorations: none
 
@@ -26,7 +35,10 @@ selection:
   save_to_clipboard: true
 
 cursor:
-  style: Underline
+  blink_interval: 350
+  style:
+    shape: Underline
+    blinking: On
 
 mouse:
   hide_when_typing: true
@@ -34,40 +46,23 @@ mouse:
 env:
   WINIT_HIDPI_FACTOR: '1'
 
+# }}}
+# {{{ color schemes
+
 schemes:
+
+# {{{ dracula
+
   dracula: &dracula
-    # Colors (Dracula)
-    # Default colors
     primary:
       background: '0x282a36'
       foreground: '0xf8f8f2'
-
-      # Bright and dim foreground colors
-      #
-      # The dimmed foreground color is calculated automatically if it is not present.
-      # If the bright foreground color is not set, or `draw_bold_text_with_bright_colors`
-      # is `false`, the normal foreground color will be used.
-      #dim_foreground: '0x9a9a9a'
-      #bright_foreground: '0xffffff'
-
-    # Cursor colors
-    #
-    # Colors which should be used to draw the terminal cursor. If these are unset,
-    # the cursor color will be the inverse of the cell color.
     cursor:
       text: '0x44475a'
       cursor: '0xf8f8f2'
-
-    # Selection colors
-    #
-    # Colors which should be used to draw the selection area. If selection
-    # background is unset, selection color will be the inverse of the cell colors.
-    # If only text is unset the cell text color will remain the same.
     selection:
       text: '0xf8f8f2'
       background: '0x44475a'
-
-    # Normal colors
     normal:
       black:   '0x000000'
       red:     '0xff5555'
@@ -77,8 +72,6 @@ schemes:
       magenta: '0xff79c6'
       cyan:    '0x8be9fd'
       white:   '0xbfbfbf'
-
-    # Bright colors
     bright:
       black:   '0x4d4d4d'
       red:     '0xff6e67'
@@ -88,11 +81,6 @@ schemes:
       magenta: '0xff92d0'
       cyan:    '0x9aedfe'
       white:   '0xe6e6e6'
-
-    # Dim colors
-    #
-    # If the dim colors are not set, they will be calculated automatically based
-    # on the `normal` colors.
     dim:
       black:   '0x14151b'
       red:     '0xff2222'
@@ -103,26 +91,13 @@ schemes:
       cyan:    '0x59dffc'
       white:   '0xe6e6d1'
 
-    # Indexed Colors
-    #
-    # The indexed colors include all colors from 16 to 256.
-    # When these are not set, they're filled with sensible defaults.
-    #
-    # Example:
-    #   `- { index: 16, color: '0xff00ff' }`
-    #
-    indexed_colors: []
+# }}}
+# {{{ tokyo-night
 
-  # Tokyo Night theme, based on both:
-  #   https://github.com/ghifarit53/tokyonight-vim
-  #   https://github.com/enkia/tokyo-night-vscode-theme
   tokyo-night: &tokyo-night
-    # Default colors
     primary:
       background: '0x1a1b26'
       foreground: '0xa9b1d6'
-
-    # Normal colors
     normal:
       black:   '0x32344a'
       red:     '0xf7768e'
@@ -132,8 +107,6 @@ schemes:
       magenta: '0xad8ee6'
       cyan:    '0x449dab'
       white:   '0x787c99'
-
-    # Bright colors
     bright:
       black:   '0x444b6a'
       red:     '0xff7a93'
@@ -144,13 +117,13 @@ schemes:
       cyan:    '0x0db9d7'
       white:   '0xacb0d0'
 
+# }}}
+# {{{ tokyo-night-storm
+
   tokyo-night-storm: &tokyo-night-storm
-    # Default colors
     primary:
       background: '0x24283b'
       foreground: '0xa9b1d6'
-
-    # Normal colors
     normal:
       black:   '0x32344a'
       red:     '0xf7768e'
@@ -160,8 +133,6 @@ schemes:
       magenta: '0xad8ee6'
       cyan:    '0x449dab'
       white:   '0x9699a8'
-
-    # Bright colors
     bright:
       black:   '0x444b6a'
       red:     '0xff7a93'
@@ -171,41 +142,32 @@ schemes:
       magenta: '0xbb9af7'
       cyan:    '0x0db9d7'
       white:   '0xacb0d0'
+
+# }}}
+# {{{ night-owl
   night-owl: &night-owl
     primary:
       background: "#011627"
       foreground: "#d6deeb"
-
-    # Cursor colors
     cursor:
       text: CellBackground
       cursor: CellForeground
-
-    # Vi mode cursor colors
     vi_mode_cursor:
       text: CellBackground
       cursor: "#22da6e"
-
-    # Selection colors
     selection:
       text: "#ffffff"
       background: "#0d486e"
-
-    # Search colors
     search:
       matches:
         foreground: "#000000"
         background: "#22da6e"
-
         focused_match:
           foreground: "#ffffff"
           background: "#22da6e"
-
       bar:
         foreground: "#ffffff"
         background: "#1d3b53"
-
-    # Normal colors
     normal:
       black: "#011627"
       red: "#EF5350"
@@ -215,8 +177,6 @@ schemes:
       magenta: "#C792EA"
       cyan: "#21c7a8"
       white: "#ffffff"
-
-    # Bright colors
     bright:
       black: "#575656"
       red: "#EF5350"
@@ -227,41 +187,32 @@ schemes:
       cyan: "#7fdbca"
       white: "#ffffff"
 
+# }}}
+# {{{ night-owl-light
+
   night-owl-light: &night-owl-light
     primary:
       background: "#F6F6F6"
       foreground: "#403f53"
-
-    # Cursor colors
     cursor:
       text: CellBackground
       cursor: "#90A7B2"
-
-    # Vi mode cursor colors
     vi_mode_cursor:
       text: CellBackground
       cursor: "#08916a"
-
-    # Selection colors
     selection:
       text: "#000000"
       background: "#E0E0E0"
-
-    # Search colors
     search:
       matches:
         foreground: "#F6F6F6"
         background: "#08916a"
-
         focused_match:
           foreground: "#000000"
           background: "#08916a"
-
       bar:
         foreground: "#403f53"
         background: "#E0E0E0"
-
-    # Normal colors
     normal:
       black: "#403f53"
       red: "#de3d3b"
@@ -271,8 +222,6 @@ schemes:
       magenta: "#d6438a"
       cyan: "#2AA298"
       white: "#F0F0F0"
-
-    # Bright colors
     bright:
       black: "#403f53"
       red: "#de3d3b"
@@ -282,8 +231,11 @@ schemes:
       magenta: "#d6438a"
       cyan: "#2AA298"
       white: "#F0F0F0"
-  ayu_dark:
-    &ayu_dark
+
+# }}}
+# {{{ ayu-dark
+
+  ayu-dark: &ayu-dark
     primary:
       background: '0x0f1419'
       foreground: '0xe6e1cf'
@@ -305,8 +257,11 @@ schemes:
       magenta: '0xb77ee0'
       cyan: '0x5ccfe6'
       white: '0xffffff'
-  papercolor_light:
-    &papercolor_light
+
+# }}}
+# {{{ papercolor-light
+
+  papercolor-light: &papercolor-light
     primary:
       background: '0xeeeeee'
       foreground: '0x4d4d4c'
@@ -322,8 +277,6 @@ schemes:
       magenta: '0x8959a8'
       cyan: '0x3e999f'
       white: '0x4d4d4c'
-
-    # Bright colors
     bright:
       black: '0x949494'
       red: '0xd7005f'
@@ -333,8 +286,11 @@ schemes:
       magenta: '0x8959a8'
       cyan: '0x3e999f'
       white: '0xf5f5f5'
-  gruvbox_light:
-    &gruvbox_light
+
+# }}}
+# {{{ gruvbox-light
+
+  gruvbox-light: &gruvbox-light
     primary:
       background: '#fbf1c7'
       foreground: '#3c3836'
@@ -356,8 +312,11 @@ schemes:
       magenta: '#8f3f71'
       cyan: '#427b58'
       white: '#3c3836'
-  gruvbox_dark:
-    &gruvbox_dark
+
+# }}}
+# {{{ gruvbox-dark
+
+  gruvbox-dark: &gruvbox-dark
     primary:
       background: '#282828'
       foreground: '#ebdbb2'
@@ -379,8 +338,11 @@ schemes:
       magenta: '#d3869b'
       cyan: '#8ec07c'
       white: '#ebdbb2'
-  pencil_light:
-    &pencil_light
+
+# }}}
+# {{{ pencil-light
+
+  pencil-light: &pencil-light
     primary:
       background: '#f1f1f1'
       foreground: '#424242'
@@ -402,8 +364,11 @@ schemes:
       magenta: '#6855de'
       cyan: '#4fb8cc'
       white: '#f1f1f1'
-  rigel:
-    &rigel
+
+# }}}
+# {{{ rigel
+
+  rigel: &rigel
     primary:
       background: '0x002635'
       foreground: '0xe6e6dc'
@@ -428,8 +393,11 @@ schemes:
     cursor:
       text: "0x002635"
       cursor: "0xffcc1b"
-  tender:
-    &tender
+
+# }}}
+# {{{ tender
+
+  tender: &tender
     primary:
       background: '0x282828'
       foreground: '0xeeeeee'
@@ -452,4 +420,8 @@ schemes:
       cyan:    '0x73cef4'
       white:   '0xfeffff'
 
-colors: *ayu_dark
+# }}}
+
+colors: *tender
+
+# }}}
