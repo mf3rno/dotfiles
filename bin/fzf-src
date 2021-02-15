@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+src-tree | fzf-cd

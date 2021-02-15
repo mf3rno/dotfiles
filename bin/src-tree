@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+pushd "$(pwd)" || exit 0
+
+if ! cd "$HOME_SRC_DIR"; then
+  popd || exit 0
+else
+  tree -L 3 -d -f --prune --noreport -i
+fi

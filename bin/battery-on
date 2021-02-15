@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+sudo powertop --auto-tune -q
+
+battery-status
