@@ -112,22 +112,22 @@ sysoff() {
 # {{{ system packages
 # TODO: Refactor, copy/paste for now pending utility funcs
 
-if [[ -z "$(xf_has_cmd 'dnf')" ]]; then
+if [[ -z $(xf_has_cmd 'dnf') ]]; then
   PKG_INSTALL_CMD='sudo dnf install -y'
   PKG_UPDATE_CMD='sudo dnf update -y'
   PKG_SEARCH_CMD='dnf search'
   PKG_REMOVE_CMD='sudo dnf remove -y'
-elif [[ -z "$(xf_has_cmd 'pacman')" ]]; then
+elif [[ -z $(xf_has_cmd 'pacman') ]]; then
   PKG_INSTALL_CMD='sudo pacman -S'
   PKG_UPDATE_CMD='sudo pacman -Syyuu'
   PKG_SEARCH_CMD='sudo pacman -Q'
   PKG_REMOVE_CMD='sudo pacman -R'
-elif [[ -z "$(xf_has_cmd 'apt')" ]]; then
+elif [[ -z $(xf_has_cmd 'apt') ]]; then
   PKG_INSTALL_CMD='sudo apt install'
   PKG_UPDATE_CMD='sudo apt update && apt upgrade'
   PKG_SEARCH_CMD='apt search'
   PKG_REMOVE_CMD='sudo apt remove'
-elif [[ -z "$(xf_has_cmd 'pkg')" ]]; then
+elif [[ -z $(xf_has_cmd 'pkg') ]]; then
   PKG_INSTALL_CMD='pkg install -y'
   PKG_UPDATE_CMD='pkg update -y && pkg upgrade -y'
   PKG_SEARCH_CMD='pkg search'
