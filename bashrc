@@ -184,16 +184,13 @@ alias grep='grep --color'
 alias cat="bat"
 alias vim="nvim -u ~/.vimrc"
 alias nvim="nvim -u ~/.vimrc"
-alias ls="ls --color=auto -h"
-alias ll="ls --color=auto -alh"
-alias lt="ls --color=auto -alht"
+alias nvim-gtk="nvim-gtk -- -u ~/.vimrc"
+alias ls="ls --color=auto -h --group-directories-first"
+alias ll="ls --color=auto -alh --group-directories-first"
+alias lt="ls --color=auto -alht --group-directories-first"
 
 # }}}
 # {{{ plugins/autocomplete
-
-xf_safe_source "$HOME/.autojump/share/autojump/autojump.bash"
-xf_safe_source "$(xf_git_repo_path 'alacritty')/extra/completions/alacritty.bash"
-xf_safe_source "$(xf_git_repo_path 'gjsheep' 'bash-wakatime')/bash-wakatime.sh"
 
 BASH_POWERLINE_SH_PATH="$HOME/.bash-powerline.sh"
 
@@ -201,5 +198,9 @@ if [[ -f "$BASH_POWERLINE_SH_PATH" ]]; then
   export PROMPT_COMMAND='echo -n "[$USER@$HOSTNAME] "'
   xf_safe_source "$BASH_POWERLINE_SH_PATH"
 fi
+
+xf_safe_source "$HOME/.autojump/share/autojump/autojump.bash"
+xf_safe_source "$(xf_git_repo_path 'alacritty')/extra/completions/alacritty.bash"
+xf_safe_source "$(xf_git_repo_path 'gjsheep' 'bash-wakatime')/bash-wakatime.sh"
 
 # }}}

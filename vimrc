@@ -98,19 +98,12 @@ Plug 'Glench/Vim-Jinja2-Syntax'
 Plug 'vim-python/python-syntax'
 Plug 'udalov/kotlin-vim'
 
-" {{{ pandoc
-
-" Plug 'vim-pandoc/vim-pandoc'
-" Plug 'vim-pandoc/vim-pandoc-syntax'
-
-" }}}
 " {{{ markdown
 
 Plug 'plasticboy/vim-markdown'
 Plug 'suan/vim-instant-markdown'
 " Plug 'mmai/vim-markdown-wiki'
 " Plug 'rhysd/vim-gfm-syntax'
-Plug 'sidofc/mkdx'
 Plug 'mzlogin/vim-markdown-toc'
 Plug 'dhruvasagar/vim-table-mode'
 
@@ -123,7 +116,6 @@ Plug 'peitalin/vim-jsx-typescript'
 " }}}
 " {{{ javascript
 
-" Plug 'pangloss/vim-javascript'
 Plug 'yuezk/vim-js'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'othree/javascript-libraries-syntax.vim'
@@ -148,8 +140,6 @@ Plug 'int3/vim-extradite' " git log
 Plug 'jbgutierrez/vim-better-comments'
 Plug 'junegunn/goyo.vim'
 " Plug 'junegunn/rainbow_parentheses.vim'
-" Plug 'Yggdroot/indentLine'
-" Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'majutsushi/tagbar'
 
 " }}}
@@ -163,7 +153,7 @@ Plug 'google/vroom'
 
 Plug 'Shougo/neco-vim'
 Plug 'neoclide/coc-neco'
-Plug 'neoclide/coc.nvim', { 'branch': 'release', 'do': 'yarn set version 1.22.10 && yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', { 'branch': 'release', 'do': 'yarn set version 2.4.0 && yarn install --immutable'}
 Plug 'dense-analysis/ale'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'vim-scripts/ZoomWin'
@@ -219,21 +209,12 @@ endif
 " }}}
 " {{{ wiki
 
-" Plug 'vim-scripts/AnsiEsc.vim'
 Plug 'powerman/vim-plugin-AnsiEsc', { 'on': 'AnsiEsc' }
 
-" xarthurx is a maintained fork
-" Plug 'blindFS/vim-taskwarrior'
-" Plug 'xarthurx/taskwarrior.vim', { 'on': 'TW' }
 Plug 'rbgrouleff/bclose.vim'
 Plug 'mattn/calendar-vim'
 Plug 'vimwiki/vimwiki', { 'branch': 'dev' }
 Plug 'f3rno/vimwiki-footnotes'
-" Plug 'tbabej/taskwiki'
-
-" Plug 'LarsEKrueger/pandoc-vimwiki'
-" Plug 'michal-h21/vim-zettel'
-" Plug 'linuxcaffe/taskwiki-two'
 
 " }}}
 " {{{ colorschemes
@@ -338,6 +319,8 @@ let g:ale_linters = {
 \ 'scss': ['stylelint'],
 \ 'css': ['stylelint'],
 \ 'vim': ['vint'],
+\ 'jinja.html': ['jinjalint'],
+\ 'yaml': ['yamllint'],
 \ }
 
 let g:ale_fixers = {
@@ -475,34 +458,35 @@ endfunc
 " }}}
 " {{{ gitgutter
 
-let g:gitgutter#max#signs = 1000
+let g:gitgutter_max_signs = 1000
 
 " }}}
 " {{{ goyo
 
-let g:goyo#height = '80%'
-let g:goyo#width = '60%'
+let g:goyo_height = '80%'
+let g:goyo_width = '60%'
 
 func! s:goyo_enter()
-set noshowmode
-set noshowcmd
-set nonumber
-let b:coc_suggest_disable = 1 " popup 'invisible' but hides content
+  set noshowmode
+  set noshowcmd
+  set nonumber
+
+  let b:coc_suggest_disable = 1 " popup 'invisible' but hides content
 endfunc
 
 func! s:goyo_leave()
-set showmode
-set showcmd
-set number
-let b:coc_suggest_disable = 0
+  set showmode
+  set showcmd
+  set number
+  let b:coc_suggest_disable = 0
 
-" Workaround for color scheme issue
-" TODO: Update w/ dynamic config path
-if has('nvim')
-silent! source $HOME/.config/nvim/init.vim
-else
-silent! source $HOME/.vimrc
-endif
+  " Workaround for color scheme issue
+  " TODO: Update w/ dynamic config path
+  if has('nvim')
+    silent! source $HOME/.config/nvim/init.vim
+  else
+    silent! source $HOME/.vimrc
+  endif
 endfunc
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
@@ -515,19 +499,14 @@ let g:incsearch#auto#nohlsearch = 1 " disable hlsearch on cursor move
 
 " query completion w/ buffer text
 func! s:incsearch_keymap()
-IncSearchNoreMap <Tab> <Over>(buffer-complete)
-IncSearchNoreMap <S-Tab> <Over>(buffer-complete-prev)
+  IncSearchNoreMap <Tab> <Over>(buffer-complete)
+  IncSearchNoreMap <S-Tab> <Over>(buffer-complete-prev)
 endfunc
 
 augroup incsearch-keymap
-autocmd!
-autocmd VimEnter * call <SID>incsearch_keymap()
+  autocmd!
+  autocmd VimEnter * call <SID>incsearch_keymap()
 augroup END
-
-" }}}
-" {{{ indentLine
-
-let g:indentLine#char#list = ['|', '¦', '┆', '┊']
 
 " }}}
 " {{{ javascript-libraries-syntax
@@ -537,63 +516,23 @@ let g:used#javascript#libs = 'underscore,react,chai'
 " }}}
 " {{{ MatchTagAlways
 
-let g:mta#filetypes = {
+let g:mta_filetypes = {
 \ 'html' : 1,
 \ 'xml' : 1,
 \ 'jinja.html' : 1,
 \}
 
 " }}}
-" {{{ mkdx
-
-let g:mkdx#settings = {
-\   'map': {
-\     'enable': 0
-\   },
-\
-\   'checkbox': {
-\     'toggles': [' ', '.', 'x']
-\   },
-\
-\   'highlight': {
-\      'enable': 1
-\   },
-\ }
-
-" }}}
 " {{{ nuake
 
-let g:nuake#start#insert = 0
-let g:nuake#position = 'bottom'
-let g:nuake#size = 0.4
-
-" }}}
-" Pandoc {{{
-
-let g:pandoc#folding#mode = 'syntax'
-let g:pandoc#filetypes#handled = ["pandoc", "markdown", "rst"]
-let g:pandoc#modules#enabled = ["formatting", "folding", "toc", "command", "menu", "bibliographies", "completion"]
-let g:pandoc#folding#fold#yaml=1
-let g:pandoc#syntax#conceal#urls=1
-let g:pandoc#folding#fold#fenced#codeblocks = 1
-" let g:pandoc_syntax_codeblocks_embeds_langs = ["python"]
-" let g:pandoc_biblio_bibs = ["/home/alasdair/zettel/zettel.bib"]
+let g:nuake_start_insert = 0
+let g:nuake_position = 'bottom'
+let g:nuake_size = 0.4
 
 " }}}
 " {{{ python-syntax
 
-let g:python#highlight#all = 1
-
-" }}}
-" {{{ startify
-
-let g:startify#custom#header = [
-\ '        _________',
-\ '       / __/__  /_________  ____',
-\ '      / /_  /_ </ ___/ __ \/ __ \',
-\ '     / __/___/ / /  / / / / /_/ /',
-\ '    /_/  /____/_/  /_/ /_/\____/',
-\ ]
+let g:python_highlight_all = 1
 
 " }}}
 " {{{ ultisnips
@@ -609,30 +548,15 @@ let g:UltiSnipsSnippetDirectories = [
       \   '/home/xf3rno/.src/github/xf3rno/vim-snippets/ultisnips',
       \ ]
 
-" {{{
-
-" let g:ultisnips_javascript = {
-"       'keyword-spacing': 'always',
-"       'semi': 'never',
-"       'space-before-function-paren': 'always',
-"       }
-
 " }}}
 " {{{ vim-better-whitespace
 
-let g:better#whitespace#enabled = 1
+let g:better_whitespace_enabled = 1
 
 " }}}
 " {{{ vim-better-comments
 
-let g:bettercomments#included = ['javascript', 'js', 'go', 'ruby', 'python']
-
-" }}}
-" {{{ vim-diminactive
-
-let g:diminactive#use#colorcolumn = 1
-let g:diminactive#use#syntax = 1
-let g:diminactive#enable#focus = 1
+let g:bettercomments_included = ['javascript', 'js', 'go', 'ruby', 'python']
 
 " }}}
 " {{{ vim-floaterm
@@ -657,68 +581,62 @@ let g:grepper.ag = {
 " }}}
 " {{{ vim-gutentags
 
-let g:gutentags#ctags#exclude = ['coverage/*', 'node_modules/*', '*%*', 'docs/*']
-let g:gutentags#enabled = 1
+let g:gutentags_ctags_exclude = ['coverage/*', 'node_modules/*', '*%*', 'docs/*']
+let g:gutentags_enabled = 1
 
 " }}}
 " {{{ vim-highlightedyank
 
-let g:highlightedyank#highlight#duration = 300
+let g:highlightedyank_highlight_duration = 300
 
 " }}}
 " {{{ vim-instant-markdown
 
-let g:instant#markdown#autostart = 0
-
-" }}}
-" {{{ vim-javascript (replaced by vim-js)
-
-" let g:javascript_plugin_jsdoc = 1
-" let g:javascript_plugin_flow = 1
+let g:instant_markdown_autostart = 0
 
 " }}}
 " {{{ vim-js-file-import
 
-let g:js_file#import#sort#after#insert = 1
-let g:js_file_import#prompt#if#no#tag = 0
-let g:js#file#import#omit#semicolon = 1
-let g:js#file#import#use#fzf = 1
-let g:js#file#import#no#mappings = 1
+let g:js_file_import_sort_after_insert = 1
+let g:js_file_import_prompt_if_no_tag = 0
+let g:js_file_import_omit_semicolon = 1
+let g:js_file_import_use_fzf = 1
+let g:js_file_import_no_mappings = 1
 
 " }}}
 " {{{ vim-jsx-pretty
 
-let g:vim#jsx#pretty#colorful#config = 1
+let g:vim_jsx_pretty_colorful_config = 1
 
 " }}}
 " {{{ vim-markdown
 
-let g:vim#markdown#folding#disabled = 1
-let g:vim#markdown#folding#style#pythonic = 1
-let g:vim#markdown#folding#level = 2
-let g:vim#markdown#toc#autofit = 1
-let g:vim#markdown#frontmatter = 1
-let g:vim#markdown#json#frontmatter = 1
-let g:vim#markdown#strikethrough = 1
-let g:vim_markdown#new#list#item#indent = 2
-let g:vim_markdown#no#extensions#in#markdown = 1
-let g:vim#markdown#edit#url#in = 'current' " 'vsplit'
-let g:vim#markdown#autowrite = 1
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_folding_style_pythonic = 1
+let g:vim_markdown_folding_level = 2
+let g:vim_markdown_toc_autofit = 1
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_json_frontmatter = 1
+let g:vim_markdown_strikethrough = 1
+let g:vim_markdown_new_list_item_indent = 2
+let g:vim_markdown_no_extensions_in_markdown = 1
+let g:vim_markdown_edit_url_in = 'current' " 'vsplit'
+let g:vim_markdown_autowrite = 1
 
 " }}}
 " {{{ vim-markdown-toc
 
-let g:vmt#auto#update#on#save = 1
-let g:vmt#dont#insert#fence = 0
-let g:vmt#fence#hidden#markdown#style = 'GFM'
-let g:vmt#cycle#list#item#markers = 0
-let g:vmt#list#item#char = '-'
-let g:vmt#include#headings#before = 1
+let g:vmt_auto_update_on_save = 1
+let g:vmt_dont_insert_fence = 0
+let g:vmt_fence_hidden_markdown_style = 'GFM'
+let g:vmt_cycle_list_item_markers = 0
+let g:vmt_list_item_char = '-'
+let g:vmt_include_headings_before = 1
 
 " }}}
 " {{{ vim-move
 
-let g:move#key#modifier = 'C'
+let g:move_key_modifier = 'C'
 
 " }}}
 " {{{ vim-perpetuloc
@@ -729,12 +647,12 @@ nnoremap <leader>] :Lprevious<cr>
 " }}}
 " {{{ vim-ripgrep
 
-let g:vim#search#pulse#mode = 'cursor_line'
+let g:vim_search_pulse_mode = 'cursor_line'
 
 " }}}
 " {{{ vim-searchant
 
-let g:searchant#all = 0 " only toggle current result highlight
+let g:searchant_all = 0 " only toggle current result highlight
 
 " Disable Searchant highlight when incsearch.vim highlights also disable
 autocmd CursorMoved * call SearchantStop()
@@ -1282,82 +1200,35 @@ let g:vimwiki_valid_html_tags = 'b,i,s,u,sub,sup,kbd,br,hr,pre,script'
 " }}}
 
 " }}}
-" {{{ taskwiki
-
-" let g:taskwiki_dont_preserve_folds = 'yes'
-" let g:taskwiki_disable_concealcursor = 'yes'
-let g:taskwiki#markup#syntax = 'markdown'
-let g:taskwiki#source#tw#colors = 'yes'
-" let g:taskwiki_disable = 'yes'
-
-" }}}
 " {{{ vim-workspace
 
-let g:workspace#create#new#tabs = 0
-let g:workspace#autosave#untrailspaces = 0
-let g:workspace#autosave = 0
+let g:workspace_create_new_tabs = 0
+let g:workspace_autosave_untrailspaces = 0
+let g:workspace_autosave = 0
 
 if has('nvim')
-let g:workspace#session#directory = $HOME . '/.config/nvim/sessions/'
+  let g:workspace_session_directory = $HOME . '/.config/nvim/sessions/'
 else
-let g:workspace#session#directory = $HOME . '/.vim/sessions/'
+  let g:workspace_session_directory = $HOME . '/.vim/sessions/'
 endif
 
 " }}}
 " {{{ vim-table-mode
 
-let g:table#mode#always#active = 1
-let g:table#mode#corner = '|'
-let g:table#mode#align#char = ':'
-let g:table#mode#delimiter = ','
-let g:table#mode#disable#mappings = 0
-let g:table#mode#syntax = 1 " experiment
-let g:table#mode#auto#align = 0
-let g:table#mode#update#time = 300
-let g:table#mode#verbose = 1
-
-" }}}
-" {{{ vim-taskwarrior
-
-" {{{ custom link handlers
-
-" {{{ task list context
-
-func! TWListContexts(url)
-if a:url == 'TW_LIST_CONTEXTS'
-return exec('r! task _context')
-end
-
-return ''
-endfunc
-
-" }}}
-
-" }}}
-
-let g:task#rc#override = 'rc._forcecolor=off  rc.defaultwidth=0 rc.defaultheight=0'
-
-let g:task#report#name = 'next' " default task report type
-let g:task#report#command = [] " custom reports have to be listed explicitly to make them available
-let g:task#highlight#field = 1 " whether the field under the cursor is highlighted
-let g:task#readonly = 0 " can not make change to task data when set to 1
-let g:task#gui#term = 1 " vim built-in term for task undo in gvim
-let g:taskult#prompt = ['due', 'description'] " default fields to ask when adding a new task
-let g:task#info#vsplit = 1 " whether the info window is splited vertically
-let g:task#info#size = 30 " info window size
-let g:task#info#position = 'left' " info window position
-let g:task#log#directory = '~/.task' " directory to store log files defaults to taskwarrior data.location
-let g:task#log#max = '100' " max number of historical entries
-let g:task#left#arrow = ' <<' " forward arrow shown on statusline
-
-autocmd FileType vimwiki,taskwarrior :AnsiEsc
+let g:table_mode_always_active = 1
+let g:table_mode_corner = '|'
+let g:table_mode_align_char = ':'
+let g:table_mode_delimiter = ','
+let g:table_mode_disable_mappings = 0
+let g:table_mode_syntax = 1 " experiment
+let g:table_mode_auto_align = 0
+let g:table_mode_update_time = 300
+let g:table_mode_verbose = 1
 
 " }}}
 " {{{ wakatime
 
 let g:wakatime#OverrideCommandPrefix = '/home/xf3rno/.local/bin/wakatime'
-
-" }}}
 
 " }}}
 
@@ -1508,20 +1379,21 @@ set statusline+=%#PmenuSel#
 set statusline+=\ L%l\ %p%%
 set statusline+=\ " padding
 
-" }}} {{{ undo history
+" }}}
+" {{{ undo history
 
 if has('persistent_undo')
+  set undofile
+
   if has('nvim')
     let myUndoDir=$HOME . '/.config/nvim/undodir'
-    execute 'silent !mkdir ' . myUndoDir . ' > /dev/null 2>&1'
     let &undodir=myUndoDir
+    execute 'silent !mkdir ' . myUndoDir . ' > /dev/null 2>&1'
   else
     let myUndoDir=$HOME . '/.vim/undodir'
-    execute 'silent !mkdir ' . myUndoDir . ' > /dev/null 2>&1'
     let &undodir=myUndoDir
+    execute 'silent !mkdir ' . myUndoDir . ' > /dev/null 2>&1'
   endif
-
-  set undofile
 endif
 
 " }}}
@@ -1776,8 +1648,7 @@ set background=dark
 " base16-github
 " ayu
 " tequila-sunrise
-" colorscheme ayu
-colorscheme desertink
+colorscheme tequila-sunrise
 
 " }}}
 " {{{ 5. gui
@@ -1884,14 +1755,15 @@ endif
 " }}}
 " {{{ 6. netrw
 
-let g:netrw#banner = 0
-let g:netrw#altv = 1 " split to right
+let g:netrw_banner = 0
+let g:netrw_altv = 1 " split to right
 " let g:netrw_browse_split = 2 " open file in right split
-let g:netrw#sizestyle = "H" " human readable base 1024
-let g:netrw#liststyle = 3
-let g:netrw#winsize = 20
-let g:netrw#nogx = 1
-let g:netrw#browsex#viewer = 'xdg-open'
+let g:netrw_sizestyle = "H" " human readable base 1024
+let g:netrw_liststyle = 3
+let g:netrw_winsize = 20
+let g:netrw_nogx = 1
+let g:netrw_browsex_viewer = 'xdg-open'
+let g:netrw_list_hide = netrw_gitignore#Hide()
 
 " }}}
 " {{{ 7. search highlight toggle TODO

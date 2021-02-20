@@ -25,11 +25,7 @@ nvim-plugins/*
 local/bin
 local/lib
 local/include
-local/share/fonts
-local/share/applications
-local/share/TabNine
-local/share/nvim/shada
-local/share/nvim/swap
+local/share
 
 config/nvim/undodir
 config/nvim/.netrwhist
