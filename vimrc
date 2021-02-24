@@ -1698,9 +1698,10 @@ nnoremap <C--> :call AdjustFontSize(-1)<cr>
 
 " }}}
 
-let g:font#name = 'Jet Brains Mono Nerd Font'
-let g:font#features = ''
-let g:font#size = 9
+let g:font#name = 'BlexMono Nerd Font'
+" let g:font#name = 'Jet Brains Mono Nerd Font'
+let g:font#features = 'liga, zero, frac'
+let g:font#size = 11
 
 call SetFont()
 
