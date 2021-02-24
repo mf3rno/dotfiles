@@ -1634,7 +1634,7 @@ let g:srcery#italic = 1
 
 " }}}
 
-set background=light
+set background=dark
 
 " moonfly
 " vibrantink
@@ -1649,7 +1649,7 @@ set background=light
 " base16-github
 " ayu
 " tequila-sunrise
-colorscheme PaperColor
+colorscheme desertink
 
 " }}}
 " {{{ 5. gui
