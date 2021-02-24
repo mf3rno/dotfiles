@@ -195,7 +195,7 @@ alias lt="ls --color=auto -alht --group-directories-first"
 BASH_POWERLINE_SH_PATH="$HOME/.bash-powerline.sh"
 
 if [[ -f "$BASH_POWERLINE_SH_PATH" ]]; then
-  export PROMPT_COMMAND='echo -n "[$USER@$HOSTNAME] "'
+  export PROMPT_COMMAND='echo -n "$USER@$HOSTNAME > "'
   xf_safe_source "$BASH_POWERLINE_SH_PATH"
 fi
 
