@@ -141,6 +141,7 @@ Plug 'jbgutierrez/vim-better-comments'
 Plug 'junegunn/goyo.vim'
 " Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'majutsushi/tagbar'
+Plug 'beauwilliams/focus.nvim'
 
 " }}}
 " {{{ testing
@@ -1633,7 +1634,7 @@ let g:srcery#italic = 1
 
 " }}}
 
-set background=dark
+set background=light
 
 " moonfly
 " vibrantink
@@ -1648,7 +1649,7 @@ set background=dark
 " base16-github
 " ayu
 " tequila-sunrise
-colorscheme tequila-sunrise
+colorscheme PaperColor
 
 " }}}
 " {{{ 5. gui
