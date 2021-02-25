@@ -113,22 +113,24 @@ sysoff() {
 # {{{ system packages
 # todo: refactor, copy/paste for now pending utility funcs
 
-if [[ -z $(xf_has_cmd 'dnf') ]]; then
+pkg_mgmt_disabled=''
+
+if xf_has_cmd 'dnf'; then
   pkg_install_cmd='sudo dnf install -y'
   pkg_update_cmd='sudo dnf update -y'
   pkg_search_cmd='dnf search'
   pkg_remove_cmd='sudo dnf remove -y'
-elif [[ -z $(xf_has_cmd 'pacman') ]]; then
-  pkg_install_cmd='sudo pacman -s'
-  pkg_update_cmd='sudo pacman -syyuu'
-  pkg_search_cmd='sudo pacman -q'
-  pkg_remove_cmd='sudo pacman -r'
-elif [[ -z $(xf_has_cmd 'apt') ]]; then
+elif xf_has_cmd 'pacman'; then
+  pkg_install_cmd='sudo pacman -S'
+  pkg_update_cmd='sudo pacman -Syyuu'
+  pkg_search_cmd='sudo pacman -Q'
+  pkg_remove_cmd='sudo pacman -R'
+elif xf_has_cmd 'apt'; then
   pkg_install_cmd='sudo apt install'
-  pkg_update_cmd='sudo apt update && apt upgrade'
+  pkg_update_cmd='sudo apt update -y && apt upgrade -y'
   pkg_search_cmd='apt search'
   pkg_remove_cmd='sudo apt remove'
-elif [[ -z $(xf_has_cmd 'pkg') ]]; then
+elif xf_has_cmd 'pkg'; then
   pkg_install_cmd='pkg install -y'
   pkg_update_cmd='pkg update -y && pkg upgrade -y'
   pkg_search_cmd='pkg search'
@@ -137,7 +139,7 @@ else
   pkg_mgmt_disabled=1
 fi
 
-if [[ ! $""pkg_mgmt_disabled -eq 1 ]]; then
+if [[ -z "$pkg_mgmt_disabled" ]]; then
   pkgi() {
     bash -c "$pkg_install_cmd $*"
   }
