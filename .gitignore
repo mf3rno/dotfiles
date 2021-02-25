@@ -22,6 +22,9 @@ nvim-plugins/*
 !nvim-plugins/.keep
 !vim-plugins/.keep
 
+npm
+!npm/.keep
+
 local/bin
 local/lib
 local/include

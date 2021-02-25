@@ -183,6 +183,7 @@ man() {
 
 alias grep='grep --color'
 alias cat="bat"
+alias vim="nvim -u ~/.vimrc"
 alias nvim="nvim -u ~/.vimrc"
 alias nvim-gtk="nvim-gtk -- -u ~/.vimrc"
 alias ls="ls --color=auto -h --group-directories-first"

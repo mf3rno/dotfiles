@@ -1,72 +1,42 @@
+---
 bstatePath: .yarn/build-state.yml
-
 enableInlineHunks: true
-
 networkConcurrency: 8
-
 enableTransparentWorkspaces: false
-
 cacheFolder: .yarn/cache
-
 compressionLevel: 9
-
 enableAbsoluteVirtuals: true
-
 enableColors: true
-
 enableGlobalCache: true
-
 enableHyperlinks: true
-
-enableImmutableCache: false
-
-enableImmutableInstalls: false
-
+enableImmutableCache: true
+enableImmutableInstalls: true
 cloneConcurrency: 8
-
 enableMirror: true
-
 enableNetwork: true
-
 enableProgressBars: true
-
 enableScripts: true
-
 enableStrictSsl: true
-
 enableTelemetry: false
-
 enableTimers: true
-
 globalFolder: .yarn/global
-
 httpRetry: 4
-
 httpTimeout: 10000
-
 ignoreCwd: false
-
 ignorePath: false
-
+initScope: protected
+initLicense: MIT
+initVersion: 0.0.1
 initFields:
-  version: 0.0.1
   author: Cris Mihalache <xf3rno@pm.me>
   license: MIT
   private: true
-
 nmHoistingLimits: none
-
 nodeLinker: node-modules
-
-npmPublishAccess: private
+npmPublishAccess: restricted
 pnpDataPath: .yarn/pnp.data.json
-
 pnpMode: loose
-
 preferInteractive: true
-
 progressBarStyle: simba
-
 virtualFolder: .yarn/$$virtual
-
 yarnPath: .yarn/releases/yarn-2.4.0.cjs
