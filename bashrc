@@ -14,8 +14,6 @@ shopt -s autocd
 
 RESOLVED_USER="$(whoami)"
 RESOLVED_HOSTNAME="$(hostname)"
-RESOLVED_EDITOR="$(xf_resolve_editor)"
-RESOLVED_HOME_SRC_DIR="$(xf_ensure_home_subdir '.src')"
 
 if [[ ! -v HOME ]]; then
   RESOLVED_HOME="$(userdbctl user "$RESOLVED_USER" | grep Directory | sed 's/.*: \(.*\)/\1/')"
@@ -25,15 +23,16 @@ fi
 export SHELL=bash
 export TERM=xterm-256color
 export USER="$RESOLVED_USER"
-export EDITOR="$RESOLVED_EDITOR"
 export HOSTNAME="$RESOLVED_HOSTNAME"
-export HOME_SRC_DIR="$RESOLVED_HOME_SRC_DIR"
 export XF_BASH_LIB_PATH="$HOME/.xf-bash-lib"
 export USER_LOCAL_BIN_DIR='/usr/local/bin'
 export NVM_PATH="$HOME/.nvm"
 
 # shellcheck disable=1090
 source "$XF_BASH_LIB_PATH/xf_bash_lib.sh"
+
+export EDITOR="$(xf_resolve_editor)"
+export HOME_SRC_DIR="$(xf_ensure_home_subdir '.src')"
 
 # }}}
 # {{{ remaining env setup w/ xf-lib
