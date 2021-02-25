@@ -1,4 +1,4 @@
 #! /usr/bin/env bash
 
 sudo udevadm control --reload-rules
-rudo udevadm trigger
+sudo udevadm trigger
