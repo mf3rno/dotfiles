@@ -14,6 +14,8 @@ shopt -s autocd
 
 RESOLVED_USER="$(whoami)"
 RESOLVED_HOSTNAME="$(hostname)"
+RESOLVED_EDITOR="$(xf_resolve_editor)"
+RESOLVED_HOME_SRC_DIR="$(xf_ensure_home_subdir '.src')"
 
 if [[ ! -v HOME ]]; then
   RESOLVED_HOME="$(userdbctl user "$RESOLVED_USER" | grep Directory | sed 's/.*: \(.*\)/\1/')"
@@ -23,9 +25,12 @@ fi
 export SHELL=bash
 export TERM=xterm-256color
 export USER="$RESOLVED_USER"
+export EDITOR="$RESOLVED_EDITOR"
 export HOSTNAME="$RESOLVED_HOSTNAME"
-export NVM_PATH="$HOME/.nvm"
+export HOME_SRC_DIR="$RESOLVED_HOME_SRC_DIR"
 export XF_BASH_LIB_PATH="$HOME/.xf-bash-lib"
+export USER_LOCAL_BIN_DIR='/usr/local/bin'
+export NVM_PATH="$HOME/.nvm"
 
 # shellcheck disable=1090
 source "$XF_BASH_LIB_PATH/xf_bash_lib.sh"
@@ -33,19 +38,16 @@ source "$XF_BASH_LIB_PATH/xf_bash_lib.sh"
 # }}}
 # {{{ remaining env setup w/ xf-lib
 
-RESOLVED_EDITOR="$(xf_resolve_editor)"
-RESOLVED_HOME_SRC_DIR="$(xf_ensure_home_subdir '.src')"
-
-export EDITOR="$RESOLVED_EDITOR"
-export HOME_SRC_DIR="$RESOLVED_HOME_SRC_DIR"
-
-HOME_BIN_DIR="$(xf_ensure_home_subdir 'bin')"
-HOME_DOTFILES_BIN_DIR="$(xf_ensure_home_subdir '.bin')"
 HOME_LOCAL_BIN_DIR="$(xf_ensure_home_subdir '.local/bin')"
+HOME_HIDDEN_BIN_DIR="$(xf_ensure_home_subdir '.bin')"
 
+# TODO: Remove, moved to ~/.bin
+HOME_BIN_DIR="$(xf_ensure_home_subdir 'bin')"
+
+xf_safe_add_dir_to_path "$USER_LOCAL_BIN_DIR"
 xf_safe_add_dir_to_path "$HOME_BIN_DIR"
-xf_safe_add_dir_to_path "$HOME_DOTFILES_BIN_DIR"
 xf_safe_add_dir_to_path "$HOME_LOCAL_BIN_DIR"
+xf_safe_add_dir_to_path "$HOME_HIDDEN_BIN_DIR"
 
 # }}}
 # {{{ system
@@ -110,47 +112,47 @@ sysoff() {
 
 # }}}
 # {{{ system packages
-# TODO: Refactor, copy/paste for now pending utility funcs
+# todo: refactor, copy/paste for now pending utility funcs
 
 if [[ -z $(xf_has_cmd 'dnf') ]]; then
-  PKG_INSTALL_CMD='sudo dnf install -y'
-  PKG_UPDATE_CMD='sudo dnf update -y'
-  PKG_SEARCH_CMD='dnf search'
-  PKG_REMOVE_CMD='sudo dnf remove -y'
+  pkg_install_cmd='sudo dnf install -y'
+  pkg_update_cmd='sudo dnf update -y'
+  pkg_search_cmd='dnf search'
+  pkg_remove_cmd='sudo dnf remove -y'
 elif [[ -z $(xf_has_cmd 'pacman') ]]; then
-  PKG_INSTALL_CMD='sudo pacman -S'
-  PKG_UPDATE_CMD='sudo pacman -Syyuu'
-  PKG_SEARCH_CMD='sudo pacman -Q'
-  PKG_REMOVE_CMD='sudo pacman -R'
+  pkg_install_cmd='sudo pacman -s'
+  pkg_update_cmd='sudo pacman -syyuu'
+  pkg_search_cmd='sudo pacman -q'
+  pkg_remove_cmd='sudo pacman -r'
 elif [[ -z $(xf_has_cmd 'apt') ]]; then
-  PKG_INSTALL_CMD='sudo apt install'
-  PKG_UPDATE_CMD='sudo apt update && apt upgrade'
-  PKG_SEARCH_CMD='apt search'
-  PKG_REMOVE_CMD='sudo apt remove'
+  pkg_install_cmd='sudo apt install'
+  pkg_update_cmd='sudo apt update && apt upgrade'
+  pkg_search_cmd='apt search'
+  pkg_remove_cmd='sudo apt remove'
 elif [[ -z $(xf_has_cmd 'pkg') ]]; then
-  PKG_INSTALL_CMD='pkg install -y'
-  PKG_UPDATE_CMD='pkg update -y && pkg upgrade -y'
-  PKG_SEARCH_CMD='pkg search'
-  PKG_REMOVE_CMD='pkg remove -y'
+  pkg_install_cmd='pkg install -y'
+  pkg_update_cmd='pkg update -y && pkg upgrade -y'
+  pkg_search_cmd='pkg search'
+  pkg_remove_cmd='pkg remove -y'
 else
-  PKG_MGMT_DISABLED=1
+  pkg_mgmt_disabled=1
 fi
 
-if [[ -n "$PKG_MGMT_DISABLED" ]]; then
+if [[ ! $""pkg_mgmt_disabled -eq 1 ]]; then
   pkgi() {
-    bash -c "$PKG_INSTALL_CMD $*"
+    bash -c "$pkg_install_cmd $*"
   }
 
   pkgs() {
-    bash -c "$PKG_SEARCH_CMD $*"
+    bash -c "$pkg_search_cmd $*"
   }
 
   pkgu() {
-    bash -c "$PKG_UPDATE_CMD $*"
+    bash -c "$pkg_update_cmd $*"
   }
 
   pkgd() {
-    bash -c "$PKG_REMOVE_CMD $*"
+    bash -c "$pkg_remove_cmd $*"
   }
 fi
 
@@ -182,12 +184,12 @@ man() {
 
 alias grep='grep --color'
 alias cat="bat"
-alias vim="nvim -u ~/.vimrc"
 alias nvim="nvim -u ~/.vimrc"
 alias nvim-gtk="nvim-gtk -- -u ~/.vimrc"
 alias ls="ls --color=auto -h --group-directories-first"
 alias ll="ls --color=auto -alh --group-directories-first"
 alias lt="ls --color=auto -alht --group-directories-first"
+alias read="cat README.md"
 
 # }}}
 # {{{ plugins/autocomplete

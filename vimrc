@@ -351,9 +351,10 @@ let g:ale_open_list = 0
 let g:coc#snippet#next = '<c-j>'
 let g:coc#snippet#prev = '<c-k>'
 
-let g:coc#node#path = '/home/xf3rno/.nvm/versions/node/v15.8.0/bin/node'
+let g:coc#node#path = '/home/xf3rno/.nvm/versions/node/v15.10.0/bin/node'
 let g:coc#node#args = ['--max-old-space-size=16384', '--no-warnings']
 
+" Helper to handle complex tab behavior, allowing for elegant snippet expansion
 func! s:xf_coc_tab_handler() abort
   if pumvisible()
     call coc#_select_confirm()
@@ -1649,7 +1650,7 @@ set background=dark
 " base16-github
 " ayu
 " tequila-sunrise
-colorscheme desertink
+colorscheme gruvbox
 
 " }}}
 " {{{ 5. gui
@@ -1698,9 +1699,10 @@ nnoremap <C--> :call AdjustFontSize(-1)<cr>
 
 " }}}
 
-let g:font#name = 'BlexMono Nerd Font'
-" let g:font#name = 'Jet Brains Mono Nerd Font'
-let g:font#features = 'liga, zero, frac'
+" let g:font#name = 'BlexMono Nerd Font'
+" let g:font#features = 'liga, zero, frac'
+let g:font#name = 'Jet Brains Mono Nerd Font'
+let g:font#features = ''
 let g:font#size = 11
 
 call SetFont()
