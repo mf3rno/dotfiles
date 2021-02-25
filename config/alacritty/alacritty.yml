@@ -1,8 +1,10 @@
+---
 # {{{ keybindings
 
 key_bindings:
-  - { key: V, mods: Control, action: Paste }
-  - { key: F12, action: ToggleFullscreen }
+  - {key: Paste, action: Paste}
+  - {key: V, mods: Control, action: Paste}
+  - {key: F12, action: ToggleFullscreen}
 
 # }}}
 # {{{ fonts

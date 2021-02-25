@@ -1650,7 +1650,7 @@ set background=dark
 " base16-github
 " ayu
 " tequila-sunrise
-colorscheme gruvbox
+colorscheme tequila-sunrise
 
 " }}}
 " {{{ 5. gui
