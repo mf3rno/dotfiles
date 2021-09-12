@@ -1413,6 +1413,7 @@ autocmd FileType snippets setlocal foldmethod=marker
 " hacky fix for syntax highlighting in large files
 autocmd WinEnter,Filetype * syntax sync fromstart
 
+au BufNewFile,BufRead ~/.config/nvim/init.nvim setf vim
 au BufNewFile,BufRead ~/.config/i3/config setf i3config
 au BufNewFile,BufRead ~/.leptonrc setf json
 
