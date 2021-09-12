@@ -43,3 +43,7 @@ media/images/*
 
 documents/*
 !documents/.keep
+
+gnupg/*
+!gnupg/.keep
+!gnupg/gpg-agent.conf
