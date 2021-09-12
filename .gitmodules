@@ -15,4 +15,4 @@
 	url = http://github.com/seavan/npm-completion-fast
 [submodule "xf-bash-lib"]
 	path = xf-bash-lib
-	url = http://github.com/xf3rno/xf-bash-lib
+	url = https://github.com/mf3rno/xf-bash-lib.git
