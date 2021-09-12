@@ -10,7 +10,7 @@ key_bindings:
 # {{{ fonts
 
 font:
-  size: 8
+  size: 7
   normal:
     # family: Anonymice Nerd Font
     # family: Fira Code Nerd Font
