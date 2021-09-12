@@ -60,7 +60,7 @@ bindsym XF86MonBrightnessUp exec "brillo -A 10"
 bindsym XF86MonBrightnessDown exec "brillo -U 10"
 
 bindsym $mod+Return exec alacritty
-bindsym $mod+shift+v exec nvim-gtk -- -u ~/.vimrc
+bindsym $mod+shift+v exec nvim-gtk
 
 bindsym $mod+j focus left
 bindsym $mod+k focus down
