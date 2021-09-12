@@ -1,6 +1,6 @@
 [user]
-	name = Cris Mihalache
-	email = xf3rno@pm.me
+	name = Mircea Cristian Mihalache
+	email = mf3rno@gmail.com
 
 [color]
 	ui = auto
@@ -45,3 +45,5 @@
 	clean = git-lfs clean -- %f
 [pull]
 	rebase = true
+[init]
+	defaultBranch = master

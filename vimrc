@@ -5,7 +5,7 @@
 "
 " TODO: Update intro.
 "
-" https://github.com/xf3rno/dotfiles/vimrc
+" https://github.com/mf3rno/dotfiles/vimrc
 
 " {{{ 1. terminal setup
 
@@ -193,7 +193,7 @@ Plug 'danilamihailov/vim-tips-wiki'
 Plug 'wellle/visual-split.vim'
 Plug 'wellle/targets.vim'
 Plug 'valloric/MatchTagAlways'
-Plug 'wakatime/vim-wakatime'
+" Plug 'wakatime/vim-wakatime'
 " Plug 'raghur/vim-ghost', { 'do': ':GhostInstall' }
 
 " requires set compatible
@@ -224,7 +224,7 @@ Plug 'f3rno/vimwiki-footnotes'
 
 Plug 'reedes/vim-colors-pencil'
 Plug 'aonemd/kuroi.vim'
-Plug 'swalladge/paper.vim'
+" Plug 'swalladge/paper.vim'
 Plug 'vim-scripts/summerfruit256.vim'
 Plug 'habamax/vim-colors-defminus'
 Plug 'notpratheek/vim-sol'
@@ -263,7 +263,7 @@ Plug 'franbach/miramare'
 Plug 'trevordmiller/nova-vim'
 Plug 'acepukas/vim-zenburn'
 Plug 'arcticicestudio/nord-vim'
-Plug 'atahabaki/archman-vim'
+" Plug 'atahabaki/archman-vim'
 Plug 'levelone/tequila-sunrise.vim'
 Plug 'ts-26a/vim-darkspace'
 Plug 'evturn/vim-hardaway'
@@ -285,7 +285,7 @@ Plug 'rakr/vim-one'
 Plug 'severij/vadelma'
 Plug 'iKarith/tigrana'
 Plug 'sainnhe/sonokai'
-Plug 'https://gitlab.com/protesilaos/tempus-themes-vim.git' " amazing
+" Plug 'https://gitlab.com/protesilaos/tempus-themes-vim.git' " amazing
 Plug 'junegunn/seoul256.vim'
 Plug 'machakann/vim-colorscheme-tatami'
 Plug 'noahfrederick/vim-hemisu'
@@ -351,7 +351,7 @@ let g:ale_open_list = 0
 let g:coc#snippet#next = '<c-j>'
 let g:coc#snippet#prev = '<c-k>'
 
-let g:coc#node#path = '/home/xf3rno/.nvm/versions/node/v15.10.0/bin/node'
+let g:coc#node#path = '/home/mf3rno/.nvm/versions/node/v16.8.0/bin/node'
 let g:coc#node#args = ['--max-old-space-size=16384', '--no-warnings']
 
 " Helper to handle complex tab behavior, allowing for elegant snippet expansion
@@ -430,7 +430,7 @@ let g:echodoc#type = 'virtual'
 " {{{ fzf
 
 set rtp+=/usr/bin/fzf
-set rtp+=/home/xf3rno/.cargo/bin
+set rtp+=/home/mf3rno/.cargo/bin
 
 let g:fzf#command#prefix = 'FZF'
 let g:fzf#buffers#jump = 1
@@ -546,9 +546,9 @@ let g:UltiSnipsExpandTrigger = '<c-space>'
 let g:UltiSnipsListSnippets = '<c-space><c-space>'
 let g:UltiSnipsJumpForwardTrigger = '<c-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
-let g:UltiSnipsSnippetDirectories = [
-      \   '/home/xf3rno/.src/github/xf3rno/vim-snippets/ultisnips',
-      \ ]
+" let g:UltiSnipsSnippetDirectories = [
+"       \   '/home/mf3rno/.src/github/mf3rno/vim-snippets/ultisnips',
+"       \ ]
 
 " }}}
 " {{{ vim-better-whitespace
@@ -1132,8 +1132,8 @@ augroup END
 
 let g:vimwiki_list = [{
   \ 'name': 'Personal Wiki',
-  \ 'path': $HOME . '/.src/github/xf3rno/vim-wiki/src',
-  \ 'path_html': $HOME . '/.src/github/xf3rno/vim-wiki/html',
+  \ 'path': $HOME . '/.src/github/mf3rno/vim-wiki/src',
+  \ 'path_html': $HOME . '/.src/github/mf3rno/vim-wiki/html',
   \ 'ext': '.wiki',
   \ 'links_space_char': '_',
   \ 'cycle_bullets': 1,
@@ -1230,7 +1230,7 @@ let g:table_mode_verbose = 1
 " }}}
 " {{{ wakatime
 
-let g:wakatime#OverrideCommandPrefix = '/home/xf3rno/.local/bin/wakatime'
+let g:wakatime#OverrideCommandPrefix = '/home/mf3rno/.local/bin/wakatime'
 
 " }}}
 
@@ -1239,7 +1239,7 @@ let g:wakatime#OverrideCommandPrefix = '/home/xf3rno/.local/bin/wakatime'
 " }}}
 " {{{ 3. configuration
 
-" {{{ 3.b xf3rno function library
+" {{{ 3.b mf3rno function library
 
 " {{{ - functions
 
@@ -1650,7 +1650,7 @@ set background=dark
 " base16-github
 " ayu
 " tequila-sunrise
-colorscheme tequila-sunrise
+colorscheme desertink
 
 " }}}
 " {{{ 5. gui
@@ -1794,7 +1794,7 @@ endfunc
 " }}}
 " {{{ 7.b autocommands
 
-augroup xf3rno_dynamic_search_hl
+augroup mf3rno_dynamic_search_hl
   autocmd!
   autocmd InsertEnter * call <SID>xf_hlsearch_disable()
   autocmd InsertLeave * call <SID>xf_hlsearch_enable()

@@ -27,7 +27,7 @@ color=always
 ; depth=null
 ; description=true
 ; dev=false
-; 
+;
 ; diff-unified=null
 ; diff-ignore-all-space=false
 ; diff-name-only=false
@@ -56,20 +56,14 @@ fund=true
 ; if-present=false
 ; ignore-prepublish=false
 ; ignore-scripts=false
-; 
+;
 ; include-staged=false
-init-author-email=xf3rno@pm.me
-init-author-name=Cris Mihalache
-init-author-url=xf3rno.com
+init-author-email=mf3rno@gmail.com
+init-author-name=Mircea Cristian Mihalache
 init-license=MIT
 ; init-module=~/.npm-init.js
 init-version=0.0.1
-init.author.email=xf3rno@pm.me
-init.author.name=Cris Mihalache
-init.author.url=xf3rno.com
-init.license=MIT
 ; init.module=~/.npm-init.js
-init.version=0.0.1
 ; json=false
 ; key=null
 ; legacy-bundling=false
@@ -86,11 +80,11 @@ node-options=--max-old-space-size=16384 --no-warnings
 ; noproxy=null
 ; npm-version=7.5.3
 ; offline=false
-; 
+;
 ; only=null
 ; optional=true
 ; otp=null
-; 
+;
 package-lock=true
 ; package-lock-only=false
 ; parseable=false

@@ -29,7 +29,17 @@ local/bin
 local/lib
 local/include
 local/share
+local/state
 
 config/nvim/undodir
 config/nvim/.netrwhist
 config/nvim/sessions
+
+media/*
+!media/.keep
+!media/images
+media/images/*
+!media/images/wallpapers
+
+documents/*
+!documents/.keep
