@@ -149,8 +149,27 @@ bar {
   position bottom
   status_command i3status
   tray_output none
+  output HDMI-1
+  mode hide
+
+  colors {
+    background $bg
+    statusline $white
+
+    # border | bg | fg
+    focused_workspace    $bg $bg $white
+    inactive_workspace   $bg $bg $gray
+    active_workspace     $bg $bg $white
+    urgent_workspace     $red $red $bg
+  }
+}
+
+bar {
+  position bottom
+  status_command i3status
+  tray_output none
   output eDP-1
-  mode dock
+  mode hide
 
   colors {
     background $bg
