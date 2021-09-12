@@ -56,8 +56,8 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
-bindsym XF86MonBrightnessUp exec "sudo brillo -A 10"
-bindsym XF86MonBrightnessDown exec "sudo brillo -U 10"
+bindsym XF86MonBrightnessUp exec "brillo -A 10"
+bindsym XF86MonBrightnessDown exec "brillo -U 10"
 
 bindsym $mod+Return exec alacritty
 bindsym $mod+shift+v exec nvim-gtk -- -u ~/.vimrc
