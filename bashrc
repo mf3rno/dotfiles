@@ -183,15 +183,23 @@ man() {
 # }}}
 # {{{ aliases
 
+LS_BASE_CMD="ls --color=auto --group-directories-first -h"
+
 alias grep='grep --color'
-alias cat="bat"
-alias vim="nvim -u ~/.vimrc"
-alias nvim="nvim -u ~/.vimrc"
-alias nvim-gtk="nvim-gtk -- -u ~/.vimrc"
-alias ls="ls --color=auto -h --group-directories-first"
-alias ll="ls --color=auto -alh --group-directories-first"
-alias lt="ls --color=auto -alht --group-directories-first"
+alias ls="$LS_BASE_CMD"
+alias ll="$LS_BASE_CMD -al"
+alias lt="$LS_BASE_CMD -alt"
 alias read="cat README.md"
+
+if xf_has_cmd 'bat'; then
+  alias cat="bat"
+fi
+
+if xf_has_cmd 'nvim'; then
+  alias vim="nvim -u ~/.vimrc"
+  alias nvim="nvim -u ~/.vimrc"
+  alias nvim-gtk="nvim-gtk -- -u ~/.vimrc"
+fi
 
 # }}}
 # {{{ plugins/autocomplete
@@ -206,5 +214,16 @@ fi
 xf_safe_source "$HOME/.autojump/share/autojump/autojump.bash"
 xf_safe_source "$(xf_git_repo_path 'alacritty')/extra/completions/alacritty.bash"
 xf_safe_source "$(xf_git_repo_path 'gjsheep' 'bash-wakatime')/bash-wakatime.sh"
+
+# }}}
+# {{{ OVHcloud Web PaaS CLI configuration
+
+WEBPASS_CLI_PATH="$HOME/.webpaas-cli"
+WEBPASS_CLI_RC_PATH="$WEBPASS_CLI_PATH/shell-config.rc"
+
+if [[ -f "$WEBPASS_CLI_PATH" ]]; then
+  xf_safe_add_dir_to_path "$WEBPASS_CLI_PATH/bin"
+  xf_safe_source "$WEBPASS_CLI_RC_PATH"
+fi
 
 # }}}
